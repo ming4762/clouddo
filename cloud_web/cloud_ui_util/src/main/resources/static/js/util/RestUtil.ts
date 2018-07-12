@@ -6,6 +6,22 @@ declare let layer;
 
 namespace com.clouddo.ui.util {
     export class RestUtil {
+
+        /**
+         * 获取后台服务地址
+         * @returns {string}
+         */
+        public static getBackgroundURL() : string {
+            return localStorage.getItem("backgroundURL");
+        }
+
+        /**
+         * 获取token
+         * @returns {string}
+         */
+        public static getToken() : string {
+            return localStorage.getItem("Authorization");
+        }
         /**
          * 发送ajax请求，异步
          * @param {string} url 请求URL
@@ -42,7 +58,7 @@ namespace com.clouddo.ui.util {
         public static postAjaxBase(async : boolean ,url : string, parameterSet : Object, success : Function, error : Function, ...successCallbackParameters : any[]) {
             $.ajax({
                 type: "post",
-                url : localStorage.getItem("baseUrl") + url,
+                url : RestUtil.getBackgroundURL() + url,
                 dataType:"json",
                 async : async,
                 contentType : 'application/json; charset=UTF-8',
@@ -55,7 +71,7 @@ namespace com.clouddo.ui.util {
                     RestUtil.defalutErrorFunction(data, error);
                 },
                 beforeSend : function (request) {
-                    request.setRequestHeader("Authorization", localStorage.getItem("Authorization"));
+                    request.setRequestHeader("Authorization", RestUtil.getToken());
                 }
             });
         }
