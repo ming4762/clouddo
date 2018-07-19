@@ -18,7 +18,7 @@ public class UserUtil {
      */
     public static User convertJwtToUser(JWTUser ijwtInfo) {
         User user = new User();
-        user.setUserId(Long.parseLong(ijwtInfo.getUserId()));
+        user.setUserId(ijwtInfo.getUserId());
         user.setUsername(ijwtInfo.getUsername());
         user.setName(ijwtInfo.getName());
         return user;

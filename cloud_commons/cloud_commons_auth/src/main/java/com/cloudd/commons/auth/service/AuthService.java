@@ -26,7 +26,7 @@ public class AuthService {
     }
 
     //获取用户ID
-    public Long getUserId() {
+    public String getUserId() {
         return getUser() == null ? null : getUser().getUserId();
     }
 }

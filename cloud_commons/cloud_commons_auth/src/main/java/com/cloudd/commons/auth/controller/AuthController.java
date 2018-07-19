@@ -17,7 +17,7 @@ public class AuthController extends BaseController {
      * @return
      */
     public User getUser() {
-        return (User) SessionUtil.getUserSession().getAttribute(CommonConstants.CONTEXT_KEY_USER);
+        return SessionUtil.getUserSession() == null ? null : (User)SessionUtil.getUserSession().getAttribute(CommonConstants.CONTEXT_KEY_USER);
     }
 
     //获取用户名
@@ -27,7 +27,7 @@ public class AuthController extends BaseController {
     }
 
     //获取用户ID
-    public Long getUserId() {
+    public String getUserId() {
         return getUser() == null ? null : getUser().getUserId();
     }
 }

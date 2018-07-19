@@ -14,9 +14,9 @@ import java.util.Date;
 public class LogModel implements Serializable {
 
     private static final long serialVersionUID = -6051958861759640801L;
-    private Long id;
+    private String id;
 
-    private Long userId;
+    private String userId;
 
     private String username;
 
@@ -32,19 +32,19 @@ public class LogModel implements Serializable {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtCreate;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

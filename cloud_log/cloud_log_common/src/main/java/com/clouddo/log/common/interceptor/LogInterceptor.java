@@ -100,7 +100,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         //设置当前登录人员
         User user = UserUtil.getCurrentUser();
         if(user == null) {
-            logModel.setUserId(-1L);
+            logModel.setUserId("-1");
             if(logModel.getParams() != null) {
                 logModel.setUsername(logModel.getParams());
             } else {

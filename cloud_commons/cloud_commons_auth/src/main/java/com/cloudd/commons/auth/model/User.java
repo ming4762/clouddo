@@ -14,7 +14,7 @@ import java.util.List;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 6669084575509958100L;
-    private Long userId;
+    private String userId;
     // 用户名
     private String username;
     // 用户真实姓名
@@ -22,7 +22,7 @@ public class User implements Serializable {
     // 密码
     private String password;
     // 部门
-    private Long deptId;
+    private String deptId;
     private String deptName;
     // 邮箱
     private String email;
@@ -31,20 +31,20 @@ public class User implements Serializable {
     // 状态 0:禁用，1:正常
     private Integer status;
     // 创建用户id
-    private Long userIdCreate;
+    private String userIdCreate;
     // 创建时间
     private Date gmtCreate;
     // 修改时间
     private Date gmtModified;
     //角色
-    private List<Long> roleIds;
+    private List<String> roleIds;
     //性别
     private Long sex;
     //出身日期
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
     //图片ID
-    private Long picId;
+    private String picId;
     //现居住地
     private String liveAddress;
     //爱好
@@ -56,11 +56,11 @@ public class User implements Serializable {
     //所在地区
     private String district;
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -88,11 +88,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Long getDeptId() {
+    public String getDeptId() {
         return deptId;
     }
 
-    public void setDeptId(Long deptId) {
+    public void setDeptId(String deptId) {
         this.deptId = deptId;
     }
 
@@ -128,11 +128,11 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    public Long getUserIdCreate() {
+    public String getUserIdCreate() {
         return userIdCreate;
     }
 
-    public void setUserIdCreate(Long userIdCreate) {
+    public void setUserIdCreate(String userIdCreate) {
         this.userIdCreate = userIdCreate;
     }
 
@@ -152,11 +152,11 @@ public class User implements Serializable {
         this.gmtModified = gmtModified;
     }
 
-    public List<Long> getRoleIds() {
+    public List<String> getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(List<Long> roleIds) {
+    public void setRoleIds(List<String> roleIds) {
         this.roleIds = roleIds;
     }
 
@@ -176,11 +176,11 @@ public class User implements Serializable {
         this.birth = birth;
     }
 
-    public Long getPicId() {
+    public String getPicId() {
         return picId;
     }
 
-    public void setPicId(Long picId) {
+    public void setPicId(String picId) {
         this.picId = picId;
     }
 

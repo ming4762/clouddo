@@ -35,7 +35,7 @@
 		<spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
 
 		<!--common工具包的版本-->
-		<cloud_commons_common.version>0.0.1-SNAPSHOT</cloud_commons_common.version>
+		<cloud_commons_common.version>0.0.2-SNAPSHOT</cloud_commons_common.version>
 		<!--认证工具包版本-->
 		<cloud_commons_auth.version>0.0.1-SNAPSHOT</cloud_commons_auth.version>
 		<!--日志工具包版本-->
@@ -135,14 +135,6 @@
 		</plugins>
 	</build>
 
-	<!--<build>-->
-		<!--<plugins>-->
-			<!--<plugin>-->
-				<!--<groupId>org.springframework.boot</groupId>-->
-				<!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-			<!--</plugin>-->
-		<!--</plugins>-->
-	<!--</build>-->
 
 	<repositories>
 		<repository>
