@@ -1,7 +1,11 @@
 package com.clouddo.commons.common.util.security;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MD5Utils {
 	private static final String SALT = "1qazxsw2";
@@ -29,5 +33,15 @@ public class MD5Utils {
 	public static String md5(String value) {
 		return new SimpleHash(ALGORITH_NAME, value, null, 1).toHex();
 	}
+
+	/**
+	 * 进行MD5加密
+	 * @param inputStream
+	 * @return
+	 */
+	public static String md5(InputStream inputStream) throws IOException {
+		return DigestUtils.md5Hex(inputStream);
+	}
+
 
 }

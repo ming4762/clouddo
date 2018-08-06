@@ -46,7 +46,7 @@ public class RoleController extends AuthController {
 	@Log("编辑角色")
 	@RequiresPermissions("sys:role:edit")
 	@GetMapping("/edit/{id}")
-	String edit(@PathVariable("id") Long id, Model model) {
+	String edit(@PathVariable("id") String id, Model model) {
 		Role roleDO = roleService.get(id);
 		model.addAttribute("role", roleDO);
 		return prefix + "/edit";
@@ -86,7 +86,7 @@ public class RoleController extends AuthController {
 	@RequiresPermissions("sys:role:remove")
 	@PostMapping("/remove")
 	@ResponseBody()
-    R save(Long id) {
+    R save(String id) {
 		if (CommonConstants.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
@@ -101,7 +101,7 @@ public class RoleController extends AuthController {
 	@Log("批量删除角色")
 	@PostMapping("/batchRemove")
 	@ResponseBody
-    R batchRemove(@RequestParam("ids[]") Long[] ids) {
+    R batchRemove(@RequestParam("ids[]") String[] ids) {
 		if (CommonConstants.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}

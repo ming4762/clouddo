@@ -10,23 +10,23 @@ import java.util.Set;
 
 @Service
 public interface MenuService {
-	Tree<Menu> getSysMenuTree(Long id);
+	Tree<Menu> getSysMenuTree(String id);
 
-	List<Tree<Menu>> listMenuTree(Long id);
+	List<Tree<Menu>> listMenuTree(String id);
 
 	Tree<Menu> getTree();
 
-	Tree<Menu> getTree(Long id);
+	Tree<Menu> getTree(String id);
 
 	List<Menu> list(Map<String, Object> params);
 
-	int remove(Long id);
+	int remove(String id);
 
 	int save(Menu menu);
 
 	int update(Menu menu);
 
-	Menu get(Long id);
+	Menu get(String id);
 
-	Set<String> listPerms(Long userId);
+	Set<String> listPerms(String userId);
 }

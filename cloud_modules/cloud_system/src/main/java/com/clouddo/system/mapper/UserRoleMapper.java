@@ -16,7 +16,7 @@ import java.util.Map;
 @Mapper
 public interface UserRoleMapper {
 
-	UserRole get(Long id);
+	UserRole get(String id);
 
 	List<UserRole> list(Map<String, Object> map);
 
@@ -26,17 +26,17 @@ public interface UserRoleMapper {
 
 	int update(UserRole userRole);
 
-	int remove(Long id);
+	int remove(String id);
 
-	int batchRemove(Long[] ids);
+	int batchRemove(String[] ids);
 
-	List<Long> listRoleId(Long userId);
+	List<String> listRoleId(String userId);
 
-	int removeByUserId(Long userId);
+	int removeByUserId(String userId);
 
-	int removeByRoleId(Long roleId);
+	int removeByRoleId(String roleId);
 
 	int batchSave(List<UserRole> list);
 
-	int batchRemoveByUserId(Long[] ids);
+	int batchRemoveByUserId(String[] ids);
 }

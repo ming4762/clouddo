@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.file.common.mapper.CloudFileMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		cloud_file
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="findAll" resultMap="cloudFileResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="fileId != null and fileId != ''">
+				AND A.FILE_ID LIKE '%${fileId}%'
+			</if>
+			<if test="fileName != null and fileName != ''">
+				AND A.FILE_NAME LIKE '%${fileName}%'
+			</if>
+			<if test="createTime != null and createTime != ''">
+				AND A.CREATE_TIME LIKE '%${createTime}%'
+			</if>
+			<if test="type != null and type != ''">
+				AND A.TYPE LIKE '%${type}%'
+			</if>
+			<if test="contentType != null and contentType != ''">
+				AND A.CONTENT_TYPE LIKE '%${contentType}%'
+			</if>
+			<if test="size != null and size != ''">
+				AND A.SIZE LIKE '%${size}%'
+			</if>
+			<if test="dbId != null and dbId != ''">
+				AND A.DB_ID LIKE '%${dbId}%'
+			</if>
+			<if test="md5 != null and md5 != ''">
+				AND A.MD5 LIKE '%${md5}%'
+			</if>
+			<if test="seq != null and seq != ''">
+				AND A.SEQ LIKE '%${seq}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.FILE_ID LIKE '%${keyword}%'
+
+				OR A.FILE_NAME LIKE '%${keyword}%'
+
+				OR A.CREATE_TIME LIKE '%${keyword}%'
+
+				OR A.TYPE LIKE '%${keyword}%'
+
+				OR A.CONTENT_TYPE LIKE '%${keyword}%'
+
+				OR A.SIZE LIKE '%${keyword}%'
+
+				OR A.DB_ID LIKE '%${keyword}%'
+
+				OR A.MD5 LIKE '%${keyword}%'
+
+				OR A.SEQ LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					FILE_ID = #{item.fileId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND FILE_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="cloudFileResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		FILE_ID = #{fileId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			FILE_NAME 		= 		#{item.fileName},
+    			CREATE_TIME 		= 		#{item.createTime},
+    			TYPE 		= 		#{item.type},
+    			CONTENT_TYPE 		= 		#{item.contentType},
+    			SIZE 		= 		#{item.size},
+    			DB_ID 		= 		#{item.dbId},
+    			MD5 		= 		#{item.md5},
+    			SEQ 		= 		#{item.seq}
+				<where>
+						and FILE_ID = #{item.fileId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.file.common.model.CloudFileDO" id="cloudFileResultMap">
+    	<!-- id -->
+	<!-- 文件ID -->
+	<id column="FILE_ID" property="fileId"/>
+    	<!-- column -->
+	<!-- 文件名 -->
+	<result column="FILE_NAME" property="fileName"/> 
+	<!-- 创建时间 -->
+	<result column="CREATE_TIME" property="createTime"/> 
+	<!-- 类型 -->
+	<result column="TYPE" property="type"/> 
+	<!-- 文件类型 -->
+	<result column="CONTENT_TYPE" property="contentType"/> 
+	<!-- 文件大小 -->
+	<result column="SIZE" property="size"/> 
+	<!-- 存储在文件服务器的ID -->
+	<result column="DB_ID" property="dbId"/> 
+	<!-- 文件的MD5 -->
+	<result column="MD5" property="md5"/> 
+	<!-- 序号 -->
+	<result column="SEQ" property="seq"/> 
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		FILE_ID,
+    		FILE_NAME,
+    		CREATE_TIME,
+    		TYPE,
+    		CONTENT_TYPE,
+    		SIZE,
+    		DB_ID,
+    		MD5,
+    		SEQ
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.fileId},
+			#{item.fileName},
+			#{item.createTime},
+			#{item.type},
+			#{item.contentType},
+			#{item.size},
+			#{item.dbId},
+			#{item.md5},
+			#{item.seq}
+	</sql>
+    		
+</mapper>
+
+

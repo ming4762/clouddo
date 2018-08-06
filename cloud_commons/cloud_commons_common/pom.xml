@@ -89,6 +89,12 @@
             <artifactId>fluent-hc</artifactId>
             <version>${httpclient.version}</version>
         </dependency>
+
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>${javax.persistence.version}</version>
+		</dependency>
 	</dependencies>
 
 

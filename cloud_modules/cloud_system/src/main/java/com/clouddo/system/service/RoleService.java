@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public interface RoleService {
 
-	Role get(Long id);
+	Role get(String id);
 
 	List<Role> list();
 
@@ -16,9 +16,9 @@ public interface RoleService {
 
 	int update(Role role);
 
-	int remove(Long id);
+	int remove(String id);
 
-	List<Role> list(Long userId);
+	List<Role> list(String userId);
 
-	int batchremove(Long[] ids);
+	int batchremove(String[] ids);
 }

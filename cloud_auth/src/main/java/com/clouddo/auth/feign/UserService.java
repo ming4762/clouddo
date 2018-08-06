@@ -31,5 +31,5 @@ public interface UserService {
      */
     @PostMapping(value = "/sys/menu/getPermissions")
     @ResponseBody
-    Result<Set<String>> getPermissions(Long userId);
+    Result<Set<String>> getPermissions(String userId);
 }

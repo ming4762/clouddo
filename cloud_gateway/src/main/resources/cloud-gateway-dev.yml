@@ -2,6 +2,8 @@ zuul:
   SendErrorFilter:
     post:
       disable: false
+    put:
+      disable: false
 #  解决重定向
   add-host-header: true
   routes:
@@ -17,6 +19,18 @@ zuul:
     AI:
       path: /ai/**
       serviceId: cloud-AI-server
+#    水文服务
+    hydrology:
+      path: /hydrology/**
+      serviceId: cloud-hydrology
+#    新闻服务
+    news:
+      path: /news/**
+      serviceId: cloud-news-server\
+#    文件服务
+    file:
+      path: /file/**
+      serviceId: cloud-file-server
 
   prefix: /cloud
   host:

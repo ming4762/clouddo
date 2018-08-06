@@ -1,0 +1,56 @@
+<head th:fragment="header">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css?v=3.3.6"
+          th:href="@{/plugins/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0"
+          th:href="@{/plugins/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet">
+
+    <link href="/css/plugins/bootstrap-table/bootstrap-table.min.css"
+          th:href="@{/plugins/bootstrap-table/1.12.1/bootstrap-table.min.css}" rel="stylesheet">
+    <link href="/plugins/jqTreeGrid/0.2.0/jquery.treegrid.css" th:href="@{/plugins/jqTreeGrid/0.2.0/jquery.treegrid.css}"
+          rel="stylesheet">
+    <!--element-ui-->
+    <link href="/plugins/element-ui/index.css" th:href="@{/plugins/element-ui/index.css}"
+          rel="stylesheet">
+    <!--nihaoma -->
+    <style>
+        .table {table-layout:fixed;}
+    </style>
+    <link href="css/animate.css" th:href="@{/plugins/animate/3.6.0/css/animate.min.css}"
+          rel="stylesheet">
+    <link th:href="@{/plugins/admui/site.css}" rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.2.0/themes/classic/base/css/site.css" id="admui-siteStyle">
+    <link th:href="@{/css/bootdo/style.css}" href="/css/style.css?v=4.1.0"
+          rel="stylesheet">
+</head>
+<div th:fragment="footer">
+    <script th:src="@{/plugins/jquery/2.1.4/jquery.min.js}" src="/js/jquery.min.js?v=2.1.4"></script>
+    <script th:src="@{/plugins/bootstrap/3.3.7/js/bootstrap.min.js}" src="/js/bootstrap.min.js?v=3.3.6"></script>
+    <script th:src="@{/plugins/bootstrap-table/1.12.1/bootstrap-table.min.js}" src="/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <!--<script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>-->
+    <script th:src="@{/plugins/bootstrap-table/1.12.1/local/bootstrap-table-zh-CN.min.js}" src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!--<script th:src="@{/plugins/bootstrap-table/1.12.1/bootstrap-table.min.js}" src="/js/plugins/validate/jquery.validate.min.js"></script>-->
+    <!--<script src="/js/plugins/validate/messages_zh.min.js"></script>-->
+    <!--<script src="/js/plugins/jsTree/jstree.min.js"></script>-->
+    <!--<script src="/js/plugins/jqTreeGrid/jquery.treegrid.min.js"></script>-->
+    <!--<script src="/js/plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>-->
+    <!--<script src="/js/plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>-->
+    <!--<script src="/js/plugins/chosen/chosen.jquery.js"></script>-->
+    <script th:src="@{/plugins/layer/3.1.1/layer.js}" src="/js/plugins/layer/layer.js"></script>
+    <script th:src="@{/js/content.js}" src="/js/content.js?v=1.0.0"></script>
+    <script th:src="@{/plugins/vue/2.5.16/js/vue.min.js}" src="/plugins/vue/2.5.16/js/vue.min.js"></script>
+    <!--element-ui-->
+    <script th:src="@{/plugins/element-ui/index.js}" src="/plugins/element-ui/index.js"></script>
+
+    <!--summernote-->
+    <!--<script src="/js/plugins/summernote/summernote.js"></script>-->
+    <!--<script src="/js/plugins/summernote/summernote-zh-CN.min.js"></script>-->
+    <!--<script src="/js/ajax-util.js"></script>-->
+    <script th:src="@{/js/util/RestUtil.js}" src="/js/util/RestUtil.js" ></script>
+    <script th:src="@{/js/auth/Auth.js}" src="/js/auth/Auth.js" ></script>
+
+</div>

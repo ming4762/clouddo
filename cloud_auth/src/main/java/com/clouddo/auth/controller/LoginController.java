@@ -42,7 +42,11 @@ public class LoginController extends com.cloudd.commons.auth.controller.AuthCont
     @Autowired
     private TokenUtil tokenUtil;
 
-    //默认登录
+    /**
+     * 登录接口
+     * @param parameters
+     * @return
+     */
     @RequestMapping
     public Object login(@RequestBody Map<String, Object> parameters) {
         try {
@@ -75,6 +79,7 @@ public class LoginController extends com.cloudd.commons.auth.controller.AuthCont
             SessionUtil.createSession(user, token);
             //保存权限信息
             this.savePermissions(user.getUserId());
+            resultdata.put(CommonConstants.USER_PERMISSIONS, SessionUtil.getUserSession().getAttribute(CommonConstants.USER_PERMISSIONS));
             logger.info("登陆成功，username：{}  password：{}", username, password);
             return Result.success(resultdata);
         } catch (Exception e) {
@@ -84,8 +89,11 @@ public class LoginController extends com.cloudd.commons.auth.controller.AuthCont
         }
     }
 
-    //通过用户ID获取权限信息,并保存到session
-    private void savePermissions(Long userId) {
+    /**
+     * 通过用户ID获取权限信息,并保存到session
+     * @param userId
+     */
+    private void savePermissions(String userId) {
         Set<String> permissions = (Set<String>) this.userService.getPermissions(userId).getData();
         //将权限信息放入session
         SessionUtil.getUserSession().setAttribute(CommonConstants.USER_PERMISSIONS, permissions);

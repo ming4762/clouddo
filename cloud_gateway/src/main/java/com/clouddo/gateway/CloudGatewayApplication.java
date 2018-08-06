@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 @EnableEurekaClient  //服务提供者
 @EnableZuulProxy //服务网关
-
 @Import({
 		AuthCommonImport.class
 })

@@ -34,7 +34,7 @@ public class Result<T> {
         this.message = message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
@@ -50,15 +50,15 @@ public class Result<T> {
         Result result = newInstance();
         result.setData(data);
         result.setCode(ResultCodeEnum.SUCCESS.getCode());
-//        result.setCode(ResultCodeEnum.SUCCESS.getCode());
         result.setMessage(ResultCodeEnum.SUCCESS.getMsg());
 
         if (data == null) {
-            result.setData("");
+            result.setData(null);
         } else {
-            Field[] fields = data.getClass().getDeclaredFields();// 遇到没有属性的空类,防止JSON转换的时候异常
+            // 遇到没有属性的空类,防止JSON转换的时候异常
+            Field[] fields = data.getClass().getDeclaredFields();
             if (fields.length == 0) {
-                result.setData("");
+                result.setData(null);
             }
         }
         return result;

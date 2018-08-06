@@ -21,6 +21,11 @@ public class CommonConstants {
     //存储USER的key
     public static final String CONTEXT_KEY_USER = "currentUser";
 
+    /**
+     * 前后台传输token的key
+     */
+    public static final String TOKEN_KEY = "Authorization";
+
     public static final String CONTEXT_KEY_USER_TOKEN = "currentUserToken";
     public static final String JWT_KEY_USER_ID = "userId";
     public static final String JWT_KEY_NAME = "name";
@@ -29,7 +34,7 @@ public class CommonConstants {
     public static final String USER_PERMISSIONS = "userPermissions";
 
     //部门根节点id
-    public static Long DEPT_ROOT_ID = 0l;
+    public static Long DEPT_ROOT_ID = 0L;
 
     //演示系统账户
     public static String DEMO_ACCOUNT = "test";

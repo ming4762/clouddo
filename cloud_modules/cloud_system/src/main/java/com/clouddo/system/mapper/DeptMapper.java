@@ -14,7 +14,7 @@ import java.util.Map;
 @Mapper
 public interface DeptMapper {
 
-    Dept get(Long deptId);
+    Dept get(String deptId);
 
     List<Dept> list(Map<String, Object> map);
 
@@ -24,11 +24,11 @@ public interface DeptMapper {
 
     int update(Dept dept);
 
-    int remove(Long deptId);
+    int remove(String deptId);
 
-    int batchRemove(Long[] deptIds);
+    int batchRemove(String[] deptIds);
 
-    Long[] listParentDept();
+    String[] listParentDept();
 
-    int getDeptUserNumber(Long deptId);
+    int getDeptUserNumber(String deptId);
 }

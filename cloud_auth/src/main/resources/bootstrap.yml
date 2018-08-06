@@ -12,6 +12,8 @@ spring:
         service-id: cloud_config
   profiles:
     active: dev
+  redis:
+    timeout: 60s
 #      profile: dev
 
 feign:

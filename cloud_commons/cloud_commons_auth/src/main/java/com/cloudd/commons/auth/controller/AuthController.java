@@ -10,7 +10,7 @@ import com.clouddo.commons.common.controller.BaseController;
  * @since 3.0
  * 2018/5/29下午5:13
  */
-public class AuthController extends BaseController {
+public class AuthController<T> extends BaseController<T> {
 
     /**
      * 获取当前用户

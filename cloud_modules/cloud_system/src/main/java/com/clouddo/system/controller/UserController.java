@@ -56,6 +56,23 @@ public class UserController extends AuthController {
 	}
 
 	/**
+	 * 查询用户列表
+	 * @param parameters
+	 * @return
+	 */
+	@PostMapping("/list")
+	@ResponseBody
+	public Result<List<User>> listPost(@RequestBody Map<String, Object> parameters) {
+		try {
+			return Result.success(this.userService.list(parameters));
+		} catch (Exception e) {
+			e.printStackTrace();
+			//TODO 异常被吃掉，有可能对feign产生影响 待测试
+			return Result.failure(e.getMessage());
+		}
+	}
+
+	/**
 	 * 验证用户
 	 * @param parameters
 	 * @return
@@ -89,7 +106,7 @@ public class UserController extends AuthController {
 	@RequiresPermissions("sys:user:edit")
 	@Log("编辑用户")
 	@GetMapping("/edit/{id}")
-	String edit(Model model, @PathVariable("id") Long id) {
+	String edit(Model model, @PathVariable("id") String id) {
 		User userDO = userService.get(id);
 		model.addAttribute("user", userDO);
 		List<Role> roles = roleService.list(id);
@@ -146,7 +163,7 @@ public class UserController extends AuthController {
 	@Log("删除用户")
 	@PostMapping("/remove")
 	@ResponseBody
-    R remove(Long id) {
+    R remove(String id) {
 		if (CommonConstants.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
@@ -160,7 +177,7 @@ public class UserController extends AuthController {
 	@Log("批量删除用户")
 	@PostMapping("/batchRemove")
 	@ResponseBody
-    R batchRemove(@RequestParam("ids[]") Long[] userIds) {
+    R batchRemove(@RequestParam("ids[]") String[] userIds) {
 		if (CommonConstants.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
@@ -181,7 +198,7 @@ public class UserController extends AuthController {
 	@RequiresPermissions("sys:user:resetPwd")
 	@Log("请求更改用户密码")
 	@GetMapping("/resetPwd/{id}")
-	String resetPwd(@PathVariable("id") Long userId, Model model) {
+	String resetPwd(@PathVariable("id") String userId, Model model) {
 
 		User userDO = new User();
 		userDO.setUserId(userId);

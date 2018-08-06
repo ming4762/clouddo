@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.news.server.mapper.CloudColumnMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		cloud_column
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="cloudColumnResultMap" parameterType="map">
+        SELECT A.*, C.SUBSECTION_ID, C.SUBSECTION_NAME SUBSECTION_NAME, C.REMARK SUBSECTION_REMARK  FROM <include refid="tableName"></include> A
+		JOIN cloud_module B ON A.MODULE_ID = B.MODULE_ID
+		LEFT OUTER JOIN cloud_subsection C ON A.COLUMN_ID = C.COLUMN_ID
+        <where>
+			
+			<if test="moduleName != null and moduleName != ''">
+				AND B.MODULE_NAME = #{moduleName}
+			</if>
+			
+			<if test="columnId != null and columnId != ''">
+				AND A.COLUMN_ID = '%${columnId}%'
+			</if>
+			<if test="columnName != null and columnName != ''">
+				AND A.COLUMN_NAME LIKE '%${columnName}%'
+			</if>
+			<if test="remark != null and remark != ''">
+				AND A.REMARK LIKE '%${remark}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.COLUMN_ID = '%${keyword}%'
+
+				OR A.COLUMN_NAME LIKE '%${keyword}%'
+
+				OR A.REMARK LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					COLUMN_ID = #{item.columnId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND COLUMN_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="cloudColumnResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		COLUMN_ID = #{columnId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			COLUMN_NAME 		= 		#{item.columnName},
+    			REMARK 		= 		#{item.remark}
+				MODULE_ID	=		#{item.moduleId}
+				<where>
+						and COLUMN_ID = #{item.columnId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.news.server.dto.CloudColumnDTO" id="cloudColumnResultMap">
+    	<!-- id -->
+		<!-- 栏目ID -->
+		<id column="COLUMN_ID" property="columnId"/>
+			<!-- column -->
+		<!-- 栏目名称 -->
+		<result column="COLUMN_NAME" property="columnName"/>
+		<!-- 备注 -->
+		<result column="REMARK" property="remark"/>
+		<result column="MODULE_ID" property="moduleId"/>
+		
+		<collection property="cloudSubsectionList" resultMap="cloudSubsectionResultMap"></collection>
+    </resultMap>
+
+	<!--子栏目映射-->
+	<resultMap id="cloudSubsectionResultMap" type="com.clouddo.news.server.model.CloudSubsection">
+		<!-- 子栏目ID -->
+		<id column="SUBSECTION_ID" property="subsectionId"/>
+		<!-- column -->
+		<!-- 子栏目名称 -->
+		<result column="SUBSECTION_NAME" property="subsectionName"/>
+		<!-- 备注 -->
+		<result column="SUBSECTION_REMARK" property="remark"/>
+		<!-- 栏目ID -->
+		<result column="COLUMN_ID" property="columnId"/>
+	</resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		COLUMN_ID,
+    		COLUMN_NAME,
+    		REMARK,
+    		MODULE_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.columnId},
+			#{item.columnName},
+			#{item.remark},
+			#{item.moduleId}
+	</sql>
+    		
+</mapper>
+
+

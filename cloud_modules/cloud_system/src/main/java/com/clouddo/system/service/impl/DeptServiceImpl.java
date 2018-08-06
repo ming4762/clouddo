@@ -20,7 +20,7 @@ public class DeptServiceImpl implements DeptService {
 	private DeptMapper sysDeptMapper;
 
 	@Override
-	public Dept get(Long deptId){
+	public Dept get(String deptId){
 		return sysDeptMapper.get(deptId);
 	}
 
@@ -45,12 +45,12 @@ public class DeptServiceImpl implements DeptService {
 	}
 
 	@Override
-	public int remove(Long deptId){
+	public int remove(String deptId){
 		return sysDeptMapper.remove(deptId);
 	}
 
 	@Override
-	public int batchRemove(Long[] deptIds){
+	public int batchRemove(String[] deptIds){
 		return sysDeptMapper.batchRemove(deptIds);
 	}
 
@@ -74,7 +74,7 @@ public class DeptServiceImpl implements DeptService {
 	}
 
 	@Override
-	public boolean checkDeptHasUser(Long deptId) {
+	public boolean checkDeptHasUser(String deptId) {
 		// TODO Auto-generated method stub
 		//查询部门以及此部门的下级部门
 		int result = sysDeptMapper.getDeptUserNumber(deptId);

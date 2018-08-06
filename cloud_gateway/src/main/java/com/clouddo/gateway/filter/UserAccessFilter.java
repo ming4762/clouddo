@@ -30,8 +30,15 @@ public class UserAccessFilter extends ZuulFilter {
 
     private static Logger logger = LoggerFactory.getLogger(UserAccessFilter.class);
 
+    /**
+     * 是否是开发模式
+     */
+    @Value("${auth.development:false}")
+    private boolean development;
 
-    //忽略权限访问的地址头
+    /**
+     * 忽略权限访问的请求头
+     */
     @Value("${gate.ignore.startWith}")
     private String ignoreStartWith;
 
@@ -61,6 +68,11 @@ public class UserAccessFilter extends ZuulFilter {
 
     @Override
     public Object run() throws ZuulException {
+        //如果是开发模式，不拦截
+        if(this.development) {
+            return null;
+        }
+
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         final String requestUri = request.getRequestURI().substring(zuulPrefix.length());

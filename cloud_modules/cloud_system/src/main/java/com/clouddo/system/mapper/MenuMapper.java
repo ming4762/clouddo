@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @Mapper
 public interface MenuMapper {
-    Menu get(Long menuId);
+    Menu get(String menuId);
 
     List<Menu> list(Map<String, Object> map);
 
@@ -24,11 +24,11 @@ public interface MenuMapper {
 
     int update(Menu menu);
 
-    int remove(Long menuId);
+    int remove(String menuId);
 
-    int batchRemove(Long[] menuIds);
+    int batchRemove(String[] menuIds);
 
-    List<Menu> listMenuByUserId(Long id);
+    List<Menu> listMenuByUserId(String id);
 
-    List<String> listUserPerms(Long id);
+    List<String> listUserPerms(String id);
 }

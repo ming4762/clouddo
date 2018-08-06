@@ -1,0 +1,14 @@
+server:
+  port: 8081
+spring:
+  thymeleaf:
+    cache: false
+
+cloud:
+  admin:
+    setting:
+      loginUrl: /web/public/login
+      backgroudUrl: http://192.168.1.91:8760/cloud/
+  config:
+    news:
+      moduleName: 开发区水文局

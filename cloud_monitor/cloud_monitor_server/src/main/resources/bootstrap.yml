@@ -1,0 +1,38 @@
+#配置中心相关配置必须放在bootstrap文件中，
+#因为springboot的加载顺序为bootstrap文件、配置中心配置、application文件中
+spring:
+  application:
+    name: cloud-monitor
+
+  cloud:
+    config:
+      label: master
+      discovery:
+        enabled: true
+        service-id: cloud_config
+  profiles:
+    active: dev
+  redis:
+    timeout: 60s
+#      profile: dev
+
+
+feign:
+  hystrix:
+   enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+#      服务中心地址
+      defaultZone: http://charsming.f3322.org:8761/eureka/
+  instance:
+
+    prefer-ip-address: true
+
+auth:
+  client:
+#    客户端的ID密码
+    id: cloud-monitor
+    secret: cloud123456
+

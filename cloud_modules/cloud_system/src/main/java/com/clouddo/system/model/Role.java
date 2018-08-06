@@ -7,20 +7,20 @@ import java.util.List;
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = -977157267181758411L;
-	private Long roleId;
+	private String roleId;
 	private String roleName;
 	private String roleSign;
 	private String remark;
-	private Long userIdCreate;
+	private String userIdCreate;
 	private Timestamp gmtCreate;
 	private Timestamp gmtModified;
-	private List<Long> menuIds;
+	private List<String> menuIds;
 
-	public Long getRoleId() {
+	public String getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Long roleId) {
+	public void setRoleId(String roleId) {
 		this.roleId = roleId;
 	}
 
@@ -48,11 +48,11 @@ public class Role implements Serializable {
 		this.remark = remark;
 	}
 
-	public Long getUserIdCreate() {
+	public String getUserIdCreate() {
 		return userIdCreate;
 	}
 
-	public void setUserIdCreate(Long userIdCreate) {
+	public void setUserIdCreate(String userIdCreate) {
 		this.userIdCreate = userIdCreate;
 	}
 
@@ -72,11 +72,11 @@ public class Role implements Serializable {
 		this.gmtModified = gmtModified;
 	}
 
-	public List<Long> getMenuIds() {
+	public List<String> getMenuIds() {
 		return menuIds;
 	}
 
-	public void setMenuIds(List<Long> menuIds) {
+	public void setMenuIds(List<String> menuIds) {
 		this.menuIds = menuIds;
 	}
 

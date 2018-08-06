@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>BootDo</title>
+    <meta name="keywords" content="CloudDo管理系统">
+    <meta name="description" content="CloudDo管理系统">
+    <link th:href="@{/plugins/bootstrap/3.3.7/css/bootstrap.min.css}" href="/plugins/bootstrap/3.3.7/css/bootstrap.min.css"  rel="stylesheet"/>
+    <link th:href="@{/plugins/font-awesome/4.7.0/css/font-awesome.min.css}" href="/plugins/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link th:href="@{/plugins/animate/3.6.0/css/animate.min.css}" href="/plugins/animate/3.6.0/css/animate.min.css" rel="stylesheet"/>
+    <link th:href="@{/plugins/H+/css/style.css}" href="/plugins/H+/css/style.css" rel="stylesheet"/>
+    <link th:href="@{/css/login.css}" href="/css/login.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+
+
+    <style>
+        [v-cloak] {
+            display: none! important;
+        }
+    </style>
+
+
+
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
+    </script>
+
+</head>
+<body class="signin">
+<div class="signinpanel">
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="signin-info">
+                <div class="logopanel m-b">
+                    <h1>BootDo</h1>
+                </div>
+                <div class="m-b"></div>
+                <h3>
+                    欢迎使用 <strong>BootDo管理系统</strong>
+                </h3>
+                <ul class="m-b">
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
+                        springBoot
+                    </li>
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> mybatis</li>
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> shiro</li>
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
+                        thymeleaf
+                    </li>
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
+                        bootstrap
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <form id="signupForm" v-cloak>
+                <h3 class="text-center">用户登录</h3>
+                <p class="m-t-md text-center">欢迎登录bootdo后台管理系统</p>
+                <!--错误信息-->
+                <p v-if="errors.length">
+                    <ul>
+                        <li style="color: red" v-for="error in errors"><i class='fa fa-times-circle'></i>{{ error }}</li>
+                    </ul>
+                </p>
+
+                <input type="text" v-model="username" name="username" class="form-control uname"
+                       value="admin"/>
+                <input type="password" v-model="password" name="password"
+                       class="form-control pword m-b" value="111111"/>
+                <a v-on:click="doLogin()" id="login" class="btn btn-login btn-block">登录</a>
+                <!--按钮模块-->
+                <div class="outside-login">
+                    <div class="outside-login-tit">
+                        <span>代码链接</span>
+                    </div>
+                    <div class="outside-login-cot">
+                        <a class="outside-login-btn wxoa actived oschina J-btnSwitchLoginType" target="_Blank"
+                           href="https://www.oschina.net/p/bootdo">
+                            <em><i class="fa fa-home"></i></em>
+                            <span>oschina主页</span>
+                        </a>
+                        <a class="outside-login-btn wxoa actived my J-btnSwitchLoginType" target="_Blank"
+                           href="https://gitee.com/lcg0124/bootdo">
+                            <em><i class="fa fa-git-square"></i></em>
+                            <span>码云仓库</span>
+                        </a>
+                        <a class="outside-login-btn wxoa actived git J-btnSwitchLoginType" target="_Blank"
+                           href="https://github.com/lcg0124/bootdo">
+                            <em><i class="fa fa-github"></i></em>
+                            <span>GitHub仓库</span>
+                        </a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="signup-footer">
+        <div class="pull-left">&copy; 2017 All Rights Reserved. BootDo
+        </div>
+    </div>
+</div>
+<!--后台服务地址-->
+<script th:src="@{/js/backgroundURL.js}" src="/js/backgroundURL.js"></script>
+<script th:inline="javascript"> var context = [[@{/}]] ; </script>
+<!-- 全局js -->
+<script th:src="@{/plugins/jquery/1.12.4/jquery.1.12.4.min.js}" src="/plugins/jquery/1.12.4/jquery.1.12.4.min.js"></script>
+<script th:src="@{/plugins/bootstrap/3.3.7/js/bootstrap.min.js}" src="/plugins/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- 自定义js -->
+<script src="/js/content.js?v=1.0.0" th:src="@{/js/content.js?v=1.0.0}"></script>
+
+<!-- jQuery Validation plugin javascript-->
+<script th:src="@{/plugins/vue/2.5.16/js/vue.min.js}" src="/plugins/vue/2.5.16/js/vue.min.js"></script>
+<!--<script src="/js/ajax-util.js"></script>-->
+<script src="/plugins/jquery/validate/1.13.0/jquery.validate.min.js" th:src="@{/plugins/jquery/validate/1.13.0/jquery.validate.min.js}"></script>
+<script src="/plugins/jquery/validate/1.13.0/messages_zh.min.js" th:src="@{/plugins/jquery/validate/1.13.0/messages_zh.min.js}"></script>
+<script th:src="@{/plugins/layer/3.1.1/layer.js}" src="/plugins/layer/3.1.1/layer.js"></script>
+<!--引入工具类JS-->
+<script th:src="@{/js/util/RestUtil.js}" src="/js/util/RestUtil.js" ></script>
+
+<script th:src="@{/js/login/login.js}" src="/js/login/login.js" ></script>
+<!--引入页面js-->
+<script type="text/javascript">
+    // $(document).ready(function () {
+    //     $("#login").on('click',function(){$("#signupForm").submit();});
+    //     validateRule();
+    // });
+    //
+    // $.validator.setDefaults({
+    //     submitHandler: function () {
+    //         login();
+    //     }
+    // });
+    //
+    // function login() {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: ctx+"login",
+    //         data: $('#signupForm').serialize(),
+    //         success: function (r) {
+    //              if (r.code == 0) {
+    //                 var index = layer.load(1, {
+    //                     shade: [0.1,'#fff'] //0.1透明度的白色背景
+    //                 });
+    //                 parent.location.href = '/index';
+    //             } else {
+    //                 layer.msg(r.msg);
+    //             }
+    //         },
+    //     });
+    // }
+    //
+    // function validateRule() {
+    //     var icon = "<i class='fa fa-times-circle'></i> ";
+    //     $("#signupForm").validate({
+    //         rules: {
+    //             username: {
+    //                 required: true
+    //             },
+    //             password: {
+    //                 required: true
+    //             }
+    //         },
+    //         messages: {
+    //             username: {
+    //                 required: icon + "请输入您的用户名",
+    //             },
+    //             password: {
+    //                 required: icon + "请输入您的密码",
+    //             }
+    //         }
+    //     })
+    // }
+</script>
+</body>
+</html>

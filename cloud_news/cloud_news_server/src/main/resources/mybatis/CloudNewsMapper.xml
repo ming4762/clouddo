@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.news.server.mapper.CloudNewsMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		cloud_news
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="cloudNewsResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="newsId != null and newsId != ''">
+				AND A.NEWS_ID = #{newsId}
+			</if>
+			<if test="title != null and title != ''">
+				AND A.TITLE LIKE '%${title}%'
+			</if>
+			<if test="subtitle != null and subtitle != ''">
+				AND A.SUBTITLE LIKE '%${subtitle}%'
+			</if>
+			<if test="titlePic != null and titlePic != ''">
+				AND A.TITLE_PIC LIKE '%${titlePic}%'
+			</if>
+			<if test="authorId != null and authorId != ''">
+				AND A.AUTHOR_ID LIKE '%${authorId}%'
+			</if>
+			<if test="createTime != null and createTime != ''">
+				AND A.CREATE_TIME LIKE '%${createTime}%'
+			</if>
+			<if test="modifierId != null and modifierId != ''">
+				AND A.MODIFIER_ID LIKE '%${modifierId}%'
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+				AND A.UPDATE_TIME LIKE '%${updateTime}%'
+			</if>
+			<if test="content != null and content != ''">
+				AND A.CONTENT LIKE '%${content}%'
+			</if>
+			<if test="columnId != null and columnId != ''">
+				AND A.COLUMN_ID LIKE '%${columnId}%'
+			</if>
+			<if test="praiseNum != null and praiseNum != ''">
+				AND A.PRAISE_NUM LIKE '%${praiseNum}%'
+			</if>
+			<if test="readNum != null and readNum != ''">
+				AND A.READ_NUM LIKE '%${readNum}%'
+			</if>
+			<if test="commentNum != null and commentNum != ''">
+				AND A.COMMENT_NUM = #{commentNum}
+			</if>
+			<if test="subsectionId != null and subsectionId != ''">
+				AND A.SUBSECTION_ID = #{subsectionId}
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.NEWS_ID LIKE '%${keyword}%'
+
+				OR A.TITLE LIKE '%${keyword}%'
+
+				OR A.SUBTITLE LIKE '%${keyword}%'
+
+				OR A.TITLE_PIC LIKE '%${keyword}%'
+
+				OR A.AUTHOR_ID LIKE '%${keyword}%'
+
+				OR A.MODIFIER_ID LIKE '%${keyword}%'
+
+				OR A.CONTENT LIKE '%${keyword}%'
+
+				OR A.COLUMN_ID LIKE '%${keyword}%'
+
+				OR A.PRAISE_NUM LIKE '%${keyword}%'
+
+				OR A.READ_NUM LIKE '%${keyword}%'
+
+				OR A.COMMENT_NUM LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					NEWS_ID = #{item.newsId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND NEWS_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="cloudNewsResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		NEWS_ID = #{newsId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			TITLE 		= 		#{item.title},
+    			SUBTITLE 		= 		#{item.subtitle},
+    			TITLE_PIC 		= 		#{item.titlePic},
+    			AUTHOR_ID 		= 		#{item.authorId},
+    			CREATE_TIME 		= 		#{item.createTime},
+    			MODIFIER_ID 		= 		#{item.modifierId},
+    			UPDATE_TIME 		= 		#{item.updateTime},
+    			CONTENT 		= 		#{item.content},
+    			COLUMN_ID 		= 		#{item.columnId},
+    			PRAISE_NUM 		= 		#{item.praiseNum},
+    			READ_NUM 		= 		#{item.readNum},
+    			COMMENT_NUM 		= 		#{item.commentNum}
+				<where>
+						and NEWS_ID = #{item.newsId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.news.server.dto.CloudNewsDTO" id="cloudNewsResultMap">
+    	<!-- id -->
+		<!-- 新闻ID -->
+		<id column="NEWS_ID" property="newsId"/>
+			<!-- column -->
+		<!-- 新闻标题 -->
+		<result column="TITLE" property="title"/>
+		<!-- 副标题 -->
+		<result column="SUBTITLE" property="subtitle"/>
+		<!-- 标题图片 -->
+		<result column="TITLE_PIC" property="titlePic"/>
+		<!-- 作者ID -->
+		<result column="AUTHOR_ID" property="authorId"/>
+		<!-- 创建时间 -->
+		<result column="CREATE_TIME" property="createTime"/>
+		<!-- 修改人ID -->
+		<result column="MODIFIER_ID" property="modifierId"/>
+		<!-- 修改时间 -->
+		<result column="UPDATE_TIME" property="updateTime"/>
+		<!-- 内容 -->
+		<result column="CONTENT" property="content"/>
+		<!-- 栏目ID -->
+		<result column="COLUMN_ID" property="columnId"/>
+		<!-- 点赞数 -->
+		<result column="PRAISE_NUM" property="praiseNum"/>
+		<!-- 阅读数 -->
+		<result column="READ_NUM" property="readNum"/>
+		<!-- 评论数 -->
+		<result column="COMMENT_NUM" property="commentNum"/>
+		<result column="SUBSECTION_ID" property="subsectionId"></result>
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		NEWS_ID,
+    		TITLE,
+    		SUBTITLE,
+    		TITLE_PIC,
+    		AUTHOR_ID,
+    		CREATE_TIME,
+    		MODIFIER_ID,
+    		UPDATE_TIME,
+    		CONTENT,
+    		COLUMN_ID,
+    		PRAISE_NUM,
+    		READ_NUM,
+    		COMMENT_NUM,
+    		SUBSECTION_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.newsId},
+			#{item.title},
+			#{item.subtitle},
+			#{item.titlePic},
+			#{item.authorId},
+			#{item.createTime},
+			#{item.modifierId},
+			#{item.updateTime},
+			#{item.content},
+			#{item.columnId},
+			#{item.praiseNum},
+			#{item.readNum},
+			#{item.commentNum},
+			#{item.subsectionId}
+	</sql>
+    		
+</mapper>
+
+

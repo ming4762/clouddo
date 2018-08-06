@@ -28,13 +28,19 @@ public class IndexController extends AuthController {
     @Autowired
     private MenuService menuService;
 
+    /**
+     * 访问系统主页
+     * TODO 带完善 从session中获取
+     * @return
+     */
     @PostMapping
     @Log("请求访问主页")
     Result index() {
         try {
             Map<String, Object> result = new HashMap<String, Object>();
             //获取菜单信息
-            List<Tree<Menu>> menus = menuService.listMenuTree(getUserId());
+//            List<Tree<Menu>> menus = menuService.listMenuTree(getUserId());
+            List<Tree<Menu>> menus = menuService.listMenuTree("1");
             result.put("menus", menus);
             result.put("username", getUsername());
             result.put("picUrl","/img/photo_s.jpg");

@@ -12,6 +12,7 @@ import com.clouddo.commons.common.service.RedisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户鉴权
@@ -32,6 +34,12 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
 
     private static Logger logger = LoggerFactory.getLogger(UserAuthRestInterceptor.class);
 
+    /**
+     * 是否是开发模式
+     */
+    @Value("${auth.development:false}")
+    private boolean development;
+
     @Autowired
     private UserAuthConfig userAuthConfig;
 
@@ -42,6 +50,11 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        //如果是开发模式 不拦截
+        if(this.development) {
+            return super.preHandle(request, response, handler);
+        }
 
         if(handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -136,7 +149,7 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
      */
     private boolean hasAllPermissions(String[] permissions) {
         //从session中获取用户拥有的所有权限
-        List<String> userPermissions = (List<String>) SessionUtil.getUserSession().getAttribute(CommonConstants.USER_PERMISSIONS);
+        Set<String> userPermissions = (Set<String>) SessionUtil.getUserSession().getAttribute(CommonConstants.USER_PERMISSIONS);
         if(userPermissions != null) {
             for(String permission : permissions) {
                 if(!userPermissions.contains(permission)) {

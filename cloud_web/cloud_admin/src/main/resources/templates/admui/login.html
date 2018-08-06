@@ -1,0 +1,226 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <title>登录到 Admui</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="http://cdn.admui.com/demo/iframe/1.1.0/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="http://cdn.admui.com/demo/iframe/1.1.0/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="http://cdn.admui.com/demo/iframe/1.1.0/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="http://cdn.admui.com/demo/iframe/1.1.0/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie/'" />
+    <![endif]-->
+    <!--[if lt IE 10]>
+    <!--TODO zhongming 未引入如下2个JS 影响未知 -->
+    <!--<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/media-match/media.match.min.js"></script>-->
+    <!--<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/respond/respond.min.js"></script>-->
+    <![endif]-->
+
+    <!-- 样式 -->
+    <link th:href="@{/plugins/bootstrap/3.3.7/css/bootstrap.min.css}" href="/plugins/bootstrap/3.3.7/css/bootstrap.min.css"  rel="stylesheet"/>
+
+    <link th:href="@{/css/admui/site.css}" href="/css/admui/site.css" rel="stylesheet"/>
+    <link th:href="@{/css/admui/web-icons.css}" href="/css/admui/web-icons.css" rel="stylesheet"/>
+    <!--<link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/fonts/web-icons/web-icons.css">-->
+    <link th:href="@{/css/admui/login.css}" href="/css/admui/login.css" rel="stylesheet"/>
+
+    <!-- 插件 -->
+    <link th:href="@{/plugins/FormValidation/0.6.2/css/formValidation.min.css}" href="/plugins/FormValidation/0.6.2/css/formValidation.min.css"  rel="stylesheet"/>
+    <link th:href="@{/plugins/animsition/4.0.2/css/animsition.min.css}" href="/plugins/animsition/4.0.2/css/animsition.min.css"  rel="stylesheet"/>
+    <link th:href="@{/plugins/bootstrap-select/1.12.4/css/bootstrap-select.min.css}" href="/plugins/bootstrap-select/1.12.4/css/bootstrap-select.min.css"  rel="stylesheet"/>
+    <!--<link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/vendor/formvalidation/formValidation.css">-->
+    <!--<link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/vendor/animsition/animsition.css">-->
+    <!--<link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/vendor/bootstrap-select/bootstrap-select.css">-->
+
+    <!-- 百度统计 -->
+    <script th:inline="javascript">
+        var backgroundUrl = /*[[${backgroudUrl}]]*/;
+        localStorage.setItem("backgroundURL", backgroundUrl);
+        var context = [[@{/}]] ;
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?07c22b55f1a0ca76abce0416f7cadfe1";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- 客服组件 -->
+    <!--<script src="//assets-cdn.kf5.com/supportbox/main.js?2&_=1531892670868" id="kf5-provide-supportBox" kf5-domain="admui.kf5.com"></script>-->
+</head>
+
+<body class="page-login layout-full page-dark">
+
+<div class="page height-full">
+    <div class="page-content height-full">
+        <div class="page-brand-info vertical-align animation-slide-left hidden-xs">
+            <div class="page-brand vertical-align-middle">
+                <div class="brand">
+                    <img class="brand-img" th:src="@{/images/login/logo-white.svg}" height="50" alt="Admui">
+                </div>
+                <h2 class="hidden-sm">Admui 通用管理系统快速开发框架</h2>
+                <ul class="list-icons hidden-sm">
+                    <li>
+                        <i class="wb-check" aria-hidden="true"></i> Admui 是一个基于最新 Web
+                        技术的企业级通用管理系统快速开发框架，可以帮助企业极大的提高工作效率，节省开发成本，提升品牌形象。
+                    </li>
+                    <li><i class="wb-check" aria-hidden="true"></i> 您可以 Admui 为基础，快速开发各种MIS系统，如CMS、OA、CRM、ERP、POS等。</li>
+                    <li><i class="wb-check" aria-hidden="true"></i> Admui 紧贴业务特性，涵盖了大量的常用组件和基础功能，最大程度上帮助企业节省时间成本和费用开支。
+                    </li>
+                </ul>
+                <div class="hidden-sm">
+                    <a href="http://admui.com" class="btn btn-primary margin-right-5" target="_blank"><i class="icon wb-home"></i> 返回官网</a>
+                    <div class="btn-group margin-right-5">
+                        <button type="button" class="btn btn-success dropdown-toggle" id="demoApp" data-toggle="dropdown" aria-expanded="false">
+                            <i class="icon wb-download"></i> 下载桌面版 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-success bullet" aria-labelledby="demoApp" role="menu">
+                            <li role="presentation">
+                                <a href="http://dl.admui.com/app/win/admui-demo.zip" role="menuitem"><i class="icon fa-windows"></i> Windows 版</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="http://dl.admui.com/app/mac/admui-demo.zip" role="menuitem"><i class="icon fa-apple"></i> MacOS 版</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="javascript:;" class="btn btn-info open-kf"><i class="icon wb-user"></i> 联系客服</a>
+                </div>
+            </div>
+        </div>
+        <div class="page-login-main animation-fade">
+
+            <div class="vertical-align">
+                <div class="vertical-align-middle">
+                    <div class="brand visible-xs text-center">
+                        <img class="brand-img" th:src="@{/images/login/logo.svg}" src="http://cdn.admui.com/demo/basic/1.1.0/images/logo.svg" height="50" alt="Admui">
+                    </div>
+                    <h3 class="hidden-xs">
+                        登录 Admui
+                        <!--<div class="btn-group version-toggle">-->
+                            <!--<a href="http://demo.admui.com/" class="btn btn-default btn-outline btn-sm">pjax版</a>-->
+                            <!--<a href="javascript:;" class="btn btn-default btn-outline btn-sm active">iframe版</a>-->
+                            <!--<a href="http://basic.demo.admui.com/" class="btn btn-default btn-outline btn-sm ">basic版</a>-->
+                        <!--</div>-->
+                    </h3>
+                    <p class="hidden-xs">Admui 在线演示系统</p>
+                    <form onsubmit="return false" class="login-form" method="post" id="loginForm">
+                        <!--<div class="form-group">-->
+                            <!--<label class="sr-only" for="identity">选择身份</label>-->
+                            <!--<select class="form-control" id="identity">-->
+                                <!--<option value="">我自己</option>-->
+                                <!--<option data-divider="true"></option>-->
+                                <!--<option value="xiaxuan@admui_demo" data-password="123456">夏瑄</option>-->
+                                <!--<option value="zhangzhiyuan@admui_demo" data-password="123456">张致远</option>-->
+                                <!--<option value="wangshiqi@admui_demo" data-password="123456">王诗琪</option>-->
+                                <!--<option value="lixin@admui_demo" data-password="123456">李欣</option>-->
+                                <!--<option value="qinshouren@admui_demo" data-password="123456">秦守仁</option>-->
+                                <!--<option value="liuyiming@admui_demo" data-password="123456">刘一鸣</option>-->
+                                <!--<option value="wangjiaqi@admui_demo" data-password="123456">王佳琪</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                        <!--错误信息-->
+                        <p v-if="errors.length">
+                            <ul>
+                                <li style="color: red" v-for="error in errors"><i class='fa fa-times-circle'></i>{{ error }}</li>
+                            </ul>
+                        </p>
+                        <div class="form-group">
+                            <label class="sr-only" for="username">用户名</label>
+                            <input type="text" v-model="username" class="form-control" id="username" name="loginName" placeholder="请输入用户名">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="password">密码</label>
+                            <input type="password" v-model="password" class="form-control" id="password" name="password" placeholder="请输入密码">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="password">验证码</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="validCode" placeholder="请输入验证码">
+                                <a class="input-group-addon padding-0 reload-vify" href="javascript:;">
+                                    <!--TODO 验证码-->
+                                    <!--<img src="/system/captcha" height="40">-->
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <div class="checkbox-custom checkbox-inline checkbox-primary pull-left">
+                                <input type="checkbox" id="remember" name="remember">
+                                <label for="remember">自动登录</label>
+                            </div>
+                            <a class="pull-right collapsed" data-toggle="collapse" href="#forgetPassword" aria-expanded="false" aria-controls="forgetPassword">
+                                忘记密码了？
+                            </a>
+                        </div>
+                        <div class="collapse" id="forgetPassword" aria-expanded="true">
+                            <div class="alert alert-warning alert-dismissible" role="alert">
+                                请联系管理员重置密码。
+                            </div>
+                        </div>
+                        <button v-on:click="doLogin" type="submit" class="btn btn-primary btn-block margin-top-30">立即登录</button>
+                    </form>
+                </div>
+            </div>
+            <footer class="page-copyright">
+                <!--TODO 动态修改-->
+                <p>山东善思明科技发展股份有限公司 &copy;
+                    <a href="http://www.admui.com" target="_blank">www.charsming.com/</a>
+                </p>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/jquery/jquery.min.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/bootstrap/bootstrap.min.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/bootstrap-select/bootstrap-select.min.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/formvalidation/formValidation.min.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/formvalidation/framework/bootstrap.min.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.1.0/js/login.js"></script>-->
+
+<script th:src="@{/plugins/jquery/2.1.4/jquery.min.js}" src="/plugins/jquery/1.12.4/jquery.1.12.4.min.js"></script>
+<script th:src="@{/plugins/vue/2.5.16/js/vue.min.js}" src="/plugins/vue/2.5.16/js/vue.min.js"></script>
+<script th:src="@{/plugins/bootstrap/3.3.7/js/bootstrap.min.js}" src="/plugins/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script th:src="@{/plugins/bootstrap-select/1.12.4/js/bootstrap-select.min.js}" src="/plugins/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+<script th:src="@{/plugins/FormValidation/0.6.2/js/formValidation.min.js}" src="/plugins/FormValidation/0.6.2/js/formValidation.min.js"></script>
+<script th:src="@{/plugins/FormValidation/0.6.2/js/framework/bootstrap.min.js}" src="/plugins/FormValidation/0.6.2/js/framework/bootstrap.min.js"></script>
+
+<!--引入工具类JS-->
+<script th:src="@{/js/util/RestUtil.js}" src="/js/util/RestUtil.js" ></script>
+
+<script th:src="@{/js/login/login.js}" src="/js/login/login.js" ></script>
+
+<script language="javascript">
+    if(top !== self){
+        top.location.href = location.href;
+    }
+</script>
+</body>
+
+</html>

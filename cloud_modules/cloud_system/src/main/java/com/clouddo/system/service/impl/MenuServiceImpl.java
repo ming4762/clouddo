@@ -29,7 +29,7 @@ public class MenuServiceImpl implements MenuService {
 	 */
 	@Cacheable
 	@Override
-	public Tree<Menu> getSysMenuTree(Long id) {
+	public Tree<Menu> getSysMenuTree(String id) {
 		List<Tree<Menu>> trees = new ArrayList<Tree<Menu>>();
 		List<Menu> Menus = menuMapper.listMenuByUserId(id);
 		for (Menu sysMenu : Menus) {
@@ -56,7 +56,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class)
 	@Override
-	public int remove(Long id) {
+	public int remove(String id) {
 		int result = menuMapper.remove(id);
 		return result;
 	}
@@ -75,7 +75,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public Menu get(Long id) {
+	public Menu get(String id) {
 		Menu Menu = menuMapper.get(id);
 		return Menu;
 	}
@@ -97,11 +97,11 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public Tree<Menu> getTree(Long id) {
+	public Tree<Menu> getTree(String id) {
 		// 根据roleId查询权限
 		List<Menu> menus = menuMapper.list(new HashMap<String, Object>(16));
-		List<Long> menuIds = roleMenuMapper.listMenuIdByRoleId(id);
-		List<Long> temp = menuIds;
+		List<String> menuIds = roleMenuMapper.listMenuIdByRoleId(id);
+		List<String> temp = menuIds;
 		for (Menu menu : menus) {
 			if (temp.contains(menu.getParentId())) {
 				menuIds.remove(menu.getParentId());
@@ -115,7 +115,7 @@ public class MenuServiceImpl implements MenuService {
 			tree.setParentId(sysMenu.getParentId().toString());
 			tree.setText(sysMenu.getName());
 			Map<String, Object> state = new HashMap<>(16);
-			Long menuId = sysMenu.getMenuId();
+			String menuId = sysMenu.getMenuId();
 			if (menuIds.contains(menuId)) {
 				state.put("selected", true);
 			} else {
@@ -130,7 +130,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public Set<String> listPerms(Long userId) {
+	public Set<String> listPerms(String userId) {
 		List<String> perms = menuMapper.listUserPerms(userId);
 		Set<String> permsSet = new HashSet<>();
 		for (String perm : perms) {
@@ -142,7 +142,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public List<Tree<Menu>> listMenuTree(Long id) {
+	public List<Tree<Menu>> listMenuTree(String id) {
 		List<Tree<Menu>> trees = new ArrayList<Tree<Menu>>();
 		List<Menu> Menus = menuMapper.listMenuByUserId(id);
 		for (Menu sysMenu : Menus) {

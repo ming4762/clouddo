@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn">
+
+<head>
+    <title>发布新帖子</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="http://cdn.admui.com/demo/iframe/1.2.0/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="http://cdn.admui.com/demo/iframe/1.2.0/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="http://cdn.admui.com/demo/iframe/1.2.0/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="http://cdn.admui.com/demo/iframe/1.2.0/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie/'" />
+    <![endif]-->
+    <!--[if lt IE 10]>
+    <!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/vendor/media-match/media.match.min.js"></script>-->
+    <!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/vendor/respond/respond.min.js"></script>-->
+    <![endif]-->
+
+    <!-- 样式 -->
+    <!--<link th:href="@{/plugins/bootstrap/3.3.7/css/bootstrap.min.css}" href="/plugins/bootstrap/3.3.7/css/bootstrap.min.css"  rel="stylesheet"/>-->
+
+    <link th:href="@{/plugins/admui/site.css}" rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.2.0/themes/classic/base/css/site.css" id="admui-siteStyle">
+
+
+    <!-- 图标 CSS-->
+    <link th:href="@{/plugins/font-awesome/4.7.0/css/font-awesome.min.css}" href="/plugins/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link th:href="@{/plugins/admui/web-icons.css}" href="http://cdn.admui.com/demo/iframe/1.2.0/fonts/web-icons/web-icons.css" rel="stylesheet">
+
+    <link th:href="@{/plugins/bootstrap-select/1.12.4/css/bootstrap-select.min.css}" rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.2.0/vendor/bootstrap-select/bootstrap-select.css">
+
+    <link th:href="@{/plugins/layui/2.3.0/css/layui.css}" href="/plugins/layui/2.3.0/css/layui.css" rel="stylesheet">
+
+    <script th:src="@{/plugins/jquery/2.1.4/jquery.min.js}" src="/plugins/jquery/1.12.4/jquery.1.12.4.min.js"></script>
+    <script th:src="@{/plugins/bootstrap/3.3.7/js/bootstrap.min.js}" src="/plugins/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+    <!-- vue -->
+    <script th:src="@{/plugins/vue/2.5.16/js/vue.min.js}" src="/plugins/vue/2.5.16/js/vue.min.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
+    <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+        .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+    </style>
+
+    <script th:inline="javascript">
+        //获取模块名
+        var moduleName = [[${moduleName}]];
+    </script>
+</head>
+
+<body>
+
+<div class="modal-header">
+    <h4 class="modal-title">发布新闻</h4>
+</div>
+<div  id="formVue" class="modal-body container-fluid">
+
+
+    <el-form :rules="rules" ref="newsForm" :model="news" label-width="80px">
+        <el-form-item label="新闻标题" prop="title">
+            <el-input v-model="news.title" placeholder="请输入标题"></el-input>
+        </el-form-item>
+        <el-form-item label="副标题" prop="subtitle">
+            <el-input v-model="news.subtitle" placeholder="请输入副标题"></el-input>
+        </el-form-item>
+
+        <el-form-item label="标题图片" prop="titlePic">
+            <el-upload
+                    class="avatar-uploader"
+                    action=""
+                    :show-file-list="false"
+                    :before-upload="uploadImage">
+                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+
+            </el-upload>
+        </el-form-item>
+
+        <el-form-item label="正文" prop="content">
+            <textarea name="content" class="markdown-edit" rows="100" id="editor"></textarea>
+        </el-form-item>
+
+        <el-form-item label="栏目" prop="columnId">
+            <el-select v-on:change="chouseColumn" v-model="news.columnId" placeholder="请选择">
+                <el-option
+                        v-for="column in columnList"
+                        :key="column.columnId"
+                        :label="column.columnName"
+                        :value="column.columnId">
+                </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="副栏目">
+            <el-select v-model="news.subsectionId" placeholder="请选择">
+                <el-option
+                        v-for="subsection in subsectionList"
+                        :key="subsection.subsectionId"
+                        :label="subsection.subsectionName"
+                        :value="subsection.subsectionId">
+                </el-option>
+            </el-select>
+        </el-form-item>
+
+        <el-form-item>
+            <el-button v-on:click="submit('newsForm')" type="primary">立即创建</el-button>
+            <el-button>取消</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+
+
+<!--引入ckeditor-->
+<script th:src="@{/plugins/ckeditor5/11.0.1/ckeditor.js}" src="/plugins/ckeditor5/11.0.1/ckeditor.js"></script>
+<!--工具Js-->
+<script th:src="@{/js/util/RestUtil.js}" src="/js/util/RestUtil.js" ></script>
+<!--引入引入ckeditor工具类-->
+<script th:src="@{/js/CKeditor/CKeditor.js}" src="/js/CKeditor/CKeditor.js"></script>
+<!--layer-->
+<script th:src="@{/plugins/layer/3.1.1/layer.js}" src="/plugins/layer/3.1.1/layer.js"></script>
+
+
+<script th:src="@{/plugins/layui/2.3.0/layui.js}" src="/plugins/layui/2.3.0/layui.js"></script>
+<!--引入页面JS-->
+<script th:src="@{/js/web/news/newsAdd.js}" src="/js/web/news/newsAdd.js"></script>
+<script>
+</script>
+<!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/vendor/bootstrap-markdown/bootstrap-markdown.min.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/vendor/bootstrap-markdown/locale/bootstrap-markdown.zh.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/vendor/bootstrap-select/bootstrap-select.min.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/vendor/marked/marked.min.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/vendor/to-markdown/to-markdown.min.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/themes/classic/base/js/app.js"></script>-->
+<!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/js/examples/pages/team/forum/add-topic.js"></script>-->
+</body>
+
+</html>

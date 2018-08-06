@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn">
+
+<head>
+    <title>论坛</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="http://cdn.admui.com/demo/iframe/1.2.0/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="http://cdn.admui.com/demo/iframe/1.2.0/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="http://cdn.admui.com/demo/iframe/1.2.0/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="http://cdn.admui.com/demo/iframe/1.2.0/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie/'" />
+    <![endif]-->
+    <!--[if lt IE 10]>
+    <!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/vendor/media-match/media.match.min.js"></script>-->
+    <!--<script src="http://cdn.admui.com/demo/iframe/1.2.0/vendor/respond/respond.min.js"></script>-->
+    <![endif]-->
+
+    <!-- 样式 -->
+    <link th:href="@{/plugins/bootstrap/3.3.7/css/bootstrap.min.css}" href="/plugins/bootstrap/3.3.7/css/bootstrap.min.css"  rel="stylesheet"/>
+
+    <link th:href="@{/plugins/admui/site.css}" rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.2.0/themes/classic/base/css/site.css" id="admui-siteStyle">
+
+
+    <!-- 图标 CSS-->
+    <link th:href="@{/plugins/font-awesome/4.7.0/css/font-awesome.min.css}" href="/plugins/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link th:href="@{/plugins/admui/web-icons.css}" href="http://cdn.admui.com/demo/iframe/1.2.0/fonts/web-icons/web-icons.css" rel="stylesheet">
+
+    <!--<link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.2.0/vendor/bootstrap-markdown/bootstrap-markdown.css">-->
+    <link th:href="@{/plugins/bootstrap-select/1.12.4/css/bootstrap-select.min.css}" rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.2.0/vendor/bootstrap-select/bootstrap-select.css">
+    <link th:href="@{/plugins/admui/forum.css}" rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.2.0/css/examples/pages/team/forum.css">
+
+    <script th:src="@{/plugins/jquery/2.1.4/jquery.min.js}" src="/plugins/jquery/1.12.4/jquery.1.12.4.min.js"></script>
+    <script th:src="@{/plugins/bootstrap/3.3.7/js/bootstrap.min.js}" src="/plugins/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+
+    <script th:inline="javascript">
+        //获取模块名
+        var moduleName = [[${moduleName}]];
+    </script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var context = /*[[@{/}]]*/ '';
+        /*]]>*/
+    </script>
+
+</head>
+
+<body class="layout-full">
+
+<div class="page bg-white animsition page-forum">
+
+    <div class="page-aside">
+        <div class="page-aside-switch">
+            <i class="icon wb-chevron-left" aria-hidden="true"></i>
+            <i class="icon wb-chevron-right" aria-hidden="true"></i>
+        </div>
+        <!--栏目div-->
+        <div id="column_id" class="page-aside-inner height-full" data-plugin="slimScroll" v-cloak>
+
+            <!--遍历栏目-->
+            <section v-for="column in columnList" class="page-aside-section">
+                <h5 class="page-aside-title">
+                    {{column.columnName}}
+                </h5>
+                <!--遍历子栏目-->
+                <div v-if="column.cloudSubsectionList != null" class="list-group">
+                    <a v-for="subsection in column.cloudSubsectionList" v-on:click="selectSubsection(subsection.columnId,subsection.subsectionId, subsection.subsectionName)" class="list-group-item" href="javascript:;">
+                        <i class="icon wb-emoticon" aria-hidden="true"></i>
+                        <span class="list-group-item-content">{{subsection.subsectionName}}</span>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <div class="page-main" id="newsList" v-cloak>
+
+        <div class="page-header">
+            <h1 class="page-title">{{title}}</h1>
+            <form class="margin-top-20" action="#" role="search">
+                <div class="input-search input-search-dark">
+                    <input type="text" class="form-control width-full" placeholder="查找帖子..." name="">
+                    <button type="submit" class="input-search-btn">
+                        <i class="icon wb-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="page-nav-tabs" data-approve="nav-tabs">
+            <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                <li class="active" role="presentation">
+                    <a v-on:click="showNewest" data-toggle="tab" href="#forum-newest" aria-controls="forum-newest" aria-expanded="true" role="tab">
+                        最新
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a v-on:click="showHot" data-toggle="tab" href="#forum-newest" aria-controls="forum-activity" aria-expanded="false" role="tab">
+                        热门
+                    </a>
+                </li>
+            </ul>
+
+
+            <div class="page-content tab-content page-content-table nav-tabs-animate">
+
+                <div class="tab-pane animation-fade active" id="forum-newest" role="tabpanel">
+                    <table class="table is-indent">
+                        <tbody>
+                        <tr v-for="news in newsList">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" v-bind:src="news.titlePic | formatPicUrl" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        {{news.title}}
+                                    </div>
+                                    <div class="metas">
+                                        <!--todo 作者ID改为作者名-->
+                                        <span class="author">{{news.author == null ? '' : news.author.name}}</span> <span class="started">{{news.createTime | formatCreateTime}}</span>
+                                        <span class="tags">{{news.subsectionId == null ? news.columnId : news.subsectionId}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">{{news.commentNum == null ? 0 : news.commentNum}}</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane animation-fade" id="forum-activity" role="tabpanel">
+                    <table class="table is-indent">
+                        <tbody>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/11.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        关于css的id选择器优先级的问题
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">独撑全场</span> <span class="started">1 天前</span>
+                                        <span class="tags">插件</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">1</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/12.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        调用Oracle存储过程的输入变量是JSON格式的字符串
+                                        <div class="flags responsive-hide">
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">可不可以更有勇气</span> <span class="started">2 天前</span>
+                                        <span class="tags">插件</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">2</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/13.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        div中包含span，并且都绑定了点击事件，点击出发的...
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">兄弟一声吼一生一起走</span> <span class="started">3 天前</span>
+                                        <span class="tags">功能</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">3</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/14.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        求各位大牛帮忙改一下，小弟没学过jq只会该一点点，...
+                                        <div class="flags responsive-hide">
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">未来尽在我手</span> <span class="started">4 天前</span>
+                                        <span class="tags">入门</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">4</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/15.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        轻量级框架与重量级框架之间有没有根据区分
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">視覺系梓x</span> <span class="started">5 天前</span>
+                                        <span class="tags">资源</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">5</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/16.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        linux服务器内存
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">千总爆有范儿</span> <span class="started">6 天前</span>
+                                        <span class="tags">求助</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">6</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/17.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        shiro redis 集群 session无法登陆...
+                                        <div class="flags responsive-hide">
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">赶紧十八我要娶她</span> <span class="started">7 天前</span>
+                                        <span class="tags">版规</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">7</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ul class="pagination pagination-gap">
+                        <li class="disabled">
+                            <a href="javascript:;">上一页</a>
+                        </li>
+                        <li class="active">
+                            <a href="javascript:;">1 <span class="sr-only">(当前)</span></a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">2</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">3</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">4</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">5</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">下一页</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-pane animation-fade" id="forum-answer" role="tabpanel">
+                    <table class="table is-indent">
+                        <tbody>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/2.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        accept可以多线程
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">我爱我自己</span> <span class="started">1 天前</span>
+                                        <span class="tags">插件</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">1</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/3.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        想写一个从youtube上下载视频的程序 求指点一下...
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">千杯不醉万杯不倒</span> <span class="started">2 天前</span>
+                                        <span class="tags">插件</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">2</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/4.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        请问ORACLE12C版本中的查询一个表的全部数据，以及...
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">包裹自己送出地球</span> <span class="started">3 天前</span>
+                                        <span class="tags">代码</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">3</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/5.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        安装使用rails 总不行。。菜鸡求解救
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">最终狂暴</span> <span class="started">4 天前</span>
+                                        <span class="tags">版规</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">4</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/6.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        Apache部分文件不能下载
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">我不是神但我是万能的</span> <span class="started">5 天前</span>
+                                        <span class="tags">资源</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">5</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/7.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        怎样用common
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">快乐是选择</span> <span class="started">6 天前</span>
+                                        <span class="tags">功能</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">6</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        <tr data-url="/data/examples/pages/forum-panel.tpl" data-toggle="slidePanel">
+                            <td class="pre-cell"></td>
+                            <td class="cell-60 responsive-hide">
+                                <a class="avatar" href="javascript:;">
+                                    <img class="img-responsive" src="http://cdn.admui.com/demo/iframe/1.2.0/images/portraits/8.jpg" alt="...">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="content">
+                                    <div class="title">
+                                        java 异常问题 在catch里面throw异常，然后在外面的...
+                                        <div class="flags responsive-hide">
+                                            <span class="sticky-top label label-round label-danger"><i class="icon wb-dropup" aria-hidden="true"></i>推荐</span>
+                                            <i class="locked icon wb-lock" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="metas">
+                                        <span class="author">妞真美</span> <span class="started">7 天前</span>
+                                        <span class="tags">主题</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="cell-80 forum-posts">
+                                <span class="num">7</span> <span class="unit">回复</span>
+                            </td>
+                            <td class="suf-cell"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ul class="pagination pagination-gap">
+                        <li class="disabled">
+                            <a href="javascript:;">上一页</a>
+                        </li>
+                        <li class="active">
+                            <a href="javascript:;">1 <span class="sr-only">(当前)</span></a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">2</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">3</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">4</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">5</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">下一页</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <button v-on:click="showNewsAdd" class="site-action btn-raised btn btn-success btn-floating" type="button">
+            <i class="icon wb-pencil" aria-hidden="true"></i>
+        </button>
+    </div>
+
+</div>
+
+<div class="modal" id="addTopicForm" aria-hidden="true" aria-labelledby="addTopicForm" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<script th:src="@{/plugins/jquery/slimscroll/1.3.3/js/jquery.slimscroll.js}" src="/plugins/jquery/slimscroll/1.3.3/js/jquery.slimscroll.js"></script>
+<script th:src="@{/plugins/admui/app.js}" src="http://cdn.admui.com/demo/iframe/1.2.0/themes/classic/base/js/app.js"></script>
+<!--工具Js-->
+<script th:src="@{/js/util/RestUtil.js}" src="/js/util/RestUtil.js" ></script>
+<script th:src="@{/js/util/TimeUtil.js}" src="/js/util/TimeUtil.js" ></script>
+<!--layer-->
+<script th:src="@{/plugins/layer/3.1.1/layer.js}" src="/plugins/layer/3.1.1/layer.js"></script>
+<!-- vue -->
+<script th:src="@{/plugins/vue/2.5.16/js/vue.min.js}" src="/plugins/vue/2.5.16/js/vue.min.js"></script>
+
+<!--引入页面js-->
+<script th:src="@{/js/web/news/newsList.js}"></script>
+</body>
+
+</html>

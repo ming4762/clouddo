@@ -15,7 +15,7 @@ import java.util.Map;
 @Mapper
 public interface UserMapper {
 
-    User get(Long userId);
+    User get(String userId);
 
     List<User> list(Map<String, Object> map);
 
@@ -25,9 +25,9 @@ public interface UserMapper {
 
     int update(User user);
 
-    int remove(Long userId);
+    int remove(String userId);
 
-    int batchRemove(Long[] userIds);
+    int batchRemove(String[] userIds);
 
-    Long[] listAllDept();
+    String[] listAllDept();
 }

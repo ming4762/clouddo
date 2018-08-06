@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Result<Set<String>> getPermissions(Long userId) {
+    public Result<Set<String>> getPermissions(String userId) {
         logger.error("通过用户ID获取权限信息异常，调用方法：{}，用户id：{}", "getPermissions", userId);
         return Result.failure("通过用户ID获取权限信息异常");
     }

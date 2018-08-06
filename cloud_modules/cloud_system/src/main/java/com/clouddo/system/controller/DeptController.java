@@ -50,9 +50,9 @@ public class DeptController extends AuthController {
 
 	@GetMapping("/add/{pId}")
 	@RequiresPermissions("system:sysDept:add")
-	String add(@PathVariable("pId") Long pId, Model model) {
+	String add(@PathVariable("pId") String pId, Model model) {
 		model.addAttribute("pId", pId);
-		if (pId == 0) {
+		if ("0".equals(pId)) {
 			model.addAttribute("pName", "总部门");
 		} else {
 			model.addAttribute("pName", sysDeptService.get(pId).getName());
@@ -62,7 +62,7 @@ public class DeptController extends AuthController {
 
 	@GetMapping("/edit/{deptId}")
 	@RequiresPermissions("system:sysDept:edit")
-	String edit(@PathVariable("deptId") Long deptId, Model model) {
+	String edit(@PathVariable("deptId") String deptId, Model model) {
 		Dept sysDept = sysDeptService.get(deptId);
 		model.addAttribute("sysDept", sysDept);
 		if(CommonConstants.DEPT_ROOT_ID.equals(sysDept.getParentId())) {
@@ -112,7 +112,7 @@ public class DeptController extends AuthController {
 	@PostMapping("/remove")
 	@ResponseBody
 	@RequiresPermissions("system:sysDept:remove")
-	public R remove(Long deptId) {
+	public R remove(String deptId) {
 		if (CommonConstants.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
@@ -137,7 +137,7 @@ public class DeptController extends AuthController {
 	@PostMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("system:sysDept:batchRemove")
-	public R remove(@RequestParam("ids[]") Long[] deptIds) {
+	public R remove(@RequestParam("ids[]") String[] deptIds) {
 		if (CommonConstants.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}

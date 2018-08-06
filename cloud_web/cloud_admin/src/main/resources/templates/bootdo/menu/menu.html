@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+
+</head>
+
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div  id="operationDiv" role="group" class="t-bar">
+						<button cloud-hasPermission="sys:menu:add" type="button"
+							class="btn btn-primary" title="在根节点下添加菜单" v-on:click="addMethod('0', '根目录')">
+							<i class="fa fa-plus" aria-hidden="true"></i>添加
+						</button>
+						<!--<button cloud-hasPermission="sys:menu:batchRemove" type="button"-->
+							<!--class="btn btn-danger" onclick="batchRemove()">-->
+							<!--<i class="fa fa-trash" aria-hidden="true"></i>删除-->
+						<!--</button>-->
+					</div>
+					<table id="grid-table" data-mobile-responsive="true">
+						<tr>
+							<th table-width="30px" table-field="menuId" table-sortable>ID</th>
+							<th table-width="100px" table-field="name" table-sortable>名称</th>
+							<th table-width="40px" table-align="center" table-field="icon" table-format="formatIcon" table-sortable>图标</th>
+							<th table-width="50px" table-align="center" table-field="type" table-format="formatType" table-sortable>类型</th>
+							<th table-width="100px" table-field="url" table-sortable>地址</th>
+							<th table-width="100px" table-field="perms" table-sortable>权限标识</th>
+							<th table-width="100px" table-field="id"  table-align="center" table-format="formatOperation" table-sortable >操作</th>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--添加修改div-->
+	<div id="saveUpdateDiv" style="display: none">
+		<div class="modal-header">
+			<h4 class="modal-title">添加菜单</h4>
+		</div>
+		<div class="modal-body container-fluid">
+			<el-form ref="form" :model="saveUpdateModel" label-width="80px" class="demo-dynamic">
+				<el-form-item label="上级菜单">
+					<input v-model="saveUpdateModel.parentId" style="display: none;"/>
+					<el-input :disabled="true" v-model="showModel.parentName"></el-input>
+				</el-form-item>
+				<el-form-item label="菜单类型">
+					<el-radio-group v-model="saveUpdateModel.type">
+						<el-radio label="0">目录</el-radio>
+						<el-radio label="1">菜单</el-radio>
+						<el-radio label="2">按钮</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="菜单名称">
+					<el-input v-model="saveUpdateModel.name"></el-input>
+				</el-form-item>
+				<el-form-item label="链接地址">
+					<el-input v-model="saveUpdateModel.url"></el-input>
+				</el-form-item>
+				<el-form-item label="权限标识">
+					<el-input v-model="saveUpdateModel.perms"></el-input>
+				</el-form-item>
+				<el-form-item label="序号">
+					<el-input v-model="saveUpdateModel.orderNum"></el-input>
+				</el-form-item>
+
+
+				<el-form-item label="序号">
+					<el-input v-model="saveUpdateModel.icon"></el-input>
+				</el-form-item>
+
+				<el-form-item label="图标">
+					<el-col :span="11">
+						<el-form-item >
+							<el-input v-model="saveUpdateModel.icon"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col class="line" :span="2"></el-col>
+					<el-col :span="11">
+						<el-form-item >
+							<el-button v-on:click="showIcons" type="primary" plain>选择图标</el-button>
+						</el-form-item>
+					</el-col>
+				</el-form-item>
+			</el-form>
+		</div>
+	</div>
+
+	<div th:include="include::footer"></div>
+	<!--引入表格控件-->
+	<script th:src="@{/plugins/jqTreeGrid/0.2.0/jquery.treegrid.min.js}" src="/js/appjs/sys/menu/menu.js"></script>
+	<script th:src="@{/plugins/jqTreeGrid/0.2.0/jquery.treegrid.extension.js}" src="/js/appjs/sys/menu/menu.js"></script>
+	<script th:src="@{/plugins/jqTreeGrid/0.2.0/jquery.treegrid.bootstrap3.js}" src="/js/appjs/sys/menu/menu.js"></script>
+
+	<script th:src="@{/js/table/Table.js}" src="/js/appjs/sys/menu/menu.js"></script>
+	<script th:src="@{/js/table/impl/BootstrapTableImpl.js}" src="/js/appjs/sys/menu/menu.js"></script>
+	<script th:src="@{/js/table/impl/BootstrapTreeTableImpl.js}" src="/js/appjs/sys/menu/menu.js"></script>
+
+	<script th:src="@{/js/page/DefaultPage.js}" src="/js/appjs/sys/menu/menu.js"></script>
+
+    <!--引入页面JS-->
+    <script th:src="@{/js/menu/menu.js}" src="/js/appjs/sys/menu/menu.js"></script>
+</body>
+
+</html>

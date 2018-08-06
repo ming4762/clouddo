@@ -1,3 +1,9 @@
+#配置日志
+logging:
+  level:
+    root: info
+    com.clouddo: debug
+
 spring:
   datasource:
     name: systemDB

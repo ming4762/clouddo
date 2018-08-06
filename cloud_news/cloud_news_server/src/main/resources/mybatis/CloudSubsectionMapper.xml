@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.news.server.mapper.CloudSubsectionMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		cloud_subsection
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="cloudSubsectionResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="subsectionId != null and subsectionId != ''">
+				AND A.SUBSECTION_ID LIKE '%${subsectionId}%'
+			</if>
+			<if test="subsectionName != null and subsectionName != ''">
+				AND A.SUBSECTION_NAME LIKE '%${subsectionName}%'
+			</if>
+			<if test="remark != null and remark != ''">
+				AND A.REMARK LIKE '%${remark}%'
+			</if>
+			<if test="columnId != null and columnId != ''">
+				AND A.COLUMN_ID LIKE '%${columnId}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.SUBSECTION_ID LIKE '%${keyword}%'
+
+				OR A.SUBSECTION_NAME LIKE '%${keyword}%'
+
+				OR A.REMARK LIKE '%${keyword}%'
+
+				OR A.COLUMN_ID LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					SUBSECTION_ID = #{item.subsectionId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND SUBSECTION_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="cloudSubsectionResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		SUBSECTION_ID = #{subsectionId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			SUBSECTION_NAME 		= 		#{item.subsectionName},
+    			REMARK 		= 		#{item.remark},
+    			COLUMN_ID 		= 		#{item.columnId}
+				<where>
+						and SUBSECTION_ID = #{item.subsectionId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.news.server.model.CloudSubsection" id="cloudSubsectionResultMap">
+    	<!-- id -->
+		<!-- 子栏目ID -->
+		<id column="SUBSECTION_ID" property="subsectionId"/>
+    	<!-- column -->
+		<!-- 子栏目名称 -->
+		<result column="SUBSECTION_NAME" property="subsectionName"/>
+		<!-- 备注 -->
+		<result column="REMARK" property="remark"/>
+		<!-- 栏目ID -->
+		<result column="COLUMN_ID" property="columnId"/>
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		SUBSECTION_ID,
+    		SUBSECTION_NAME,
+    		REMARK,
+    		COLUMN_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.subsectionId},
+			#{item.subsectionName},
+			#{item.remark},
+			#{item.columnId}
+	</sql>
+    		
+</mapper>
+
+

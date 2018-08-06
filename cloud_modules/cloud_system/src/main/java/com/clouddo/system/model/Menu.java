@@ -11,9 +11,9 @@ import java.util.Date;
 public class Menu implements Serializable {
 
     private static final long serialVersionUID = 935860417710621183L;
-    private Long menuId;
+    private String menuId;
     // 父菜单ID，一级菜单为0
-    private Long parentId;
+    private String parentId;
     // 菜单名称
     private String name;
     // 菜单URL
@@ -34,28 +34,28 @@ public class Menu implements Serializable {
     /**
      * 设置：
      */
-    public void setMenuId(Long menuId) {
+    public void setMenuId(String menuId) {
         this.menuId = menuId;
     }
 
     /**
      * 获取：
      */
-    public Long getMenuId() {
+    public String getMenuId() {
         return menuId;
     }
 
     /**
      * 设置：父菜单ID，一级菜单为0
      */
-    public void setParentId(Long parentId) {
+    public void setParentId(String parentId) {
         this.parentId = parentId;
     }
 
     /**
      * 获取：父菜单ID，一级菜单为0
      */
-    public Long getParentId() {
+    public String getParentId() {
         return parentId;
     }
 

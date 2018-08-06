@@ -60,6 +60,7 @@
 		useGeneratedKeys="true" keyProperty="menuId">
 		insert into sys_menu
 		(
+		menu_id,
 		parent_id,
 		name,
 		url,
@@ -72,6 +73,7 @@
 		)
 		values
 		(
+		#{menuId},
 		#{parentId},
 		#{name},
 		#{url},

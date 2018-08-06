@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @Mapper
 public interface RoleMenuMapper {
-    RoleMenu get(Long id);
+    RoleMenu get(String id);
 
     List<RoleMenu> list(Map<String, Object> map);
 
@@ -24,15 +24,15 @@ public interface RoleMenuMapper {
 
     int update(RoleMenu roleMenu);
 
-    int remove(Long id);
+    int remove(String id);
 
-    int batchRemove(Long[] ids);
+    int batchRemove(String[] ids);
 
-    List<Long> listMenuIdByRoleId(Long roleId);
+    List<String> listMenuIdByRoleId(String roleId);
 
-    int removeByRoleId(Long roleId);
+    int removeByRoleId(String roleId);
 
-    int removeByMenuId(Long menuId);
+    int removeByMenuId(String menuId);
 
     int batchSave(List<RoleMenu> list);
 }

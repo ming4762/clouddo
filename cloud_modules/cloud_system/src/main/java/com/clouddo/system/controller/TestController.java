@@ -2,8 +2,11 @@ package com.clouddo.system.controller;
 
 import com.clouddo.commons.common.util.message.Result;
 import com.clouddo.commons.meteo.util.MeteoDrawUtil;
+import com.netflix.discovery.EurekaClient;
 import org.meteoinfo.data.StationData;
 import org.meteoinfo.layer.VectorLayer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +22,12 @@ import java.util.Map;
 @Controller
 @RequestMapping("/test")
 public class TestController {
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+    @Autowired
+    private EurekaClient eurekaClient;
 
     @RequestMapping("/meteoTest")
     @ResponseBody

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn"><head>
+    <title>菜单管理</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="http://cdn.admui.com/demo/iframe/1.1.0/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="http://cdn.admui.com/demo/iframe/1.1.0/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="http://cdn.admui.com/demo/iframe/1.1.0/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="http://cdn.admui.com/demo/iframe/1.1.0/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie/'" />
+    <![endif]-->
+    <!--[if lt IE 10]>
+    <script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/media-match/media.match.min.js"></script>
+    <script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- 样式 -->
+    <link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/themes/classic/global/css/bootstrap.css">
+
+    <link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/themes/classic/base/css/site.css" id="admui-siteStyle">
+
+
+    <link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/fonts/web-icons/web-icons.css">
+    <link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/fonts/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/vendor/nestable/nestable.css">
+    <link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/vendor/html5sortable/sortable.css">
+    <link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/vendor/fontawesome-iconpicker/iconpicker.css">
+    <link rel="stylesheet" href="http://cdn.admui.com/demo/iframe/1.1.0/css/system/menu.css">
+
+    <script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/jquery/jquery.min.js"></script>
+    <script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+
+<body class="layout-full">
+
+<div class="page bg-white animation-fade page-menu height-full">
+    <div class="page-aside height-full">
+        <div class="page-aside-switch">
+            <i class="icon wb-chevron-left" aria-hidden="true"></i>
+            <i class="icon wb-chevron-right" aria-hidden="true"></i>
+        </div>
+        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;"><div class="page-aside-inner height-full" data-plugin="slimScroll" style="overflow: hidden; width: auto; height: 100%;">
+            <div class="page-aside-section">
+                <h5 class="page-aside-title">顶部菜单</h5>
+                <div class="list-group has-actions top-menu" data-sortable-id="0" aria-dropeffect="move">
+                    <script id="navMenu" type="text/html" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
+                        {{each navMenu}} {{if $index == 0}}
+                        <div class="list-group-item active" data-id="{{$value.id}}" data-text="{{$value.text}}" data-layer="{{$value.layer}}" data-icon="{{$value.icon}}" data-auth="{{$value.auth | json_str}}" data-children="{{$value.children | json_str}}">
+                            {{else}}
+                            <div class="list-group-item" data-id="{{$value.id}}" data-text="{{$value.text}}" data-icon="{{$value.icon}}" data-layer="{{$value.layer}}" data-auth="{{$value.auth | json_str}}" data-children="{{$value.children | json_str}}">
+                                {{/if}}
+                                <div class="list-content">
+                                    <i class="icon topmenu-icon {{$value.icon}}"></i>
+                                    <span class="top_menuname" data-children="{{$value.children}}">{{$value.text}}</span>
+                                    <div class="item-actions">
+                                        <span class="btn btn-pure btn-icon" data-tag="list-editable" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                        <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </script>
+
+                    <div class="list-group-item" data-id="11823" data-text="UI 示例" data-layer="02" data-icon="wb-library" data-auth="" data-children="[{&quot;layer&quot;:&quot;0201&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11824,&quot;text&quot;:&quot;UI 示例&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;020101&quot;,&quot;icon&quot;:&quot;fa-laptop&quot;,&quot;url&quot;:&quot;#&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11825,&quot;text&quot;:&quot;布局&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;02010101&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;#&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11826,&quot;text&quot;:&quot;栅格&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;0201010101&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/layouts/grids&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11827,&quot;text&quot;:&quot;基本栅格&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;0201010102&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/layouts/layout-grid&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11828,&quot;text&quot;:&quot;布局栅格&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;02010102&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11829,&quot;text&quot;:&quot;标题栏&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;0201010201&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/layouts/headers&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11830,&quot;text&quot;:&quot;普通&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;0201010202&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/layouts/bordered-header&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11831,&quot;text&quot;:&quot;带边框&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;02010103&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/layouts/panel-transition&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11832,&quot;text&quot;:&quot;面板动画&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010104&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/layouts/boxed&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11833,&quot;text&quot;:&quot;盒式布局&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010105&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/layouts/page-aside&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11834,&quot;text&quot;:&quot;侧边栏&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010106&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/layouts/two-columns&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11937,&quot;text&quot;:&quot;两栏式布局&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;020102&quot;,&quot;icon&quot;:&quot;fa-cube&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11835,&quot;text&quot;:&quot;基本&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;02010201&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11836,&quot;text&quot;:&quot;面板&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;0201020101&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/panel/structure&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11837,&quot;text&quot;:&quot;面板结构&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;0201020102&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/panel/actions&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11838,&quot;text&quot;:&quot;面板操作&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;02010202&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/panel/portlets&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11839,&quot;text&quot;:&quot;面板组件&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010203&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/buttons&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11840,&quot;text&quot;:&quot;按钮&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010204&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/icons&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11841,&quot;text&quot;:&quot;矢量图标&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010205&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/dropdowns&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11842,&quot;text&quot;:&quot;下拉菜单&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010206&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/list&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11843,&quot;text&quot;:&quot;列表组&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010207&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/tooltip-popover&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11844,&quot;text&quot;:&quot;气泡提示 &amp; 弹出框&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010208&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/modals&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11845,&quot;text&quot;:&quot;模态框&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010209&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/tabs-accordions&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11846,&quot;text&quot;:&quot;选项卡 &amp; 折叠面板&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010210&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/images&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11847,&quot;text&quot;:&quot;图片&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010211&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/badges-labels&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11848,&quot;text&quot;:&quot;徽章 &amp; 标签&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010212&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/carousel&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11849,&quot;text&quot;:&quot;轮播组件&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010213&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/typography&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11850,&quot;text&quot;:&quot;排版&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010214&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/progress-bars&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11938,&quot;text&quot;:&quot;进度条&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010215&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/colors&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11851,&quot;text&quot;:&quot;配色方案&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010216&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/basic/utilities&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11852,&quot;text&quot;:&quot;辅助类&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;020103&quot;,&quot;icon&quot;:&quot;fa-cubes&quot;,&quot;url&quot;:&quot;#&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11853,&quot;text&quot;:&quot;进阶&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;02010302&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/advanced/animation&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11855,&quot;text&quot;:&quot;动画&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010303&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/advanced/highlight&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11856,&quot;text&quot;:&quot;代码高亮&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010305&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/advanced/scrollbar&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11858,&quot;text&quot;:&quot;滚动条&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010306&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/advanced/rating&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11859,&quot;text&quot;:&quot;评分&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010307&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/advanced/context-menu&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11860,&quot;text&quot;:&quot;右键菜单&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010309&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/advanced/masonry&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11862,&quot;text&quot;:&quot;瀑布流布局&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010310&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11863,&quot;text&quot;:&quot;树形控件&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;0201031001&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/advanced/tree/jstree&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11864,&quot;text&quot;:&quot;JsTree&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;0201031002&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/advanced/tree/treeview&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11865,&quot;text&quot;:&quot;Treeview&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;02010311&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/advanced/toastr&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11866,&quot;text&quot;:&quot;Toaster 通知&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010312&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/advanced/sortable-nestable&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11867,&quot;text&quot;:&quot;拖动排序&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010313&quot;,&quot;icon&quot;:null,&quot;url&quot;:&quot;/components/advanced/layer&quot;,&quot;tenantId&quot;:null,&quot;id&quot;:99999999915,&quot;text&quot;:&quot;Layer 弹层&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;020104&quot;,&quot;icon&quot;:&quot;fa-plug&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11869,&quot;text&quot;:&quot;组件&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;02010401&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/alerts&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11870,&quot;text&quot;:&quot;警告框&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010402&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/ribbon&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11871,&quot;text&quot;:&quot;彩带&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010403&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/pricing-tables&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11872,&quot;text&quot;:&quot;价目表&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010404&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/overlay&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11873,&quot;text&quot;:&quot;遮罩&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010405&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/cover&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11874,&quot;text&quot;:&quot;覆盖层&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010406&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11875,&quot;text&quot;:&quot;时间轴&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;0201040601&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/timeline/simple&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11876,&quot;text&quot;:&quot;简单时间轴&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;0201040602&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/timeline/icons&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11877,&quot;text&quot;:&quot;图标时间轴&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;02010407&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/step&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11878,&quot;text&quot;:&quot;步骤条&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010408&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/comments&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11879,&quot;text&quot;:&quot;评论&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010409&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/media&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11880,&quot;text&quot;:&quot;媒体&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010410&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/chat&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11881,&quot;text&quot;:&quot;聊天窗口&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010411&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/testimonials&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11882,&quot;text&quot;:&quot;客户评价&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010412&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/nav&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11883,&quot;text&quot;:&quot;导航&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010413&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/navbars&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11884,&quot;text&quot;:&quot;导航条&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010414&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/blockquotes&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11885,&quot;text&quot;:&quot;引用&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010415&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/pagination&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11886,&quot;text&quot;:&quot;分页&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010416&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/structure/breadcrumbs&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11887,&quot;text&quot;:&quot;包屑导航&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;020105&quot;,&quot;icon&quot;:&quot;fa-puzzle-piece&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11888,&quot;text&quot;:&quot;小工具&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;02010501&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/widgets/statistics&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11889,&quot;text&quot;:&quot;统计&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010502&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/widgets/data&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11890,&quot;text&quot;:&quot;数据&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010503&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/widgets/blog&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11891,&quot;text&quot;:&quot;博客&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010504&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/widgets/chart&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11892,&quot;text&quot;:&quot;图表&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010505&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/widgets/social&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11893,&quot;text&quot;:&quot;社交&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;02010506&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/components/widgets/weather&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11894,&quot;text&quot;:&quot;天气&quot;,&quot;children&quot;:null}]}]}]" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
+
+                        <div class="list-content">
+                            <i class="icon topmenu-icon wb-library"></i>
+                            <span class="top_menuname" data-children="">UI 示例</span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon" data-tag="list-editable" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="list-group-item active" data-id="11933" data-text="页面示例" data-icon="wb-desktop" data-layer="04" data-auth="" data-children="[{&quot;layer&quot;:&quot;0401&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11895,&quot;text&quot;:&quot;页面示例&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;040101&quot;,&quot;icon&quot;:&quot;fa-home&quot;,&quot;url&quot;:&quot;#&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11896,&quot;text&quot;:&quot;首页示例&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;04010101&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/home/index-v1&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11897,&quot;text&quot;:&quot;首页示例 01&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010102&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/home/index-v2&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11898,&quot;text&quot;:&quot;首页示例 02&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010103&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/home/ecommerce&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11899,&quot;text&quot;:&quot;电商网站型&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010104&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/home/analytics&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11900,&quot;text&quot;:&quot;数据统计型&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010105&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/home/team/index&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11901,&quot;text&quot;:&quot;团队协作型&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;040102&quot;,&quot;icon&quot;:&quot;fa-files-o&quot;,&quot;url&quot;:&quot;#&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11902,&quot;text&quot;:&quot;常用页面&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;04010201&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/general/blank&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11903,&quot;text&quot;:&quot;空白页面&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010202&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/general/faq&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11904,&quot;text&quot;:&quot;帮助文档&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010203&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/general/gallery-grid&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11907,&quot;text&quot;:&quot;相册&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010204&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/general/search-result&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11908,&quot;text&quot;:&quot;搜索&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010205&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/general/user&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11909,&quot;text&quot;:&quot;客户列表&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010206&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/general/email&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11910,&quot;text&quot;:&quot;邮件模板&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010207&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/general/code-editor&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11943,&quot;text&quot;:&quot;代码编辑器&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010208&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/error&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11911,&quot;text&quot;:&quot;错误页面&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010209&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/noauth&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11946,&quot;text&quot;:&quot;没有权限&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010210&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/maintenance&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11944,&quot;text&quot;:&quot;网站维护中&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010211&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/locked&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11945,&quot;text&quot;:&quot;锁屏页面&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;040103&quot;,&quot;icon&quot;:&quot;fa-group&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11912,&quot;text&quot;:&quot;团队协作&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;04010301&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/calendar/index&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11913,&quot;text&quot;:&quot;日历&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010302&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/notebook&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11914,&quot;text&quot;:&quot;笔记&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010303&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/taskboard&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11915,&quot;text&quot;:&quot;任务看板&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010304&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11916,&quot;text&quot;:&quot;知识库&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;0401030401&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/documents/articles&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11917,&quot;text&quot;:&quot;列表&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;0401030402&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/documents/categories&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11918,&quot;text&quot;:&quot;分类&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;0401030403&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/documents/article&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11919,&quot;text&quot;:&quot;详情&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;04010305&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/forum/index&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11920,&quot;text&quot;:&quot;论坛&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010306&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/message&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11921,&quot;text&quot;:&quot;即时通讯&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010307&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/mailbox/index&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11922,&quot;text&quot;:&quot;邮箱&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010308&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/media&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11923,&quot;text&quot;:&quot;文件管理&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;04010309&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11924,&quot;text&quot;:&quot;项目&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;0401030901&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/projects/index&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11925,&quot;text&quot;:&quot;项目列表 01&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;0401030902&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/pages/team/work&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11926,&quot;text&quot;:&quot;项目列表 02&quot;,&quot;children&quot;:null}]}]}]}]" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
+
+                        <div class="list-content">
+                            <i class="icon topmenu-icon wb-desktop"></i>
+                            <span class="top_menuname" data-children="">页面示例</span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon" data-tag="list-editable" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="list-group-item" data-id="11928" data-text="表格示例" data-icon="wb-table" data-layer="05" data-auth="" data-children="[{&quot;layer&quot;:&quot;0501&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11929,&quot;text&quot;:&quot;表格示例&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;050101&quot;,&quot;icon&quot;:&quot;fa-table&quot;,&quot;url&quot;:&quot;/tables/basic/index&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11930,&quot;text&quot;:&quot;基本表格&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;050102&quot;,&quot;icon&quot;:&quot;fa-bars&quot;,&quot;url&quot;:&quot;/tables/treegrid/index&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11947,&quot;text&quot;:&quot;树形表格&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;050103&quot;,&quot;icon&quot;:&quot;fa-list-alt&quot;,&quot;url&quot;:&quot;#&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11931,&quot;text&quot;:&quot;DataTables&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;05010301&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/tables/data-tables/basic-init/zero-configuration&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11948,&quot;text&quot;:&quot;基本初始化&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;05010302&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/tables/data-tables/advanced-init/events-live&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11949,&quot;text&quot;:&quot;高级初始化&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;05010303&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/tables/data-tables/data-sources/dom&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11950,&quot;text&quot;:&quot;数据源&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;05010304&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/tables/data-tables/api/add-row&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11951,&quot;text&quot;:&quot;API&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;05010305&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/tables/data-tables/ajax/simple&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11952,&quot;text&quot;:&quot;AJAX&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;05010306&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/tables/data-tables/server-side/simple&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11953,&quot;text&quot;:&quot;服务器模式&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;05010307&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/tables/data-tables/plug-ins/api&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11954,&quot;text&quot;:&quot;插件&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;05010308&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/tables/data-tables/others/fixed-header&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11955,&quot;text&quot;:&quot;其他&quot;,&quot;children&quot;:null}]}]}]" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
+
+                        <div class="list-content">
+                            <i class="icon topmenu-icon wb-table"></i>
+                            <span class="top_menuname" data-children="">表格示例</span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon" data-tag="list-editable" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="list-group-item" data-id="11934" data-text="表单示例" data-icon="wb-order" data-layer="06" data-auth="" data-children="[{&quot;layer&quot;:&quot;0601&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11957,&quot;text&quot;:&quot;表单相关&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;060101&quot;,&quot;icon&quot;:&quot;fa-circle-o&quot;,&quot;url&quot;:&quot;/forms/general&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11958,&quot;text&quot;:&quot;基本表单&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;060102&quot;,&quot;icon&quot;:&quot;fa-google&quot;,&quot;url&quot;:&quot;/forms/material&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11959,&quot;text&quot;:&quot;质感风格&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;060103&quot;,&quot;icon&quot;:&quot;fa-toggle-off&quot;,&quot;url&quot;:&quot;/forms/advanced&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11960,&quot;text&quot;:&quot;高级表单&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;060104&quot;,&quot;icon&quot;:&quot;fa-indent&quot;,&quot;url&quot;:&quot;/forms/layouts&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11961,&quot;text&quot;:&quot;表单布局&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;060105&quot;,&quot;icon&quot;:&quot;fa-arrow-right&quot;,&quot;url&quot;:&quot;/forms/wizard&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11962,&quot;text&quot;:&quot;表单向导&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;060106&quot;,&quot;icon&quot;:&quot;fa-check-square-o&quot;,&quot;url&quot;:&quot;/forms/validation&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11963,&quot;text&quot;:&quot;表单验证&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;060107&quot;,&quot;icon&quot;:&quot;fa-at&quot;,&quot;url&quot;:&quot;/forms/masks&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11964,&quot;text&quot;:&quot;格式预设&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;060108&quot;,&quot;icon&quot;:&quot;fa-edit&quot;,&quot;url&quot;:&quot;/forms/editable&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11965,&quot;text&quot;:&quot;表单编辑&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;060109&quot;,&quot;icon&quot;:&quot;fa-list-alt&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11966,&quot;text&quot;:&quot;编辑器&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;06010901&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/forms/editor/summernote&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11967,&quot;text&quot;:&quot;文本编辑器&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;06010902&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/forms/editor/markdown&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11968,&quot;text&quot;:&quot;Markdown编辑器&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;06010903&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/forms/editor/ace&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11969,&quot;text&quot;:&quot;代码编辑器&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;060110&quot;,&quot;icon&quot;:&quot;fa-cut&quot;,&quot;url&quot;:&quot;/forms/image-cropping&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11970,&quot;text&quot;:&quot;图片裁剪&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;060111&quot;,&quot;icon&quot;:&quot;fa-cloud-upload&quot;,&quot;url&quot;:&quot;/forms/dropify&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11971,&quot;text&quot;:&quot;文件上传&quot;,&quot;children&quot;:null}]}]" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
+
+                        <div class="list-content">
+                            <i class="icon topmenu-icon wb-order"></i>
+                            <span class="top_menuname" data-children="">表单示例</span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon" data-tag="list-editable" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="list-group-item" data-id="11935" data-text="统计图表" data-icon="wb-pie-chart" data-layer="07" data-auth="" data-children="[{&quot;layer&quot;:&quot;0701&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;#&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11972,&quot;text&quot;:&quot;统计图表&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;070101&quot;,&quot;icon&quot;:&quot;fa-pie-chart&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11973,&quot;text&quot;:&quot;简单图表&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;07010101&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/charts/chartjs&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11974,&quot;text&quot;:&quot;Chart.js&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;07010102&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/charts/gauges&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11975,&quot;text&quot;:&quot;Gauges&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;07010103&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/charts/flot&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11976,&quot;text&quot;:&quot;Flot&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;07010104&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/charts/peity&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11977,&quot;text&quot;:&quot;Peity&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;07010105&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/charts/sparkline&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11978,&quot;text&quot;:&quot;Sparkline&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;07010106&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/charts/morris&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11979,&quot;text&quot;:&quot;Morris&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;07010107&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/charts/chartist&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11980,&quot;text&quot;:&quot;Chartist&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;07010108&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/charts/rickshaw&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11981,&quot;text&quot;:&quot;Rickshaw&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;07010109&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/charts/c3&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11982,&quot;text&quot;:&quot;C3&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;070102&quot;,&quot;icon&quot;:&quot;fa-area-chart&quot;,&quot;url&quot;:&quot;/charts/echarts&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11983,&quot;text&quot;:&quot;百度 Echarts&quot;,&quot;children&quot;:null}]}]" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
+
+                        <div class="list-content">
+                            <i class="icon topmenu-icon wb-pie-chart"></i>
+                            <span class="top_menuname" data-children="">统计图表</span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon" data-tag="list-editable" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="list-group-item" data-id="11936" data-text="菜单示例" data-icon="fa-bars" data-layer="08" data-auth="" data-children="[{&quot;layer&quot;:&quot;0801&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11939,&quot;text&quot;:&quot;菜单演示 01&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;080101&quot;,&quot;icon&quot;:&quot;fa-bars&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11941,&quot;text&quot;:&quot;一级菜单&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;08010101&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/menu&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11987,&quot;text&quot;:&quot;二级菜单 01&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;08010102&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/menu&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11988,&quot;text&quot;:&quot;二级菜单 02&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;08010103&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11985,&quot;text&quot;:&quot;二级菜单 03&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;0801010301&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/menu&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11984,&quot;text&quot;:&quot;三级菜单 001qqq&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;0801010302&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/menu&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11940,&quot;text&quot;:&quot;三级菜单 002&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;0801010303&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/menu&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11989,&quot;text&quot;:&quot;三级菜单 003&quot;,&quot;children&quot;:null}]}]},{&quot;layer&quot;:&quot;080102&quot;,&quot;icon&quot;:&quot;fa-bars&quot;,&quot;url&quot;:&quot;#&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11986,&quot;text&quot;:&quot;独立菜单&quot;,&quot;children&quot;:null}]},{&quot;layer&quot;:&quot;0802&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11942,&quot;text&quot;:&quot;菜单演示 02&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;080201&quot;,&quot;icon&quot;:&quot;fa-bars&quot;,&quot;url&quot;:&quot;/menu&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11990,&quot;text&quot;:&quot;独立菜单&quot;,&quot;children&quot;:null}]}]" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
+
+                        <div class="list-content">
+                            <i class="icon topmenu-icon fa-bars"></i>
+                            <span class="top_menuname" data-children="">菜单示例</span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon" data-tag="list-editable" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="list-group-item" data-id="11812" data-text="系统管理" data-icon="wb-settings" data-layer="09" data-auth="" data-children="[{&quot;layer&quot;:&quot;0901&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11813,&quot;text&quot;:&quot;系统信息&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;090101&quot;,&quot;icon&quot;:&quot;fa-bars&quot;,&quot;url&quot;:&quot;/system/menu&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11815,&quot;text&quot;:&quot;菜单管理&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;090102&quot;,&quot;icon&quot;:&quot;fa-street-view&quot;,&quot;url&quot;:&quot;/system/user&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11816,&quot;text&quot;:&quot;用户管理&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;090103&quot;,&quot;icon&quot;:&quot;fa-file-text-o&quot;,&quot;url&quot;:&quot;/system/log&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11817,&quot;text&quot;:&quot;日志信息&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;090104&quot;,&quot;icon&quot;:&quot;fa-shield&quot;,&quot;url&quot;:&quot;/system/blacklist&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11818,&quot;text&quot;:&quot;黑名单&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;090105&quot;,&quot;icon&quot;:&quot;fa-gear&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11819,&quot;text&quot;:&quot;系统设置&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;09010501&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/system/settings/display&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11820,&quot;text&quot;:&quot;显示设置&quot;,&quot;children&quot;:null},{&quot;layer&quot;:&quot;09010502&quot;,&quot;icon&quot;:&quot;&quot;,&quot;url&quot;:&quot;/system/settings/log&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11821,&quot;text&quot;:&quot;日志设置&quot;,&quot;children&quot;:null}]}]},{&quot;layer&quot;:&quot;0903&quot;,&quot;icon&quot;:&quot;&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11814,&quot;text&quot;:&quot;我的账户&quot;,&quot;children&quot;:[{&quot;layer&quot;:&quot;090301&quot;,&quot;icon&quot;:&quot;fa-key&quot;,&quot;url&quot;:&quot;/system/account&quot;,&quot;tenantId&quot;:8,&quot;id&quot;:11822,&quot;text&quot;:&quot;账户信息&quot;,&quot;children&quot;:null}]}]" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
+
+                        <div class="list-content">
+                            <i class="icon topmenu-icon wb-settings"></i>
+                            <span class="top_menuname" data-children="">系统管理</span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon" data-tag="list-editable" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="page-aside-section hidden-xs">
+                <a class="list-group-item" href="#" data-toggle="modal" data-target="#addMenu" data-page-height="300" data-page="/system/menu/_add-menu" id="addMenuToggle">
+                    <i class="icon wb-plus" aria-hidden="true"></i> 添加新菜单
+                </a>
+            </div>
+        </div><div class="slimScrollBar" style="background: rgb(118, 131, 143); width: 4px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 4px; z-index: 99; right: 1px; height: 663px;"></div><div class="slimScrollRail" style="width: 4px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 4px; background: rgb(204, 213, 219); opacity: 0.1; z-index: 90; right: 1px;"></div></div>
+    </div>
+    <div class="page-main has-submenu nav-submenu height-full">
+        <div class="no-submenu vertical-align-middle text-center hidden">
+            <div class="page-content vertical-align-middle">
+                <p>【 <i class="icon topmenu-icon"></i> <span class="nav-menu-name"></span> 】菜单下还没有子菜单</p>
+                <p>
+                    <button type="button" class="btn btn-round btn-success btn-outline btn-default add-submenu">
+                        添加菜单
+                    </button>
+                </p>
+            </div>
+        </div>
+
+        <div class="page-content height-full">
+            <div class="row height-full">
+                <div class="col-md-7 height-full">
+                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;"><nav class="height-full" data-plugin="slimScroll" style="overflow: hidden; width: auto; height: 100%;">
+                        <div class="dd menu-tree" data-plugin="nestable" data-max-depth="4"><ol class="dd-list animation-fade">
+
+                            <li class="dd-item dd-item-alt" data-id="11895" data-rank="2" data-auth="" data-type="" data-text="页面示例" data-url="" data-icon="">
+                                <div class="dd-handle"></div>
+
+                                <div class="dd-content active">
+
+                                    <span class="menu-name"> 页面示例</span>
+                                    <span class="pull-right fa-angle-right"></span>
+                                </div>
+
+                                <ol class="dd-list">
+
+                                    <li class="dd-item dd-item-alt" data-id="11896" data-rank="3" data-auth="" data-type="" data-text="首页示例" data-url="#" data-icon="fa-home">
+                                        <div class="dd-handle"></div>
+                                        <div class="dd-content">
+                                            <span class="menu-name"><i class="menu-icon fa-home"></i> 首页示例</span>
+                                            <span class="pull-right fa-angle-right"></span>
+                                        </div>
+
+                                        <ol class="dd-list">
+
+                                            <li class="dd-item dd-item-alt" data-id="11897" data-auth="" data-type="" data-rank="4" data-text="首页示例 01" data-url="/pages/home/index-v1" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 首页示例 01</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11898" data-auth="" data-type="" data-rank="4" data-text="首页示例 02" data-url="/pages/home/index-v2" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 首页示例 02</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11899" data-auth="" data-type="" data-rank="4" data-text="电商网站型" data-url="/pages/home/ecommerce" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 电商网站型</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11900" data-auth="" data-type="" data-rank="4" data-text="数据统计型" data-url="/pages/home/analytics" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 数据统计型</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11901" data-auth="" data-type="" data-rank="4" data-text="团队协作型" data-url="/pages/home/team/index" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 团队协作型</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                        </ol>
+
+                                    </li>
+
+                                    <li class="dd-item dd-item-alt" data-id="11902" data-rank="3" data-auth="" data-type="" data-text="常用页面" data-url="#" data-icon="fa-files-o">
+                                        <div class="dd-handle"></div>
+                                        <div class="dd-content">
+                                            <span class="menu-name"><i class="menu-icon fa-files-o"></i> 常用页面</span>
+                                            <span class="pull-right fa-angle-right"></span>
+                                        </div>
+
+                                        <ol class="dd-list">
+
+                                            <li class="dd-item dd-item-alt" data-id="11903" data-auth="" data-type="" data-rank="4" data-text="空白页面" data-url="/pages/general/blank" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 空白页面</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11904" data-auth="" data-type="" data-rank="4" data-text="帮助文档" data-url="/pages/general/faq" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 帮助文档</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11907" data-auth="" data-type="" data-rank="4" data-text="相册" data-url="/pages/general/gallery-grid" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 相册</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11908" data-auth="" data-type="" data-rank="4" data-text="搜索" data-url="/pages/general/search-result" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 搜索</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11909" data-auth="" data-type="" data-rank="4" data-text="客户列表" data-url="/pages/general/user" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 客户列表</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11910" data-auth="" data-type="" data-rank="4" data-text="邮件模板" data-url="/pages/general/email" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 邮件模板</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11943" data-auth="" data-type="" data-rank="4" data-text="代码编辑器" data-url="/pages/general/code-editor" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 代码编辑器</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11911" data-auth="" data-type="" data-rank="4" data-text="错误页面" data-url="/error" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 错误页面</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11946" data-auth="" data-type="" data-rank="4" data-text="没有权限" data-url="/noauth" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 没有权限</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11944" data-auth="" data-type="" data-rank="4" data-text="网站维护中" data-url="/maintenance" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 网站维护中</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11945" data-auth="" data-type="" data-rank="4" data-text="锁屏页面" data-url="/locked" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 锁屏页面</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                        </ol>
+
+                                    </li>
+
+                                    <li class="dd-item dd-item-alt" data-id="11912" data-rank="3" data-auth="" data-type="" data-text="团队协作" data-url="" data-icon="fa-group">
+                                        <div class="dd-handle"></div>
+                                        <div class="dd-content">
+                                            <span class="menu-name"><i class="menu-icon fa-group"></i> 团队协作</span>
+                                            <span class="pull-right fa-angle-right"></span>
+                                        </div>
+
+                                        <ol class="dd-list">
+
+                                            <li class="dd-item dd-item-alt" data-id="11913" data-auth="" data-type="" data-rank="4" data-text="日历" data-url="/pages/team/calendar/index" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 日历</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11914" data-auth="" data-type="" data-rank="4" data-text="笔记" data-url="/pages/team/notebook" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 笔记</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11915" data-auth="" data-type="" data-rank="4" data-text="任务看板" data-url="/pages/team/taskboard" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 任务看板</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11916" data-auth="" data-type="" data-rank="4" data-text="知识库" data-url="" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 知识库</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                                <ol class="dd-list">
+
+                                                    <li class="dd-item dd-item-alt" data-id="11917" data-rank="5" data-text="列表" data-auth="" data-type="" data-url="/pages/team/documents/articles" data-icon="">
+                                                        <div class="dd-handle"></div>
+                                                        <div class="dd-content">
+                                                            <span class="menu-name"> 列表</span>
+                                                            <span class="pull-right fa-angle-right"></span>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="dd-item dd-item-alt" data-id="11918" data-rank="5" data-text="分类" data-auth="" data-type="" data-url="/pages/team/documents/categories" data-icon="">
+                                                        <div class="dd-handle"></div>
+                                                        <div class="dd-content">
+                                                            <span class="menu-name"> 分类</span>
+                                                            <span class="pull-right fa-angle-right"></span>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="dd-item dd-item-alt" data-id="11919" data-rank="5" data-text="详情" data-auth="" data-type="" data-url="/pages/team/documents/article" data-icon="">
+                                                        <div class="dd-handle"></div>
+                                                        <div class="dd-content">
+                                                            <span class="menu-name"> 详情</span>
+                                                            <span class="pull-right fa-angle-right"></span>
+                                                        </div>
+                                                    </li>
+
+                                                </ol>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11920" data-auth="" data-type="" data-rank="4" data-text="论坛" data-url="/pages/team/forum/index" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 论坛</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11921" data-auth="" data-type="" data-rank="4" data-text="即时通讯" data-url="/pages/team/message" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 即时通讯</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11922" data-auth="" data-type="" data-rank="4" data-text="邮箱" data-url="/pages/team/mailbox/index" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 邮箱</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11923" data-auth="" data-type="" data-rank="4" data-text="文件管理" data-url="/pages/team/media" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 文件管理</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                            </li>
+
+                                            <li class="dd-item dd-item-alt" data-id="11924" data-auth="" data-type="" data-rank="4" data-text="项目" data-url="" data-icon="">
+                                                <div class="dd-handle"></div>
+                                                <div class="dd-content">
+                                                    <span class="menu-name"> 项目</span>
+                                                    <span class="pull-right fa-angle-right"></span>
+                                                </div>
+
+                                                <ol class="dd-list">
+
+                                                    <li class="dd-item dd-item-alt" data-id="11925" data-rank="5" data-text="项目列表 01" data-auth="" data-type="" data-url="/pages/team/projects/index" data-icon="">
+                                                        <div class="dd-handle"></div>
+                                                        <div class="dd-content">
+                                                            <span class="menu-name"> 项目列表 01</span>
+                                                            <span class="pull-right fa-angle-right"></span>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="dd-item dd-item-alt" data-id="11926" data-rank="5" data-text="项目列表 02" data-auth="" data-type="" data-url="/pages/team/work" data-icon="">
+                                                        <div class="dd-handle"></div>
+                                                        <div class="dd-content">
+                                                            <span class="menu-name"> 项目列表 02</span>
+                                                            <span class="pull-right fa-angle-right"></span>
+                                                        </div>
+                                                    </li>
+
+                                                </ol>
+
+                                            </li>
+
+                                        </ol>
+
+                                    </li>
+
+                                </ol>
+
+
+                            </li>
+
+                        </ol></div>
+                    </nav><div class="slimScrollBar" style="background: rgb(118, 131, 143); width: 4px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 4px; z-index: 99; right: 1px; height: 286.945px;"></div><div class="slimScrollRail" style="width: 4px; height: 100%; position: absolute; top: 0px; border-radius: 4px; background: rgb(204, 213, 219); opacity: 0.1; z-index: 90; right: 1px; display: none;"></div></div>
+                    <script id="ddContent" type="text/html">
+                        <span class="menu-name">{{if icon}}<i class="menu-icon {{icon}}"></i>{{/if}} {{text}}</span>
+                        <span class="pull-right fa-angle-right"></span>
+                    </script>
+                </div>
+                <div class="col-md-5 hidden-xs hidden-sm height-full">
+                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;"><nav class="height-full" data-plugin="slimScroll" style="overflow: hidden; width: auto; height: 100%;">
+                        <div class="menu-info"><div class="menu-box animation-fade">
+                            <h4>页面示例
+                                <button type="button" class="btn btn-pure btn-default btn-sm icon fa-trash-o pull-right delete-submenu"></button>
+                            </h4>
+                            <hr>
+                            <div class="form fv-form fv-form-bootstrap">
+                                <form id="compiler_submenu">
+                                    <div class="form-group">
+
+                                        <label class="control-label">名称：</label>
+                                        <input type="text" class="form-control" name="submenu_name" placeholder="菜单名称" value="页面示例">
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">权限分配：</label>
+                                        <div class="btn-group bootstrap-select show-tick form-control"><button type="button" class="btn dropdown-toggle btn-select" data-toggle="dropdown" title="已选中5项中的4项"><span class="filter-option pull-left">已选中5项中的4项</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open"><ul class="dropdown-menu inner" role="menu"><li data-original-index="0" class="selected"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">系统管理员</span><span class="icon wb-check check-mark"></span></a></li><li data-original-index="1" class="selected"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">管理员</span><span class="icon wb-check check-mark"></span></a></li><li data-original-index="2" class="selected"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">客服</span><span class="icon wb-check check-mark"></span></a></li><li data-original-index="3"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">老板</span><span class="icon wb-check check-mark"></span></a></li><li data-original-index="4" class="selected"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Java程序员</span><span class="icon wb-check check-mark"></span></a></li></ul></div><select class="form-control" name="submenu_limit" multiple="" data-selected-text-format="count" tabindex="-98"><option value="6" selected="">系统管理员</option><option value="7" selected="">管理员</option><option value="8" selected="">客服</option><option value="9">老板</option><option value="10" selected="">Java程序员</option></select></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div></div>
+                    </nav><div class="slimScrollBar" style="background: rgb(118, 131, 143); width: 4px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 4px; z-index: 99; right: 1px; height: 554px;"></div><div class="slimScrollRail" style="width: 4px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 4px; background: rgb(204, 213, 219); opacity: 0.1; z-index: 90; right: 1px;"></div></div>
+                </div>
+            </div>
+            <div class="btn-actions text-right">
+                <div class="btn-group dropup" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" id="addChlidMenu" data-toggle="dropdown" aria-expanded="false">
+                        新增菜单 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu animate" aria-labelledby="addChlidMenu" role="menu">
+                        <li class="add-submenu after" role="presentation">
+                            <a href="javascript:;" role="menuitem">当前菜单之后</a>
+                        </li>
+                        <li class="add-submenu append" role="presentation">
+                            <a href="javascript:;" role="menuitem">当前菜单的里面</a>
+                        </li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-success" id="saveChlidMenu">
+                    全部保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addMenu" aria-hidden="true" aria-labelledby="addMenu" role="dialog" tabindex="-1" style="display: none;">
+    <div class="modal-dialog modal-center">
+        <div class="modal-content"><iframe src="/system/menu/_add-menu" class="modal-iframe" style="height: 300px;"></iframe></div>
+    </div>
+</div>
+
+<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/artTemplate/template.min.js"></script>
+<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/nestable/jquery.nestable.min.js"></script>
+<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/fontawesome-iconpicker/fontawesome-iconpicker.min.js"></script>
+<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/html5sortable/html.sortable.min.js"></script>
+<script src="http://cdn.admui.com/demo/iframe/1.1.0/vendor/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="http://cdn.admui.com/demo/iframe/1.1.0/themes/classic/base/js/app.js"></script>
+<script src="http://cdn.admui.com/demo/iframe/1.1.0/js/system/menu/index.js"></script>
+
+
+</body></html>

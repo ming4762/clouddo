@@ -1,0 +1,42 @@
+#配置中心相关配置必须放在bootstrap文件中，
+#因为springboot的加载顺序为bootstrap文件、配置中心配置、application文件中
+spring:
+  application:
+    name: cloud-file-server
+  profiles:
+  #    激活指定配置文件
+    active: dev
+
+  cloud:
+    config:
+      label: master
+      discovery:
+        enabled: true
+        service-id: cloud_config
+  servlet:
+#    修改文件上传的限制大小
+    multipart:
+      max-file-size: 30MB
+      maxRequestSize: 100MB
+
+
+
+eureka:
+  client:
+    serviceUrl:
+#      服务中心地址
+      defaultZone: http://charsming.f3322.org:8761/eureka/
+
+
+
+
+
+auth:
+  user:
+#    是否启用用户权限认证
+    isUse: true
+  client:
+#    是否启用客户端权限认证
+#    客户端的ID密码
+    id: cloud-file-server
+    secret: cloud123456
