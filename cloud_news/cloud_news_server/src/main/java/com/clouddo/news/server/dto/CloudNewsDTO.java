@@ -4,6 +4,7 @@ import com.cloudd.commons.auth.model.User;
 import com.clouddo.news.server.model.CloudNews;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 新闻传输对象
@@ -25,6 +26,11 @@ public class CloudNewsDTO extends CloudNews implements Serializable {
      */
     private User modifier;
 
+    /**
+     * 评论信息
+     */
+    private List<CloudCommentDTO> cloudCommentDTOList;
+
 
     public User getModifier() {
         return modifier;
@@ -40,5 +46,13 @@ public class CloudNewsDTO extends CloudNews implements Serializable {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public List<CloudCommentDTO> getCloudCommentDTOList() {
+        return cloudCommentDTOList;
+    }
+
+    public void setCloudCommentDTOList(List<CloudCommentDTO> cloudCommentDTOList) {
+        this.cloudCommentDTOList = cloudCommentDTOList;
     }
 }

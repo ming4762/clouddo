@@ -107,9 +107,18 @@
 
 	<!--查询操作-->
 	<select id="get" resultMap="cloudNewsResultMap">
-        SELECT * FROM <include refid="tableName"></include>
-        WHERE
-		NEWS_ID = #{newsId}
+        SELECT
+		A.*,
+		B.COMMENT_ID, B.CONTENT COMMENT_CONTENT, B.CREATE_TIME COMMENT_CREATE_TIME, B.USER_ID COMMENT_USER_ID, B.PRAISE_NUM COMMENT_PRAISE_NUM,
+		C.FOLLOW_ID, C.CONTENT FOLLOW_CONTENT, C.CREATE_TIME FOLLOW_CREATE_TIME, C.USER_ID FOLLOW_USER_ID
+		FROM (
+        	SELECT * FROM <include refid="tableName"></include> WHERE NEWS_ID = #{newsId}
+        )A
+		<!--关联评论表-->
+		LEFT OUTER JOIN cloud_comment B ON A.NEWS_ID = B.NEWS_ID
+		<!--关联跟帖表表-->
+		LEFT OUTER JOIN cloud_follow C ON B.COMMENT_ID = C.COMMENT_ID
+		ORDER BY B.CREATE_TIME DESC, C.CREATE_TIME DESC
     </select>
 
 	<!--批量插入操作-->
@@ -182,7 +191,39 @@
 		<!-- 评论数 -->
 		<result column="COMMENT_NUM" property="commentNum"/>
 		<result column="SUBSECTION_ID" property="subsectionId"></result>
+
+		<!--评论信息-->
+		<collection property="cloudCommentDTOList" resultMap="cloudCommentResultMap"></collection>
     </resultMap>
+
+	<!--评论resultMap-->
+	<resultMap id="cloudCommentResultMap" type="com.clouddo.news.server.dto.CloudCommentDTO">
+		<id column="COMMENT_ID" property="commentId"/>
+		<result column="COMMENT_CONTENT" property="content"/>
+		<!-- 评论时间 -->
+		<result column="COMMENT_CREATE_TIME" property="createTime"/>
+		<!-- 评论人ID -->
+		<result column="COMMENT_USER_ID" property="userId"/>
+		<!-- 点赞数 -->
+		<result column="COMMENT_PRAISE_NUM" property="praiseNum"/>
+		<!-- 新闻ID -->
+		<result column="NEWS_ID" property="newsId"/>
+		<!--评论对应的跟帖信息-->
+		<collection property="cloudFollowList" resultMap="cloudFollowResultMap"></collection>
+	</resultMap>
+
+	<!--跟帖resultMap-->
+	<resultMap id="cloudFollowResultMap" type="com.clouddo.news.server.dto.CloudFollowDTO">
+		<!-- 跟帖ID -->
+		<id column="FOLLOW_ID" property="followId"/>
+		<!-- 内容 -->
+		<result column="FOLLOW_CONTENT" property="content"/>
+		<!-- 跟帖时间 -->
+		<result column="FOLLOW_CREATE_TIME" property="createTime"/>
+		<result column="FOLLOW_USER_ID" property="userId"/>
+		<!-- 评论ID -->
+		<result column="COMMENT_ID" property="commentId"/>
+	</resultMap>
     
     <!-- 字段 -->
 	<sql id="tableFields">

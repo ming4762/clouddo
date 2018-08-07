@@ -4,6 +4,8 @@ package com.clouddo.news.server.service.impl;
 import com.cloudd.commons.auth.model.User;
 import com.clouddo.commons.common.util.UUIDGenerator;
 import com.clouddo.commons.common.util.message.Result;
+import com.clouddo.news.server.dto.CloudCommentDTO;
+import com.clouddo.news.server.dto.CloudFollowDTO;
 import com.clouddo.news.server.dto.CloudNewsDTO;
 import com.clouddo.news.server.feign.UserService;
 import com.clouddo.news.server.mapper.CloudNewsMapper;
@@ -15,10 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -43,7 +42,7 @@ public class CloudNewsServiceImpl implements CloudNewsService {
     public List<CloudNewsDTO> list(Map<String, Object> parameterSet) {
         List<CloudNewsDTO> cloudNewsDTOList = this.cloudNewsMapper.list(parameterSet);
         //获取创建者、修改人信息
-        List<String> userIdList = new ArrayList<String>();
+        Set<String> userIdList = new HashSet<String>();
         for(CloudNewsDTO cloudNewsDTO : cloudNewsDTOList) {
             if(!StringUtils.isEmpty(cloudNewsDTO.getAuthorId())) {
                 userIdList.add(cloudNewsDTO.getAuthorId());
@@ -53,23 +52,14 @@ public class CloudNewsServiceImpl implements CloudNewsService {
             }
         }
         //查询用户
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("userIdList", userIdList);
-        Result<List<User>> result = this.userService.list(parameters);
-        List<User> userList = result == null ? null : result.getData();
-        if(userList != null) {
-            //遍历用户,使用 map<userId, user>存储用户信息
-            Map<String, User> userMap = new HashMap<String, User>();
-            for(User user : userList) {
-                userMap.put(user.getUserId(), user);
-            }
+        Map<String, User> userMap = this.mapUserById(userIdList);
+        if(userMap != null) {
             //遍历新闻数据,添加用户信息
             for(CloudNewsDTO cloudNewsDTO : cloudNewsDTOList) {
                 cloudNewsDTO.setAuthor(userMap.get(cloudNewsDTO.getAuthorId()));
                 cloudNewsDTO.setModifier(userMap.get(cloudNewsDTO.getModifier()));
             }
         }
-
         return cloudNewsDTOList;
     }
 
@@ -183,8 +173,88 @@ public class CloudNewsServiceImpl implements CloudNewsService {
     * @return 实体信息
     */
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public CloudNews get(CloudNews object) {
-        return this.cloudNewsMapper.get(object);
+    public CloudNewsDTO get(CloudNews object) {
+        CloudNewsDTO cloudNewsDTO = this.cloudNewsMapper.get(object);
+        if(cloudNewsDTO == null) {
+            return null;
+        }
+        //遍历对象获取用户信息
+        Set<String> userIdList = new HashSet<String>();
+        //添加作者信息
+        if(!StringUtils.isEmpty(cloudNewsDTO.getAuthorId())) {
+            userIdList.add(cloudNewsDTO.getAuthorId());
+        }
+        //添加修改者ID
+        if(StringUtils.isEmpty(cloudNewsDTO.getModifierId())) {
+            userIdList.add(cloudNewsDTO.getModifierId());
+        }
+        //获取评论信息的人员信息
+        //TODO 待完善 如果评论跟帖数量多会导致性能下降，考虑新闻、评论分两次请求查询，评论采用分页的方式
+        if(cloudNewsDTO.getCloudCommentDTOList() == null || cloudNewsDTO.getCloudCommentDTOList().size() == 0 || StringUtils.isEmpty(cloudNewsDTO.getCloudCommentDTOList().get(0).getCommentId())) {
+            cloudNewsDTO.setCloudCommentDTOList(null);
+        } else {
+            //遍历跟帖信息
+            for(CloudCommentDTO cloudCommentDTO : cloudNewsDTO.getCloudCommentDTOList()) {
+                userIdList.add(cloudCommentDTO.getUserId());
+                //获取跟帖信息对应的人员信息
+                if(cloudCommentDTO.getCloudFollowList() == null || cloudCommentDTO.getCloudFollowList().size() == 0 || StringUtils.isEmpty(cloudCommentDTO.getCloudFollowList().get(0).getFollowId())) {
+                    cloudCommentDTO.setCloudFollowList(null);
+                } else {
+                    for(CloudFollowDTO cloudFollowDTO : cloudCommentDTO.getCloudFollowList()) {
+                        userIdList.add(cloudFollowDTO.getUserId());
+                    }
+                }
+            }
+        }
+        //查询人员信息
+        Map<String, User> userMap = this.mapUserById(userIdList);
+        if(userMap != null) {
+            cloudNewsDTO.setAuthor(userMap.get(cloudNewsDTO.getAuthorId()));
+            cloudNewsDTO.setModifier(userMap.get(cloudNewsDTO.getModifierId()));
+            if(cloudNewsDTO.getCloudCommentDTOList() != null) {
+                //遍历评论信息设置人员信息
+                for(CloudCommentDTO cloudCommentDTO : cloudNewsDTO.getCloudCommentDTOList()) {
+                    cloudCommentDTO.setCreateUser(userMap.get(cloudCommentDTO.getUserId()));
+                    if(cloudCommentDTO.getCloudFollowList() != null) {
+                        //遍历跟帖信息设置跟帖人
+                        for(CloudFollowDTO cloudFollowDTO : cloudCommentDTO.getCloudFollowList()) {
+                            cloudFollowDTO.setCreateUser(userMap.get(cloudFollowDTO.getUserId()));
+                        }
+                    }
+                }
+            }
+        }
+
+        return cloudNewsDTO;
+    }
+
+
+    /**
+     * 通过用户ID列表获取用户信息
+     * 将用户已用户ID：用户放入map中
+     * @param userIdList
+     * @return
+     */
+    private Map<String, User> mapUserById(Set<String> userIdList) {
+        //查询用户
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("userIdList", userIdList);
+        Result<List<User>> result = this.userService.list(parameters);
+        List<User> userList = result == null ? null : result.getData();
+        if(userList != null) {
+            //遍历用户,使用 map<userId, user>存储用户信息
+            Map<String, User> userMap = new HashMap<String, User>(0);
+            for(User user : userList) {
+                userMap.put(user.getUserId(), user);
+            }
+            return userMap;
+        }
+        return null;
     }
 }
+
+
+
+
+
+

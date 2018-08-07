@@ -4,6 +4,7 @@ package com.clouddo.news.server.controller;
 import com.cloudd.commons.auth.annotation.RequiresPermissions;
 import com.cloudd.commons.auth.controller.AuthController;
 import com.clouddo.commons.common.util.message.Result;
+import com.clouddo.log.common.annotation.Log;
 import com.clouddo.news.server.dto.CloudNewsDTO;
 import com.clouddo.news.server.model.CloudNews;
 import com.clouddo.news.server.service.CloudNewsService;
@@ -165,8 +166,10 @@ public class CloudNewsController extends AuthController<CloudNews> {
             @ApiImplicitParam(name = "cloudNews", value = "实体类（内含要获取实体类的主键信息）", required = true, dataType = "Object", paramType = "query"),
     			@ApiImplicitParam(name = "authority", value = "header里的认证串信息", required = true, dataType = "string", paramType = "header")
     })
-    @GetMapping("/{id}")
+    @PostMapping("/get/{id}")
     @ResponseBody
+    @Log("查询新闻详情")
+    @RequiresPermissions("news:cloudNews:get")
     public Object get(@PathVariable String id) {
        try {
            CloudNews cloudNews = new CloudNews();

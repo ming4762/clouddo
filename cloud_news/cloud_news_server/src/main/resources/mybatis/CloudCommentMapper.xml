@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.news.server.mapper.CloudCommentMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		cloud_comment
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="findAll" resultMap="cloudCommentResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="commentId != null and commentId != ''">
+				AND A.COMMENT_ID LIKE '%${commentId}%'
+			</if>
+			<if test="content != null and content != ''">
+				AND A.CONTENT LIKE '%${content}%'
+			</if>
+			<if test="createTime != null and createTime != ''">
+				AND A.CREATE_TIME LIKE '%${createTime}%'
+			</if>
+			<if test="userId != null and userId != ''">
+				AND A.USER_ID LIKE '%${userId}%'
+			</if>
+			<if test="praiseNum != null and praiseNum != ''">
+				AND A.PRAISE_NUM LIKE '%${praiseNum}%'
+			</if>
+			<if test="newsId != null and newsId != ''">
+				AND A.NEWS_ID LIKE '%${newsId}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.COMMENT_ID LIKE '%${keyword}%'
+
+				OR A.CONTENT LIKE '%${keyword}%'
+
+				OR A.CREATE_TIME LIKE '%${keyword}%'
+
+				OR A.USER_ID LIKE '%${keyword}%'
+
+				OR A.PRAISE_NUM LIKE '%${keyword}%'
+
+				OR A.NEWS_ID LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					COMMENT_ID = #{item.commentId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND COMMENT_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="cloudCommentResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		COMMENT_ID = #{commentId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			CONTENT 		= 		#{item.content},
+    			CREATE_TIME 		= 		#{item.createTime},
+    			USER_ID 		= 		#{item.userId},
+    			PRAISE_NUM 		= 		#{item.praiseNum},
+    			NEWS_ID 		= 		#{item.newsId}
+				<where>
+						and COMMENT_ID = #{item.commentId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.news.server.model.CloudComment" id="cloudCommentResultMap">
+    	<!-- id -->
+		<!-- 评论ID -->
+		<id column="COMMENT_ID" property="commentId"/>
+		<!-- column -->
+		<!-- 评论内容 -->
+		<result column="CONTENT" property="content"/>
+		<!-- 评论时间 -->
+		<result column="CREATE_TIME" property="createTime"/>
+		<!-- 评论人ID -->
+		<result column="USER_ID" property="userId"/>
+		<!-- 点赞数 -->
+		<result column="PRAISE_NUM" property="praiseNum"/>
+		<!-- 新闻ID -->
+		<result column="NEWS_ID" property="newsId"/>
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		COMMENT_ID,
+    		CONTENT,
+    		CREATE_TIME,
+    		USER_ID,
+    		PRAISE_NUM,
+    		NEWS_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.commentId},
+			#{item.content},
+			#{item.createTime},
+			#{item.userId},
+			#{item.praiseNum},
+			#{item.newsId}
+	</sql>
+    		
+</mapper>
+
+

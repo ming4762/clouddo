@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.news.server.mapper.CloudFollowMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		cloud_follow
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="findAll" resultMap="cloudFollowResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="followId != null and followId != ''">
+				AND A.FOLLOW_ID LIKE '%${followId}%'
+			</if>
+			<if test="content != null and content != ''">
+				AND A.CONTENT LIKE '%${content}%'
+			</if>
+			<if test="createTime != null and createTime != ''">
+				AND A.CREATE_TIME LIKE '%${createTime}%'
+			</if>
+			<if test="commentId != null and commentId != ''">
+				AND A.COMMENT_ID LIKE '%${commentId}%'
+			</if>
+			<if test="userId != null and userId != ''">
+				AND A.USER_ID LIKE '%${userId}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.FOLLOW_ID LIKE '%${keyword}%'
+
+				OR A.CONTENT LIKE '%${keyword}%'
+
+				OR A.CREATE_TIME LIKE '%${keyword}%'
+
+				OR A.COMMENT_ID LIKE '%${keyword}%'
+
+				OR A.USER_ID LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					FOLLOW_ID = #{item.followId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND FOLLOW_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="cloudFollowResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		FOLLOW_ID = #{followId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			CONTENT 		= 		#{item.content},
+    			CREATE_TIME 		= 		#{item.createTime},
+    			COMMENT_ID 		= 		#{item.commentId},
+    			USER_ID 		= 		#{item.userId}
+				<where>
+						and FOLLOW_ID = #{item.followId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.news.server.model.CloudFollow" id="cloudFollowResultMap">
+    	<!-- id -->
+	<!-- 跟帖ID -->
+	<id column="FOLLOW_ID" property="followId"/>
+    	<!-- column -->
+	<!-- 内容 -->
+	<result column="CONTENT" property="content"/> 
+	<!-- 跟帖时间 -->
+	<result column="CREATE_TIME" property="createTime"/> 
+	<!-- 评论ID -->
+	<result column="COMMENT_ID" property="commentId"/> 
+	<!-- 用户ID -->
+	<result column="USER_ID" property="userId"/> 
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		FOLLOW_ID,
+    		CONTENT,
+    		CREATE_TIME,
+    		COMMENT_ID,
+    		USER_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.followId},
+			#{item.content},
+			#{item.createTime},
+			#{item.commentId},
+			#{item.userId}
+	</sql>
+    		
+</mapper>
+
+
