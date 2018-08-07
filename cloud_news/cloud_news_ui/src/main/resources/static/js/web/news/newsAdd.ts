@@ -115,6 +115,9 @@ namespace com.clouddo.news.ui.web {
                         ],
                         subtitle: [
                             {required: false, message: '请输入副标题', trigger: 'blur'}
+                        ],
+                        subsectionId: [
+                            {required: false, message: '请输入副栏目', trigger: 'change'}
                         ]
                     }
                 },
@@ -174,6 +177,8 @@ namespace com.clouddo.news.ui.web {
                             } else {
                                 layer.alert('添加成功！', {icon: 1});
                                 pageModel.formVue.$refs[formName].resetFields();
+                                pageModel.formVue.imageUrl = "";
+                                pageModel.ckeditor.
                             }
                         }
 

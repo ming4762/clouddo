@@ -30,6 +30,14 @@ namespace com.clouddo.ui.CKeditor {
         }
 
         /**
+         * 设置ckeditor数据
+         * @param {string} data
+         */
+        public setData(data: string) : void {
+            this.editor.setData(data);
+        }
+
+        /**
          * 将图片地址转为thymeleaf标签地址
          */
         public convertImageUrl(data: string, ) : string {

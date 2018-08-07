@@ -26,7 +26,7 @@ eureka:
 #      服务中心地址
       defaultZone: http://charsming.f3322.org:8761/eureka/
   instance:
-
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${spring.application.instance_id:${server.port}}
     prefer-ip-address: true
 server:
   port: 8763

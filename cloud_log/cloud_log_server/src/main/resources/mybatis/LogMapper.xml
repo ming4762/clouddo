@@ -7,11 +7,11 @@
 		cloud_log
 	</sql>
 
-	<select id="get" resultType="com.clouddo.commons.common.model.LogModel">
+	<select id="get" resultType="com.clouddo.log.common.model.LogModel">
 		select id,user_id,username,operation,time,method,params,ip,gmt_create from sys_log where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.clouddo.commons.common.model.LogModel">
+	<select id="list" resultType="com.clouddo.log.common.model.LogModel">
 		select id,user_id,username,operation,time,method,params,ip,gmt_create from sys_log
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -52,9 +52,10 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.clouddo.commons.common.model.LogModel" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.clouddo.log.common.model.LogModel" useGeneratedKeys="true" keyProperty="id">
 		insert into <include refid="tablename"></include>
 		(
+			id,
 			user_id, 
 			username, 
 			operation, 
@@ -66,6 +67,7 @@
 		)
 		values
 		(
+			#{id},
 			#{userId}, 
 			#{username}, 
 			#{operation}, 
@@ -77,7 +79,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.clouddo.commons.common.model.LogModel">
+	<update id="update" parameterType="com.clouddo.log.common.model.LogModel">
 		update <include refid="tablename"></include>
 		<set>
 			<if test="userId != null">user_id = #{userId}, </if>

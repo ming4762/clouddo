@@ -1,6 +1,6 @@
 package com.clouddo.log.server.mapper;
 
-import com.clouddo.commons.common.model.LogModel;
+import com.clouddo.log.common.model.LogModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

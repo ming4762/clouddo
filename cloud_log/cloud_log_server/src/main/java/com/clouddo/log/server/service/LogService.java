@@ -1,6 +1,7 @@
 package com.clouddo.log.server.service;
 
-import com.clouddo.commons.common.model.LogModel;
+
+import com.clouddo.log.common.model.LogModel;
 
 public interface LogService {
 

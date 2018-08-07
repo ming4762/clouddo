@@ -56,7 +56,22 @@
 			<artifactId>mssql-jdbc</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-	</dependencies>
+		<!--日志工具包-->
+        <dependency>
+            <groupId>com.clouddo</groupId>
+            <artifactId>cloud_log_common</artifactId>
+            <version>${cloud_log_common.version}</version>
+        </dependency>
+    </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 
 </project>

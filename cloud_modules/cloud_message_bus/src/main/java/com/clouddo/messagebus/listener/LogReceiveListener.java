@@ -1,7 +1,7 @@
 package com.clouddo.messagebus.listener;
 
 import com.clouddo.commons.common.constatns.MqQueueConstant;
-import com.clouddo.commons.common.model.LogModel;
+import com.clouddo.log.common.model.LogModel;
 import com.clouddo.messagebus.feign.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

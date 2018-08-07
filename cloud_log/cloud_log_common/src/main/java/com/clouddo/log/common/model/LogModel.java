@@ -1,4 +1,4 @@
-package com.clouddo.commons.common.model;
+package com.clouddo.log.common.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

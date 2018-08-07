@@ -1,0 +1,7 @@
+spring:
+  #rabbitmq 连接信息
+  rabbitmq:
+    host: charsming.f3322.org
+    port: 5672
+    username: test
+    password: test

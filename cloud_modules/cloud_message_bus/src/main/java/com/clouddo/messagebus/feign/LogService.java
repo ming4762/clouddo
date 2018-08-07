@@ -1,6 +1,6 @@
 package com.clouddo.messagebus.feign;
 
-import com.clouddo.commons.common.model.LogModel;
+import com.clouddo.log.common.model.LogModel;
 import com.clouddo.messagebus.feign.impl.LogServiceImpl;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;

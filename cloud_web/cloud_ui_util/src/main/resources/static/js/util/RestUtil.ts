@@ -13,12 +13,23 @@ namespace com.clouddo.ui.util {
         //存储权限的key
         public static PERMISSIONS_KEY : string = "userPermissions";
 
+
+        public static BACKGROUND_URL : string = "backgroundURL";
+
         /**
          * 获取后台服务地址
          * @returns {string}
          */
         public static getBackgroundURL() : string {
-            return localStorage.getItem("backgroundURL");
+            return localStorage.getItem(RestUtil.BACKGROUND_URL);
+        }
+
+        /**
+         * 设置后台服务地址
+         * @param {string} backgroundURL
+         */
+        public static setBackgroundURL(backgroundURL: string) : void {
+            localStorage.setItem("RestUtil.BACKGROUND_URL", backgroundURL);
         }
 
         /**

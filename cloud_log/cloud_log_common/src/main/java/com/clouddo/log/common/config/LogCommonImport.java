@@ -1,5 +1,6 @@
 package com.clouddo.log.common.config;
 
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,6 +12,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan
+@EnableFeignClients(basePackages = {
+        "com.clouddo.log.common.feign"
+})
 public class LogCommonImport {
 
 }

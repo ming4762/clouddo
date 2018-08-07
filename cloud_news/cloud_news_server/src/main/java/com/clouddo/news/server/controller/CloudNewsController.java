@@ -71,13 +71,6 @@ public class CloudNewsController extends AuthController<CloudNews> {
    	        e.printStackTrace();
    	        return Result.failure(e.getMessage());
         }
-
-//        Map<String, Object> returnData = new HashMap<String, Object>();
-//        Page page = PageHelper.startPage(parameterSet, CloudNews.class);
-//        List<CloudNews> data = this.cloudNewsService.findAll(parameterSet);
-//        returnData.put("rows", data);
-//        returnData.put("records", page.getTotalResult());
-//        returnData.put("total", page.getTotalPage());
     }
 
     /**
@@ -126,6 +119,7 @@ public class CloudNewsController extends AuthController<CloudNews> {
     })
     @PostMapping("/insert")
     @ResponseBody
+    @Log("发布新闻")
     public Object insert(@RequestBody CloudNews cloudNews) {
         //设置创建人、创建时间
         try {
@@ -168,7 +162,7 @@ public class CloudNewsController extends AuthController<CloudNews> {
     })
     @PostMapping("/get/{id}")
     @ResponseBody
-    @Log("查询新闻详情")
+//    @Log("查询新闻详情")
     @RequiresPermissions("news:cloudNews:get")
     public Object get(@PathVariable String id) {
        try {

@@ -1,10 +1,12 @@
 package com.clouddo.log.server.controller;
 
 import com.cloudd.commons.auth.controller.AuthController;
-import com.clouddo.commons.common.model.LogModel;
+import com.clouddo.commons.common.util.UUIDGenerator;
 import com.clouddo.commons.common.util.message.Result;
+import com.clouddo.log.common.model.LogModel;
 import com.clouddo.log.server.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +32,9 @@ public class LogController extends AuthController {
     @RequestMapping("/saveLog")
     public Result saveLog(@RequestBody LogModel logModel) {
         try {
+            if (StringUtils.isEmpty(logModel.getId())) {
+                logModel.setId(UUIDGenerator.getUUID());
+            }
             logService.save(logModel);
             return Result.success("日志保存成功");
         } catch (Exception e) {
