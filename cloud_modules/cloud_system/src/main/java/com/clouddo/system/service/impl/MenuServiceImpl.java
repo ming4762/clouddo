@@ -2,6 +2,7 @@ package com.clouddo.system.service.impl;
 
 import com.clouddo.commons.common.model.Tree;
 import com.clouddo.commons.common.util.BuildTree;
+import com.clouddo.system.dto.MenuDTO;
 import com.clouddo.system.mapper.MenuMapper;
 import com.clouddo.system.mapper.RoleMenuMapper;
 import com.clouddo.system.model.Menu;
@@ -49,8 +50,17 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public List<Menu> list(Map<String, Object> params) {
-		List<Menu> menus = menuMapper.list(params);
+	public List<MenuDTO> list(Map<String, Object> params) {
+		List<MenuDTO> menus = menuMapper.list(params);
+		//去除为null的的list，mybatis问题
+		for(MenuDTO menuDTO : menus) {
+			if(menuDTO.getChildren() == null || menuDTO.getChildren().size() == 0 || StringUtils.isEmpty(menuDTO.getChildren().get(0).getMenuId())) {
+				menuDTO.setChildren(null);
+				menuDTO.setIsLeaf(true);
+			} else {
+				menuDTO.setIsLeaf(false);
+			}
+		}
 		return menus;
 	}
 
@@ -83,7 +93,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public Tree<Menu> getTree() {
 		List<Tree<Menu>> trees = new ArrayList<Tree<Menu>>();
-		List<Menu> Menus = menuMapper.list(new HashMap<>(16));
+		List<MenuDTO> Menus = menuMapper.list(new HashMap<>(16));
 		for (Menu sysMenu : Menus) {
 			Tree<Menu> tree = new Tree<Menu>();
 			tree.setId(sysMenu.getMenuId().toString());
@@ -99,7 +109,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public Tree<Menu> getTree(String id) {
 		// 根据roleId查询权限
-		List<Menu> menus = menuMapper.list(new HashMap<String, Object>(16));
+		List<MenuDTO> menus = menuMapper.list(new HashMap<String, Object>(16));
 		List<String> menuIds = roleMenuMapper.listMenuIdByRoleId(id);
 		List<String> temp = menuIds;
 		for (Menu menu : menus) {
@@ -108,7 +118,7 @@ public class MenuServiceImpl implements MenuService {
 			}
 		}
 		List<Tree<Menu>> trees = new ArrayList<Tree<Menu>>();
-		List<Menu> Menus = menuMapper.list(new HashMap<String, Object>(16));
+		List<MenuDTO> Menus = menuMapper.list(new HashMap<String, Object>(16));
 		for (Menu sysMenu : Menus) {
 			Tree<Menu> tree = new Tree<Menu>();
 			tree.setId(sysMenu.getMenuId().toString());
@@ -161,4 +171,46 @@ public class MenuServiceImpl implements MenuService {
 		return list;
 	}
 
+	/**
+	 * 批量删除接口
+	 * @param menuList
+	 * @return
+	 */
+	@Override
+	public Integer batchDelete(List<Menu> menuList) {
+		Set<String> idSet = new HashSet<String>();
+		for(Menu menu : menuList) {
+			idSet.add(menu.getMenuId());
+		}
+		return this.batchDelete(idSet);
+	}
+
+	/**
+	 * 批量删除接口
+	 * @param ids
+	 * @return
+	 */
+	@Override
+	public Integer batchDelete(Set<String> ids) {
+		//需要删除菜单和菜单的下级
+		Set<String> allIds = new HashSet<String>();
+		this.getChildrenIds(allIds, ids);
+		allIds.addAll(ids);
+
+		return this.menuMapper.batchDelete(allIds);
+	}
+
+	/**
+	 * 使用递归获取所有下级菜单ID
+	 * @param allIds
+	 * @param ids
+	 */
+	private void getChildrenIds(Set<String> allIds, Set<String> ids) {
+		//查询下级
+		Set<String> childIds = this.menuMapper.listChildId(ids);
+		if (childIds != null && childIds.size() > 0) {
+			allIds.addAll(childIds);
+			this.getChildrenIds(allIds, childIds);
+		}
+	}
 }

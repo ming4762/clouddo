@@ -1,5 +1,7 @@
 package com.clouddo.commons.common.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
@@ -22,6 +24,9 @@ public class BaseController<T> {
      * 起始记录数
      */
     public static final String OFFSET = "offset";
+
+    public static final String ROWS= "rows";
+    public static final String TOTAL = "total";
 
     /**
      * 排序字段
@@ -68,6 +73,26 @@ public class BaseController<T> {
             return orderMessage.toString();
         }
         return null;
+    }
+
+    /**
+     * 进行分页
+     * @param parameterSet
+     * @return
+     * @throws NoSuchFieldException
+     */
+    protected Page paging(Map<String, Object> parameterSet) throws NoSuchFieldException {
+        Page page = null;
+        if(parameterSet.get(PAGE_SIZE) != null) {
+            Integer limit = (Integer) parameterSet.get(PAGE_SIZE);
+            Integer offset = parameterSet.get(OFFSET) == null ? 0 : (Integer) parameterSet.get(OFFSET);
+            String order = this.analysisOrder(parameterSet);
+            if(!StringUtils.isEmpty(order)) {
+                PageHelper.orderBy(order);
+            }
+            page = PageHelper.offsetPage(offset, limit);
+        }
+        return page;
     }
 
 }

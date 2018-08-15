@@ -13,7 +13,11 @@ spring:
       discovery:
         enabled: true
         service-id: cloud_config
-
+#配置日志
+logging:
+  level:
+    root: info
+    com.clouddo: debug
 
 
 eureka:

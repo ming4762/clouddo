@@ -21,7 +21,7 @@ public class Menu implements Serializable {
     // 授权(多个用逗号分隔，如：user:list,user:create)
     private String perms;
     // 类型 0：目录 1：菜单 2：按钮
-    private Integer type;
+    private String type;
     // 菜单图标
     private String icon;
     // 排序
@@ -104,14 +104,14 @@ public class Menu implements Serializable {
     /**
      * 设置：类型 0：目录 1：菜单 2：按钮
      */
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
     /**
      * 获取：类型 0：目录 1：菜单 2：按钮
      */
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 

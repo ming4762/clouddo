@@ -8,7 +8,8 @@ cloud:
   admin:
     setting:
       loginUrl: /web/public/login
-      backgroudUrl: http://192.168.1.91:8760/cloud/
+#      backgroudUrl: http://192.168.1.91:8760/cloud/
+      backgroudUrl: http://localhost:8080/cloud/
   config:
     news:
       moduleName: 开发区水文局

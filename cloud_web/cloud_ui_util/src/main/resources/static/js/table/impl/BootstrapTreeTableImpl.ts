@@ -95,6 +95,14 @@ namespace com.clouddo.ui.table {
             this.tableConfig.ajaxParams[key] = value;
             return this;
         }
+        /**
+         * 在表格 body 渲染完成后触发
+         * @param {Function} onPostBodyFunction
+         * @returns {com.clouddo.ui.table.Table}
+         */
+        public onPostBody(onPostBodyFunction: Function): com.clouddo.ui.table.Table {
+            return this;
+        }
 
         /**
          * 设置参数

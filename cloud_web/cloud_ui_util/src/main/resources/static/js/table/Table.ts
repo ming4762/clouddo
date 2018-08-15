@@ -14,7 +14,9 @@ namespace com.clouddo.ui.table {
         DATA_FORMAT = "table-format",
 
         //显示位置 center居中
-        DATA_ALIGN = "table-align"
+        DATA_ALIGN = "table-align",
+        //列事件
+        DATA_ENENTS = "table-events"
     }
 
     export class TableUtil{
@@ -67,6 +69,11 @@ namespace com.clouddo.ui.table {
                         columnModel["formatter"] = eval(methodName);
                     }
                 }
+                //设置列事件
+                if ($($th).attr(TableEnum.DATA_ENENTS)) {
+                    let eventsStr = $($th).attr(TableEnum.DATA_ENENTS);
+                    columnModel["events"] = eventsStr;
+                }
                 columns.push(columnModel);
             }
 
@@ -97,6 +104,55 @@ namespace com.clouddo.ui.table {
         createTable() : void;
 
         /**
+         * 设置是否分页
+         * @param {boolean} isPaging
+         * @returns {com.clouddo.ui.table.Table}
+         */
+        setIsPaging(isPaging : boolean) : Table;
+
+        /**
+         * 格式化add URL
+         * @param {Function} formatAddUrlFunction
+         * @returns {com.clouddo.ui.table.Table}
+         */
+        formatAddUrl(formatAddUrlFunction : Function) : Table;
+
+        /**
+         * 格式化edit url
+         * @param {Function} formatEditUrlFunction
+         * @returns {com.clouddo.ui.table.Table}
+         */
+        formatEditUrl(formatEditUrlFunction : Function) : Table;
+
+        /**
+         * 设置 table的key
+         * @param {Array<string>} keys
+         * @returns {com.clouddo.ui.table.Table}
+         */
+        setKeys(keys : Array<string>) : Table;
+
+        /**
+         * 添加操作
+         * @param index
+         * @param row
+         */
+        addMethod(index, row);
+
+        /**
+         * 删除操作
+         * @param index
+         * @param row
+         */
+        deleteMethod(index, row);
+
+        /**
+         * 编辑操作
+         * @param index
+         * @param row
+         */
+        editMethod(index, row);
+
+        /**
          * 设置是否显示付现款
          * @param {boolean} hasCheckbox
          */
@@ -106,7 +162,7 @@ namespace com.clouddo.ui.table {
          * 是否显示行号
          * @param {boolean} showNumber
          */
-        setShowNumber(showNumber : boolean);
+        setShowNumber(showNumber : boolean) : Table;
 
         setCode(code : string) : Table;
 
@@ -117,6 +173,12 @@ namespace com.clouddo.ui.table {
          * @returns {any}
          */
         getSelectRows() : any;
+
+        /**
+         * 数据加载完成后事件
+         * @param {Function} onDataLoadFunction
+         */
+        onDataLoadComplate(onDataLoadFunction : Function) : Table;
 
         /**
          * 清空表格数据
@@ -153,5 +215,11 @@ namespace com.clouddo.ui.table {
          * @param parameters
          */
         setParameters(parameters : any) : Table;
+
+        /**
+         * 在表格 body 渲染完成后触发
+         * @param {Function} onPostBodyFunction
+         */
+        onPostBody(onPostBodyFunction : Function) : Table;
     }
 }

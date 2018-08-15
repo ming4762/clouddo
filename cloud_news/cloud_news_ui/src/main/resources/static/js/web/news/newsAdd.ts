@@ -178,7 +178,7 @@ namespace com.clouddo.news.ui.web {
                                 layer.alert('添加成功！', {icon: 1});
                                 pageModel.formVue.$refs[formName].resetFields();
                                 pageModel.formVue.imageUrl = "";
-                                pageModel.ckeditor.
+                                // pageModel.ckeditor.
                             }
                         }
 

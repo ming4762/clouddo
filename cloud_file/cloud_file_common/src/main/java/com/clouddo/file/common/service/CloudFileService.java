@@ -61,7 +61,7 @@ public interface CloudFileService {
     /**
      * 图片显示接口
      * @param id 图片ID
-     * @return
+     * @param outputStream 输出流
      */
     void showImage(String id, OutputStream outputStream) throws IOException;
 	

@@ -41,7 +41,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
         String token = request.getHeader(userAuthConfig.getTokenHeader());
         if(!StringUtils.isEmpty(token)) {
             //从redis中获取session信息
-            Session session = (Session) redisService.get(token);
+            Session session = (Session) redisService.get(SessionUtil.getSessionId(token));
             SessionUtil.setUserSession(session);
         }
 
@@ -60,8 +60,9 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         //保存session
         if(SessionUtil.getUserSession() != null) {
-            this.redisService.put(SessionUtil.getUserSession().getId().toString(), SessionUtil.getUserSession(), userAuthConfig.getTokenExpire());
+            this.redisService.put(SessionUtil.getSessionId(SessionUtil.getUserSession().getId().toString()), SessionUtil.getUserSession(), userAuthConfig.getTokenExpire());
         }
         super.afterCompletion(request, response, handler, ex);
     }
+
 }

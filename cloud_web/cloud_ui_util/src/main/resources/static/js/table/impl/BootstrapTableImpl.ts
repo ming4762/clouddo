@@ -22,6 +22,11 @@ namespace com.clouddo.ui.table {
         private pageModel : any;
 
         /**
+         * 在表格 body 渲染完成后触发函数
+         */
+        private onPostBodyFunction : Function;
+
+        /**
          * 发送到后台的数据
          * @type {{}}
          */
@@ -63,6 +68,8 @@ namespace com.clouddo.ui.table {
          *  创建表格
          */
         public createTable(): void {
+            //初始化事件
+            this.initEvent();
             //初始化columns
             this.initColumns();
             $("#" + this.elementId).bootstrapTable(this.tableConfig);
@@ -117,6 +124,24 @@ namespace com.clouddo.ui.table {
             return this;
         }
 
+        /**
+         * 在表格 body 渲染完成后触发
+         * @param {Function} onPostBodyFunction
+         * @returns {com.clouddo.ui.table.Table}
+         */
+        public onPostBody(onPostBodyFunction: Function) : com.clouddo.ui.table.Table {
+            this.onPostBodyFunction = onPostBodyFunction;
+            return this;
+        }
+
+        /**
+         * 初始化事件
+         */
+        private initEvent() {
+            if(this.onPostBodyFunction) {
+                this.setConfig("onPostBody", this.onPostBodyFunction);
+            }
+        }
 
         //初始化表格
         private initTable() : void {
@@ -161,8 +186,8 @@ namespace com.clouddo.ui.table {
                 responseHandler : function (result) {
                     console.log(result);
                     let data : any = {};
-                    data["total"] = result.data.length;
-                    data["rows"] = result.data;
+                    data["total"] = result.data.total ? result.data.total : (result.data.rows ? result.data.rows.length : 0);
+                    data["rows"] = result.data.rows;
                     return data;
                 }
             }

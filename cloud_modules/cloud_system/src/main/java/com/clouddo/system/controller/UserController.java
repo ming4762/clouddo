@@ -4,8 +4,6 @@ import com.cloudd.commons.auth.controller.AuthController;
 import com.cloudd.commons.auth.model.User;
 import com.clouddo.commons.common.constatns.CommonConstants;
 import com.clouddo.commons.common.model.Tree;
-import com.clouddo.commons.common.util.PageUtils;
-import com.clouddo.commons.common.util.Query;
 import com.clouddo.commons.common.util.message.R;
 import com.clouddo.commons.common.util.message.Result;
 import com.clouddo.commons.common.util.security.MD5Utils;
@@ -15,6 +13,7 @@ import com.clouddo.system.model.Role;
 import com.clouddo.system.service.RoleService;
 import com.clouddo.system.service.UserService;
 import com.clouddo.system.vo.UserVO;
+import com.github.pagehelper.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +29,7 @@ import java.util.Map;
 
 @RequestMapping("/sys/user")
 @Controller
-public class UserController extends AuthController {
+public class UserController extends AuthController<User> {
 	private String prefix="system/user"  ;
 	@Autowired
 	UserService userService;
@@ -44,15 +43,24 @@ public class UserController extends AuthController {
 		return prefix + "/user";
 	}
 
-	@GetMapping("/list")
+	@PostMapping("/list")
 	@ResponseBody
-	PageUtils list(@RequestParam Map<String, Object> params) {
+	Result<Map<String, Object>> list(@RequestBody Map<String, Object> parameterSet) {
 		// 查询列表数据
-		Query query = new Query(params);
-		List<User> sysUserList = userService.list(query);
-		int total = userService.count(query);
-		PageUtils pageUtil = new PageUtils(sysUserList, total);
-		return pageUtil;
+		Map<String, Object> data = new HashMap<String, Object>();
+		try {
+			//判断是否分页
+			Page page = this.paging(parameterSet);
+			List<User> userList = userService.list(parameterSet);
+			data.put(ROWS, userList);
+			if(page != null) {
+				data.put(TOTAL, page.getTotal());
+			}
+			return Result.success(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.failure(e.getMessage());
+		}
 	}
 
 	/**
@@ -60,7 +68,7 @@ public class UserController extends AuthController {
 	 * @param parameters
 	 * @return
 	 */
-	@PostMapping("/list")
+//	@PostMapping("/list")
 	@ResponseBody
 	public Result<List<User>> listPost(@RequestBody Map<String, Object> parameters) {
 		try {

@@ -7,8 +7,10 @@ import com.clouddo.commons.common.util.UUIDGenerator;
 import com.clouddo.commons.common.util.message.R;
 import com.clouddo.commons.common.util.message.Result;
 import com.clouddo.log.common.annotation.Log;
+import com.clouddo.system.dto.MenuDTO;
 import com.clouddo.system.model.Menu;
 import com.clouddo.system.service.MenuService;
+import com.github.pagehelper.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,18 +41,27 @@ public class MenuController extends AuthController {
 
 	/**
 	 * 获取菜单列表
-	 * @param params
+	 * @param parameterSet
 	 * @return
 	 */
 	@RequiresPermissions("sys:menu:menu")
 	@com.cloudd.commons.auth.annotation.RequiresPermissions("sys:menu:menu")
 	@RequestMapping("/list")
 	@ResponseBody
-	Result list(@RequestBody Map<String, Object> params) {
+	Result list(@RequestBody Map<String, Object> parameterSet) {
+		Map<String, Object> data = new HashMap<String, Object>();
 		try {
-			List<Menu> menus = menuService.list(params);
-			return Result.success(menus);
+			//判断是否分页
+			Page page = this.paging(parameterSet);
+
+			List<MenuDTO> menus = menuService.list(parameterSet);
+			data.put(ROWS, menus);
+			if(page != null) {
+				data.put(TOTAL, page.getTotal());
+			}
+			return Result.success(data);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return Result.failure(e.getMessage());
 		}
 	}
@@ -182,12 +193,48 @@ public class MenuController extends AuthController {
 	 */
 	@PostMapping("/getPermissions")
 	@ResponseBody
+//	@com.cloudd.commons.auth.annotation.RequiresPermissions("sys:menu:getPermissions")
 	Result getPermissions(@RequestBody String userId) {
 		try {
 			return Result.success(this.menuService.listPerms(userId));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Result.failure("通过用户ID获取权限信息失败，userID：" + userId);
+		}
+	}
+
+	/**
+	 * 菜单查询接口
+	 * @param menu
+	 * @return
+	 */
+	@PostMapping("/get")
+	@ResponseBody
+	@com.cloudd.commons.auth.annotation.RequiresPermissions("sys:menu:get")
+	public Result get(@RequestBody Menu menu) {
+		try {
+			return Result.success(this.menuService.get(menu.getMenuId()));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.failure(e.getMessage());
+		}
+	}
+
+	/**
+	 * 批量删除
+	 * @param menuList
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/batchDelete")
+	@Log("批量删除菜单")
+	@com.cloudd.commons.auth.annotation.RequiresPermissions("sys:menu:batchDelete")
+	public Result batchDelete(@RequestBody List<Menu> menuList) {
+		try {
+			return Result.success(this.menuService.batchDelete(menuList));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.failure(e.getMessage());
 		}
 	}
 }

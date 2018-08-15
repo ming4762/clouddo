@@ -9,6 +9,7 @@ $(document).ready(function () {
 namespace com.clouddo.admin {
 
     import RestUtil = com.clouddo.ui.util.RestUtil;
+    import AuthRestUtil = com.clouddo.ui.util.AuthRestUtil;
     declare let Vue : any;
     declare let context : string;
 
@@ -24,7 +25,7 @@ namespace com.clouddo.admin {
 
         //执行登录
         private login() : void {
-            RestUtil.login(this.formVue.username, this.formVue.password, success, error);
+            AuthRestUtil.login(this.formVue.username, this.formVue.password, success, error);
             let loginObject = this;
             //登录成功
             function success(data) {

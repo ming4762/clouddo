@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+
+</head>
+<body>
+    <div class="wrapper wrapper-content ">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-body" id="mainVue">
+                    <div  id="operationDiv" role="group" class="t-bar">
+                        <button cloud-hasPermission="sys:menu:add" type="button"
+                                class="btn btn-primary" title="在根节点下添加菜单" v-on:click="addMethod('0', '根目录')">
+                            <i class="fa fa-plus" aria-hidden="true"></i>添加
+                        </button>
+                        <button cloud-hasPermission="sys:menu:batchRemove" type="button"
+                            class="btn btn-danger" v-on:click="deleteMethod()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>删除
+                        </button>
+                    </div>
+                    <table id="grid-table" data-mobile-responsive="true">
+                        <tr>
+                            <th table-width="100px" table-field="roleName" table-sortable>角色名</th>
+                            <th table-width="100px"  table-field="remark"  table-sortable>备注</th>
+                            <th table-width="200px"  table-field="roleId" >权限</th>
+                            <th table-width="100px" table-field="roleId"  table-align="center" table-format="formatOperation"  table-sortable >操作</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:include="include::footer"></div>
+    <script th:src="@{/js/table/Table.js}" src="/js/table/Table.js"></script>
+    <script th:src="@{/js/table/impl/BootstrapTableImpl.js}" src="/js/table/impl/BootstrapTableImpl.js"></script>
+    <script th:src="@{/js/table/impl/BootstrapTreeTableImpl.js}" src="/js/table/impl/BootstrapTreeTableImpl.js"></script>
+
+    <script th:src="@{/js/page/DefaultPage.js}" src="/js/page/DefaultPage.js"></script>
+
+    <!--引入页面JS-->
+    <script th:src="@{/js/role/Role.js}" src="/js/role/Role.js"></script>
+</body>
+</html>

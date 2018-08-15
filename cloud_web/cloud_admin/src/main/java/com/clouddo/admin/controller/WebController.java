@@ -47,6 +47,26 @@ public class WebController {
     }
 
     /**
+     * 跳转到菜单页面
+     * @param parameters
+     * @return
+     */
+    @RequestMapping("/system/menu_v2")
+    public ModelAndView menu2(@RequestParam Map<String, Object> parameters) {
+        return new ModelAndView("bootdo/menu/menu_v2", parameters);
+    }
+
+    /**
+     * 跳转到菜单添加修改页面
+     * @param parameters
+     * @return
+     */
+    @RequestMapping("/system/menuAddEdit")
+    public ModelAndView menuAddEdit(@RequestParam Map<String, Object> parameters) {
+        return new ModelAndView("bootdo/menu/menuAddEdit", parameters);
+    }
+
+    /**
      * 跳转到主页
      * @param parameters
      * @return
@@ -64,5 +84,35 @@ public class WebController {
         } catch (Exception e) {
             return new ModelAndView("redirect:" + adminConfig.getLoginUrl());
         }
+    }
+
+    /**
+     * 跳转到角色页面
+     * @param parameters
+     * @return
+     */
+    @RequestMapping("/system/role")
+    public ModelAndView role(@RequestParam Map<String, Object> parameters) {
+        return new ModelAndView("bootdo/role/role_v2", parameters);
+    }
+
+    /**
+     * 跳转到到角色添加修改页面
+     * @param parameters
+     * @return
+     */
+    @RequestMapping("/system/roleAddEdit")
+    public ModelAndView roleAddEdit(@RequestParam Map<String, Object> parameters) {
+        return new ModelAndView("bootdo/role/roleAddEdit", parameters);
+    }
+
+    /**
+     * 跳转到人员信息页面
+     * @param parameters
+     * @return
+     */
+    @RequestMapping("/system/user")
+    public ModelAndView user(@RequestParam Map<String, Object> parameters) {
+        return new ModelAndView("bootdo/user/user", parameters);
     }
 }

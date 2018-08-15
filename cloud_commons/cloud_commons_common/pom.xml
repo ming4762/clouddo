@@ -65,6 +65,13 @@
 			<version>${commons-pool2.version}</version>
 		</dependency>
 
+		<!--pagehelper支持-->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>5.1.4</version>
+		</dependency>
+
 		<!--swagger2-->
 		<dependency>
 			<groupId>io.springfox</groupId>

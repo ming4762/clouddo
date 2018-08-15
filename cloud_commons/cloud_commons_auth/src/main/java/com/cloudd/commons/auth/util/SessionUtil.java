@@ -1,6 +1,7 @@
 package com.cloudd.commons.auth.util;
 
 
+import com.cloudd.commons.auth.constatns.AuthConstants;
 import com.cloudd.commons.auth.model.User;
 import com.cloudd.commons.auth.session.Session;
 import com.cloudd.commons.auth.session.impl.SimpleSession;
@@ -65,6 +66,15 @@ public class SessionUtil {
         session.setAttribute(CommonConstants.CONTEXT_KEY_USER, user);
         session.setAttribute(CommonConstants.CONTEXT_KEY_JWTUSER, UserUtil.convertUserToJwt(user));
         setUserSession(session);
+    }
+
+    /**
+     * 获取sessionId
+     * @param id
+     * @return
+     */
+    public static String getSessionId(String token) {
+        return AuthConstants.SESSION_KEY_PREFIX + token;
     }
 
 }

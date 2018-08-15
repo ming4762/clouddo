@@ -5,6 +5,7 @@ import com.cloudd.commons.auth.annotation.RequiresPermissions;
 import com.cloudd.commons.auth.controller.AuthController;
 import com.clouddo.commons.common.util.UUIDGenerator;
 import com.clouddo.commons.common.util.message.Result;
+import com.clouddo.log.common.annotation.Log;
 import com.clouddo.news.server.model.CloudComment;
 import com.clouddo.news.server.service.CloudCommentService;
 import io.swagger.annotations.Api;
@@ -102,7 +103,8 @@ public class CloudCommentController extends AuthController<CloudComment> {
      */
     @PostMapping("/comment")
     @RequiresPermissions("news:cloudComment:comment")
-//    @Log("评论")
+    @Log("发表评论")
+    @ResponseBody
     public Object comment(@RequestBody CloudComment cloudComment) {
         try {
             if(StringUtils.isEmpty(cloudComment.getNewsId())) {
@@ -112,7 +114,8 @@ public class CloudCommentController extends AuthController<CloudComment> {
             cloudComment.setCreateTime(new Date());
             cloudComment.setUserId(getUserId());
             cloudComment.setPraiseNum(0);
-            return Result.success(this.cloudCommentService.insert(cloudComment));
+            this.cloudCommentService.insert(cloudComment);
+            return Result.success(cloudComment);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.failure(e.getMessage());

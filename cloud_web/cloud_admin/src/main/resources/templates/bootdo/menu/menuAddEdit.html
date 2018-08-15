@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link href="css/bootstrap.min.css?v=3.3.6"
+          th:href="@{/plugins/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0"
+          th:href="@{/plugins/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootdo/style.css}" href="/css/style.css?v=4.1.0"
+          rel="stylesheet">
+    <!--element-ui-->
+    <link href="/plugins/element-ui/index.css" th:href="@{/plugins/element-ui/index.css}"
+          rel="stylesheet">
+
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var contextpath = /*[[@{/}]]*/ '';
+        //菜单ID
+        var menuId = [[${menuId}]];
+
+        var parentId = [[${parentId} == null ? '0' : ${parentId}]];
+        /*]]>*/
+    </script>
+</head>
+<body>
+    <div id="formVue" class="modal-body container-fluid">
+        <el-form :rules="rules" ref="addEditForm" :model="formData" label-width="80px" class="demo-dynamic">
+            <el-form-item label="上级菜单">
+                <input v-model="formData.parentId" style="display: none;"/>
+                <el-input :disabled="true" v-model="showData.parentName"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单类型" prop="type">
+                <el-radio-group v-model="formData.type">
+                    <el-radio label="0">目录</el-radio>
+                    <el-radio label="1">菜单</el-radio>
+                    <el-radio label="2">按钮</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="菜单名称" prop="name">
+                <el-input v-model="formData.name"></el-input>
+            </el-form-item>
+            <el-form-item label="链接地址" prop="url">
+                <el-input v-model="formData.url"></el-input>
+            </el-form-item>
+            <el-form-item label="权限标识" prop="perms">
+                <el-input v-model="formData.perms"></el-input>
+            </el-form-item>
+            <el-form-item label="序号" prop="orderNum">
+                <el-input v-model="formData.orderNum"></el-input>
+            </el-form-item>
+            <el-form-item label="图标" prop="icon">
+                <el-col :span="11">
+                    <el-form-item >
+                        <el-input v-model="formData.icon"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col class="line" :span="2"></el-col>
+                <el-col :span="11">
+                    <el-form-item >
+                        <el-button v-on:click="showIcons" type="primary" plain>选择图标</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-form-item>
+            <el-form-item >
+                <el-button type="primary" @click="submitForm('addEditForm')">保存</el-button>
+                <el-button @click="resetForm('addEditForm')">重置</el-button>
+            </el-form-item>
+        </el-form>
+
+    </div>
+
+    <!--jquery-->
+    <script th:src="@{/plugins/jquery/2.1.4/jquery.min.js}" src="/js/jquery.min.js?v=2.1.4"></script>
+    <!--vue-->
+    <script th:src="@{/plugins/vue/2.5.16/js/vue.min.js}" src="/plugins/vue/2.5.16/js/vue.min.js"></script>
+    <!--element-ui-->
+    <script th:src="@{/plugins/element-ui/index.js}" src="/plugins/element-ui/index.js"></script>
+    <script th:src="@{/plugins/layer/3.1.1/layer.js}" src="/js/plugins/layer/layer.js"></script>
+
+    <!--rest工具类-->
+    <script th:src="@{/js/util/RestUtil.js}" src="/js/util/RestUtil.js" ></script>
+    <!--认证模块-->
+    <script th:src="@{/js/auth/Auth.js}" src="/js/auth/Auth.js" ></script>
+
+    <script th:src="@{/js/table/impl/ElementTableImpl.js}" src="/js/table/impl/ElementTableImpl.js"></script>
+
+    <script th:src="@{/js/page/AddEditPage.js}" src="/js/page/AddEditPage.js"></script>
+    <!--页面js-->
+    <script th:src="@{/js/menu/MenuAddEdit.js}" src="/js/menu/MenuAddEdit.js"></script>
+</body>
+</html>

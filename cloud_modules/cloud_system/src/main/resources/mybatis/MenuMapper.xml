@@ -5,34 +5,72 @@
 
 
 
-	<select id="get" resultType="com.clouddo.system.model.Menu">
+	<select id="get" resultMap="MenuResultMap">
 		select
 		menu_id,parent_id,name,url,perms,type,icon,order_num,gmt_create,gmt_modified
 		from sys_menu where menu_id = #{value}
 	</select>
 
-	<select id="list" resultType="com.clouddo.system.model.Menu">
-		select
-		menu_id AS menuId,parent_id AS parentId,name,url,perms,type,icon,order_num AS orderNum,gmt_create AS gmtCreate,gmt_modified AS gmtModified
-		from sys_menu
+	<!--通过ID批量删除-->
+	<delete id="batchDelete" parameterType="java.util.Set">
+		DELETE FROM sys_menu
 		<where>
-			<if test="menuId != null and menuId != ''"> and menu_id = #{menuId} </if>
-			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
-			<if test="name != null and name != ''"> and name = #{name} </if>
-			<if test="url != null and url != ''"> and url = #{url} </if>
-			<if test="perms != null and perms != ''"> and perms = #{perms} </if>
-			<if test="type != null and type != ''"> and type = #{type} </if>
-			<if test="icon != null and icon != ''"> and icon = #{icon} </if>
-			<if test="orderNum != null and orderNum != ''"> and order_num = #{orderNum} </if>
-			<if test="gmtCreate != null and gmtCreate != ''"> and gmt_create = #{gmtCreate} </if>
-			<if test="gmtModified != null and gmtModified != ''"> and gmt_modified = #{gmtModified} </if>
+			<choose>
+				<when test="set != null and set.size() > 0">
+					menu_id IN
+					<foreach collection="set" open="(" close=")" item="item" separator=",">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					menu_id = '@@@@@@@@@___'
+				</otherwise>
+			</choose>
+		</where>
+	</delete>
+
+	<!--查询下级菜单ID-->
+	<select id="listChildId" parameterType="java.util.Set" resultType="java.lang.String">
+		SELECT menu_id FROM sys_menu
+		<where>
+			<choose>
+				<when test="set != null and set.size() > 0">
+					parent_id IN
+					<foreach collection="set" open="(" close=")" item="item" separator=",">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					parent_id = '@@@@@@@@@___'
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<select id="list" resultMap="MenuResultMap">
+		select
+		A.menu_id,A.parent_id,A.name,A.url,A.perms,A.type,A.icon,A.order_num,A.gmt_create,A.gmt_modified,
+		B.menu_id child_menu_id, B.parent_id child_parent_id, B.name child_name, B.url child_url, B.perms child_perms, B.type child_type, B.icon child_icon, B.order_num child_order_num, B.gmt_create child_gmt_create, B.gmt_modified child_gmt_modified
+		from sys_menu A
+		LEFT OUTER JOIN sys_menu B ON A.menu_id = B.parent_id
+		<where>
+			<if test="menuId != null and menuId != ''"> and A.menu_id = #{menuId} </if>
+			<if test="parentId != null and parentId != ''"> and A.parent_id = #{parentId} </if>
+			<if test="name != null and name != ''"> and A.name = #{name} </if>
+			<if test="url != null and url != ''"> and A.url = #{url} </if>
+			<if test="perms != null and perms != ''"> and A.perms = #{perms} </if>
+			<if test="type != null and type != ''"> and A.type = #{type} </if>
+			<if test="icon != null and icon != ''"> and A.icon = #{icon} </if>
+			<if test="orderNum != null and orderNum != ''"> and A.order_num = #{orderNum} </if>
+			<if test="gmtCreate != null and gmtCreate != ''"> and A.gmt_create = #{gmtCreate} </if>
+			<if test="gmtModified != null and gmtModified != ''"> and A.gmt_modified = #{gmtModified} </if>
 		</where>
 		<choose>
 			<when test="sort != null and sort.trim() != ''">
-				order by ${sort} ${order}
+				order by ${parent_id} ${order}
 			</when>
 			<otherwise>
-				order by menu_id desc
+				order by A.order_num ASC
 			</otherwise>
 		</choose>
 		<!-- TODO <if test="offset != null and limit != null">-->
@@ -114,6 +152,8 @@
 		</foreach>
 	</delete>
 
+
+
 	<select id="listMenuByUserId" resultType="com.clouddo.system.model.Menu">
 		select distinct
 		m.menu_id AS menuId, parent_id AS parentId, name, url,
@@ -137,4 +177,35 @@
 		on rm.role_id = ur.role_id where ur.user_id
 		= #{id}
 	</select>
+	
+
+	<!--菜单resultmap-->
+	<resultMap id="MenuResultMap" type="com.clouddo.system.dto.MenuDTO">
+		<id property="menuId" column="menu_id"></id>
+		<result column="parent_id" property="parentId"></result>
+		<result column="name" property="name"></result>
+		<result column="url" property="url"></result>
+		<result column="perms" property="perms"></result>
+		<result column="type" property="type"></result>
+		<result column="icon" property="icon"></result>
+		<result column="order_num" property="orderNum"></result>
+		<result column="gmt_create" property="gmtCreate"></result>
+		<result column="gmt_modified" property="gmtModified"></result>
+
+		<!--下级菜单-->
+		<collection property="children" resultMap="MenuChildResultMap"></collection>
+	</resultMap>
+	
+	<resultMap id="MenuChildResultMap" type="com.clouddo.system.dto.MenuDTO">
+		<id property="menuId" column="child_menu_id"></id>
+		<result property="parent_id" column="child_parentId"></result>
+		<result property="name" column="child_name"></result>
+		<result property="url" column="child_url"></result>
+		<result property="perms" column="child_perms"></result>
+		<result property="type" column="child_type"></result>
+		<result property="icon" column="child_icon"></result>
+		<result property="order_num" column="child_orderNum"></result>
+		<result property="gmt_create" column="child_gmtCreate"></result>
+		<result property="gmt_modified" column="child_parentId"></result>
+	</resultMap>
 </mapper>

@@ -1,6 +1,7 @@
 package com.clouddo.gateway.filter;
 
 import com.cloudd.commons.auth.config.UserAuthConfig;
+import com.cloudd.commons.auth.constatns.AuthConstants;
 import com.cloudd.commons.auth.model.JWTUser;
 import com.cloudd.commons.auth.session.Session;
 import com.cloudd.commons.auth.util.JWTHelper;
@@ -92,22 +93,22 @@ public class UserAccessFilter extends ZuulFilter {
         } catch (Exception e) {
             e.printStackTrace();
             logger.warn("token解密失败，token：{}", token);
-            this.setFailedRequest("token解析失败", 403);
+            this.setFailedRequest("token解析失败", AuthConstants.EX_TOKEN_ERROR_CODE);
             return null;
         }
 
         //获取session，并设置到全局
-        Session session = (Session) redisService.get(token);
+        Session session = (Session) redisService.get(SessionUtil.getSessionId(token));
         SessionUtil.setUserSession(session);
         if(session == null) {
             logger.warn("token认证失败，未找到session，token：{}", token);
-            this.setFailedRequest("token认证无效", 403);
+            this.setFailedRequest("token认证无效", AuthConstants.EX_TOKEN_ERROR_CODE);
             return null;
         }
         //token解密信息与session信息是否一致
         if(!authTokenSession(jwtInfo)) {
             logger.warn("token认证失败，session信息与token解密信息不一致，token：{}", token);
-            this.setFailedRequest("token认证无效", 403);
+            this.setFailedRequest("token认证无效", AuthConstants.EX_TOKEN_ERROR_CODE);
         }
         return null;
     }
@@ -129,7 +130,11 @@ public class UserAccessFilter extends ZuulFilter {
         }
     }
 
-    //认证token解密信息与session存储信息是否一致
+    /**
+     * 认证token解密信息与session存储信息是否一致
+     * @param jwtInfo
+     * @return
+     */
     private boolean authTokenSession(JWTUser jwtInfo) {
         String username = jwtInfo.getUsername();
         JWTUser jwtInfoSession = (JWTUser) SessionUtil.getUserSession().getAttribute(CommonConstants.CONTEXT_KEY_JWTUSER);

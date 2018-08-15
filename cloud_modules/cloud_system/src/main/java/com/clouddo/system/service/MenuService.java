@@ -1,6 +1,7 @@
 package com.clouddo.system.service;
 
 import com.clouddo.commons.common.model.Tree;
+import com.clouddo.system.dto.MenuDTO;
 import com.clouddo.system.model.Menu;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public interface MenuService {
 
 	Tree<Menu> getTree(String id);
 
-	List<Menu> list(Map<String, Object> params);
+	List<MenuDTO> list(Map<String, Object> params);
 
 	int remove(String id);
 
@@ -29,4 +30,18 @@ public interface MenuService {
 	Menu get(String id);
 
 	Set<String> listPerms(String userId);
+
+	/**
+	 * 批量删除
+	 * @param menuList
+	 * @return
+	 */
+    Integer batchDelete(List<Menu> menuList);
+
+	/**
+	 * 批量删除
+	 * @param ids
+	 * @return
+	 */
+	Integer batchDelete(Set<String> ids);
 }

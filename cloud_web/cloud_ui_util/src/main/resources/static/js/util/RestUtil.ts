@@ -5,14 +5,11 @@
 namespace com.clouddo.ui.util {
     declare let $ : any;
     declare let layer;
-    export class RestUtil {
+    //项目路径
+    declare let contextpath;
 
-        //存储token的key
-        public static TOKEN_KEY : string = "Authorization";
 
-        //存储权限的key
-        public static PERMISSIONS_KEY : string = "userPermissions";
-
+    export class RestUtil{
 
         public static BACKGROUND_URL : string = "backgroundURL";
 
@@ -29,7 +26,7 @@ namespace com.clouddo.ui.util {
          * @param {string} backgroundURL
          */
         public static setBackgroundURL(backgroundURL: string) : void {
-            localStorage.setItem("RestUtil.BACKGROUND_URL", backgroundURL);
+            localStorage.setItem(RestUtil.BACKGROUND_URL, backgroundURL);
         }
 
         /**
@@ -39,7 +36,7 @@ namespace com.clouddo.ui.util {
         public static getShowImageUrl(id: string, width ? : number, height ? : number) : string {
             let url : string = this.getBackgroundURL() + "file/image/" + id;
             //拼接token
-            url += "?" + this.TOKEN_KEY + "=" + this.getToken();
+            url += "?";
             //拼接widht height
             if (width) {
                 url += "&width=" + width;
@@ -48,58 +45,6 @@ namespace com.clouddo.ui.util {
                 url += "&height=" + height;
             }
             return url;
-        }
-
-        /**
-         * 获取权限信息
-         * @returns {string}
-         */
-        public static getPermissions() : string {
-            return localStorage.getItem(this.PERMISSIONS_KEY);
-        }
-
-        /**
-         * 保存权限信息
-         * @param permissions
-         */
-        public static setPermissions(permissions : any) : void {
-            localStorage.setItem(this.PERMISSIONS_KEY, permissions);
-        }
-
-        /**
-         * 获取token
-         * @returns {string}
-         */
-        public static getToken() : string {
-            return localStorage.getItem(this.TOKEN_KEY);
-        }
-
-        /**
-         * 存储token
-         * @param {string} token token
-         */
-        public static setToken(token : string) : void {
-            localStorage.setItem(this.TOKEN_KEY, token);
-        }
-
-        /**
-         * 统一登录接口
-         * @param {string} username 用户名
-         * @param {string} password 密码
-         * @param {Function} success 登录成功接口
-         * @param {Function} error 登录失败函数
-         */
-        public static login(username : string, password : string, success : Function, error : Function) : void {
-            let parameters = {username: username, password : password};
-            RestUtil.postAjax("auth/login", parameters, successFunction, error);
-
-            function successFunction(data) {
-                //存储token
-                RestUtil.setToken(data.token);
-                RestUtil.setPermissions(data[RestUtil.PERMISSIONS_KEY]);
-                //存储权限
-                success(data);
-            }
         }
 
         /**
@@ -138,7 +83,7 @@ namespace com.clouddo.ui.util {
                     RestUtil.defalutErrorFunction(data, error);
                 },
                 beforeSend : function (request) {
-                    request.setRequestHeader("Authorization", RestUtil.getToken());
+                    request.setRequestHeader(AuthRestUtil.TOKEN_KEY, AuthRestUtil.getToken());
                 }
             });
         }
@@ -185,7 +130,6 @@ namespace com.clouddo.ui.util {
                 dataType:"json",
                 async : async,
                 contentType : 'application/json; charset=UTF-8',
-                // data : JSON.stringify、(parameterSet || {}),
                 data : JSON.stringify(parameterSet || {}),
                 success : function (data) {
                     RestUtil.loaded(index);
@@ -196,7 +140,7 @@ namespace com.clouddo.ui.util {
                     RestUtil.defalutErrorFunction(data, error);
                 },
                 beforeSend : function (request) {
-                    request.setRequestHeader("Authorization", RestUtil.getToken());
+                    request.setRequestHeader(AuthRestUtil.TOKEN_KEY, AuthRestUtil.getToken());
                 }
             });
         }
@@ -232,7 +176,7 @@ namespace com.clouddo.ui.util {
             }
         }
 
-        private static defalutErrorFunction(data : any, error : Function) {
+        public static defalutErrorFunction(data : any, error : Function) {
             if (error != null) {
                 error(data);
             } else {
@@ -241,4 +185,116 @@ namespace com.clouddo.ui.util {
             }
         }
     }
+
+    /**
+     * 带有认证功能的rest工具类
+     */
+    export class AuthRestUtil extends RestUtil {
+        //存储token的key
+        public static TOKEN_KEY : string = "Authorization";
+
+        //存储权限的key
+        public static PERMISSIONS_KEY : string = "userPermissions";
+
+        //token认证失败的状态码
+        public static EX_TOKEN_ERROR_CODE : number = 40301;
+
+        public static LOGIN_HREF = "web/public/login";
+
+
+        /**
+         * 获取权限信息
+         * @returns {string}
+         */
+        public static getPermissions() : string {
+            return localStorage.getItem(this.PERMISSIONS_KEY);
+        }
+
+        /**
+         * 保存权限信息
+         * @param permissions
+         */
+        public static setPermissions(permissions : any) : void {
+            localStorage.setItem(this.PERMISSIONS_KEY, permissions);
+        }
+
+        /**
+         * 获取token
+         * @returns {string}
+         */
+        public static getToken() : string {
+            return localStorage.getItem(this.TOKEN_KEY);
+        }
+
+        /**
+         * 存储token
+         * @param {string} token token
+         */
+        public static setToken(token : string) : void {
+            localStorage.setItem(this.TOKEN_KEY, token);
+        }
+
+
+        /**
+         * 获取图片显示地址带有认证信息
+         * @param {string} id
+         * @param {number} width
+         * @param {number} height
+         * @returns {string}
+         */
+        public static getShowImageUrl(id: string, width ? : number, height ? : number) : string {
+            let url = super.getShowImageUrl(id, width, height);
+            if (width || height) {
+                url += "&" + this.TOKEN_KEY + "=" + this.getToken();
+            } else {
+                url += "?" + this.TOKEN_KEY + "=" + this.getToken();
+            }
+            return url;
+        }
+
+
+        /**
+         * 统一登录接口
+         * @param {string} username 用户名
+         * @param {string} password 密码
+         * @param {Function} success 登录成功接口
+         * @param {Function} error 登录失败函数
+         */
+        public static login(username : string, password : string, success : Function, error : Function) : void {
+            let parameters = {username: username, password : password};
+            RestUtil.postAjax("auth/login", parameters, successFunction, error);
+
+            function successFunction(data) {
+                //存储token
+                AuthRestUtil.setToken(data.token);
+                AuthRestUtil.setPermissions(data[AuthRestUtil.PERMISSIONS_KEY]);
+                //存储权限
+                success(data);
+            }
+        }
+
+        /**
+         * 发送ajax请求
+         * @param {string} url 请求地址
+         * @param {Object} parameterSet 请求参数
+         * @param {Function} success 请求成功回调
+         * @param {Function} error 请求失败回调
+         * @param successCallbackParameters 其他参数
+         */
+        public static postAjax(url : string, parameterSet : Object, success : Function, error : Function, ...successCallbackParameters : any[]) {
+            super.postAjax(url, parameterSet, success, tokenFailError, ...successCallbackParameters);
+
+
+            function tokenFailError(result) {
+                //如果失败原因是token认证失败导致的，跳转到登录页面
+                if (result["status"] == AuthRestUtil.EX_TOKEN_ERROR_CODE) {
+                    window.location.href = contextpath + AuthRestUtil.LOGIN_HREF;
+                } else {
+                    RestUtil.defalutErrorFunction(result, error);
+                }
+            }
+        }
+    }
+
+
 }

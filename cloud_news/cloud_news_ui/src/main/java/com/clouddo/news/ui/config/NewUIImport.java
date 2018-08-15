@@ -12,6 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan({
         "com.clouddo.news.ui"
 })
-public class NewUIImportt {
+public class NewUIImport {
 
 }

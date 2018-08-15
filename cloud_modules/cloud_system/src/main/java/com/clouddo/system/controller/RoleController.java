@@ -2,18 +2,21 @@ package com.clouddo.system.controller;
 
 import com.cloudd.commons.auth.controller.AuthController;
 import com.clouddo.commons.common.constatns.CommonConstants;
-import com.clouddo.commons.common.controller.BaseController;
 import com.clouddo.commons.common.util.message.R;
+import com.clouddo.commons.common.util.message.Result;
 import com.clouddo.log.common.annotation.Log;
 import com.clouddo.system.model.Role;
 import com.clouddo.system.service.RoleService;
+import com.github.pagehelper.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/sys/role")
 @Controller
@@ -29,11 +32,24 @@ public class RoleController extends AuthController {
 	}
 
 	@RequiresPermissions("sys:role:role")
-	@GetMapping("/list")
+	@PostMapping("/list")
 	@ResponseBody()
-	List<Role> list() {
-		List<Role> roles = roleService.list();
-		return roles;
+	Result<Map<String, Object>> list(@RequestBody Map<String, Object> parameterSet) {
+		Map<String, Object> data = new HashMap<String, Object>();
+		try {
+			//判断是否分页
+            Page page = this.paging(parameterSet);
+			List<Role> roles = roleService.list();
+			data.put(ROWS, roles);
+			if(page != null) {
+				data.put(TOTAL, page.getTotal());
+			}
+			return Result.success(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.failure(e.getMessage());
+		}
+
 	}
 
 	@Log("添加角色")
@@ -110,5 +126,25 @@ public class RoleController extends AuthController {
 			return R.ok();
 		}
 		return R.error();
+	}
+
+	/**
+	 * 查询角色信息
+	 * TODO 权限未添加
+	 * @param role
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/get")
+	@Log("获取角色")
+	@RequiresPermissions("sys:role:get")
+	public Result get(@RequestBody Role role) {
+		try {
+			role = this.roleService.get(role.getRoleId());
+			return Result.success(role);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.failure(e.getMessage());
+		}
 	}
 }

@@ -82,7 +82,7 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
 
             }
             //获取session
-            Session session = (Session) redisService.get(token);
+            Session session = (Session) redisService.get(SessionUtil.getSessionId(token));
             if(session == null) {
                 logger.warn("token认证无效，未找到session，token:{}",token);
                 return this.authErrorMessage("token认证无效", response);

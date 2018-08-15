@@ -35,8 +35,8 @@ namespace com.clouddo.ui.page {
 
         //搜索vue
         protected searchVue : any;
-        //添加更新vue
-        protected saveUpdateVue : any;
+        //主VUE
+        protected mainVue : any;
         //vue方法，有些页面需要传入自定义方法
         protected saveUpdateVueMethods : any;
         //操作vue
@@ -61,6 +61,7 @@ namespace com.clouddo.ui.page {
          * @returns {com.clouddo.ui.page.Page}
          */
         public init() : Page {
+            let pageModel = this;
             //验证按钮权限
             this.authPermission(this.permissionDomIds);
             //初始化vue
@@ -71,6 +72,11 @@ namespace com.clouddo.ui.page {
             } else {
                 this.table = new BootstrapTableImpl(this.getUrl, this);
             }
+            //设置表格加载事件
+            this.table.onPostBody(function () {
+                //刷新vue
+                pageModel.mainVue.$forceUpdate();
+            });
             return this;
         }
 
@@ -139,7 +145,7 @@ namespace com.clouddo.ui.page {
          */
         protected beforUpdateSuccess(data) {
             if (data && data.length > 0) {
-                this.saveUpdateVue.saveUpdateModel = data[0];
+                this.mainVue.saveUpdateModel = data[0];
                 //显示窗口
                 this.showSaveUpdateWindow();
             }
@@ -150,7 +156,7 @@ namespace com.clouddo.ui.page {
          */
         protected saveUpdate(index) : void {
             let pageModel = this;
-            RestUtil.postAjax(this.saveUpdateUrl, this.saveUpdateVue.saveUpdateModel, success, error);
+            RestUtil.postAjax(this.saveUpdateUrl, this.mainVue.saveUpdateModel, success, error);
 
             function success(data) {
                 layer.close(index);
@@ -204,7 +210,7 @@ namespace com.clouddo.ui.page {
             });
 
             //插入语更新VUE
-            this.saveUpdateVue = new Vue({
+            this.mainVue = new Vue({
                 el: "#saveUpdateDiv",
                 data : {
                     //实体类
@@ -225,8 +231,8 @@ namespace com.clouddo.ui.page {
                 }
             });
             //操作vue
-            this.operationVue = new Vue({
-                el: "#operationDiv",
+            this.mainVue = new Vue({
+                el: "#mainVue",
                 data: {
 
                 },
@@ -238,6 +244,10 @@ namespace com.clouddo.ui.page {
                     //更新操作
                     updateMethod: function (...keys) {
                         pageModel.beforUpdate(...keys);
+                    },
+                    //删除操作
+                    deleteMethod: function (...data) {
+                        
                     }
                 }
             });

@@ -2,9 +2,11 @@
  * 认证类
  */
 
+
 namespace com.clouddo.ui.auth {
 
     import RestUtil = com.clouddo.ui.util.RestUtil;
+    import AuthRestUtil = com.clouddo.ui.util.AuthRestUtil;
 
     declare let $ : any;
 
@@ -15,7 +17,7 @@ namespace com.clouddo.ui.auth {
          */
         public static ATTRIBUTE_KEY : string = "cloud-hasPermission";
 
-        private static userPermissionStr = RestUtil.getPermissions();
+        private static userPermissionStr = AuthRestUtil.getPermissions();
         private static userPermissionList = !Auth.userPermissionStr ? [] : Auth.userPermissionStr.split(",");
 
         /**
