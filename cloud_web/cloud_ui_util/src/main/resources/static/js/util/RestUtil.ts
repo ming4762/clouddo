@@ -274,6 +274,27 @@ namespace com.clouddo.ui.util {
         }
 
         /**
+         * 登出操作
+         */
+        public static logout() {
+            //想后台发送清除请求
+            let url : string = "auth/logout";
+            AuthRestUtil.postAjax(url, null, success, error);
+
+            function success(result) {
+
+                AuthRestUtil.goToIndex();
+                AuthRestUtil.setToken(null);
+                AuthRestUtil.setPermissions(null);
+            }
+
+            function error(result) {
+                console.log(result);
+                layer.alert("登出时发生错误！", {icon : 0});
+            }
+        }
+
+        /**
          * 发送ajax请求
          * @param {string} url 请求地址
          * @param {Object} parameterSet 请求参数
@@ -288,13 +309,35 @@ namespace com.clouddo.ui.util {
             function tokenFailError(result) {
                 //如果失败原因是token认证失败导致的，跳转到登录页面
                 if (result["status"] == AuthRestUtil.EX_TOKEN_ERROR_CODE) {
-                    window.location.href = contextpath + AuthRestUtil.LOGIN_HREF;
+                    AuthRestUtil.goToIndex();
                 } else {
                     RestUtil.defalutErrorFunction(result, error);
                 }
             }
         }
+
+        /**
+         * 跳转到主页
+         */
+        public static goToIndex() : void {
+            window.location.href = contextpath + AuthRestUtil.LOGIN_HREF;
+        }
     }
 
+
+    /**
+     * 存储器
+     */
+    export class Storage {
+
+        //普通存储器
+        public static storage : any = localStorage;
+        //安全存储器
+        public static authStorage : any = localStorage;
+
+        public static getAuthStorage() : any {
+            return this.authStorage;
+        }
+    }
 
 }
