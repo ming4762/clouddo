@@ -34,11 +34,18 @@
             </el-form-item>
 
             <el-form-item label="权限" prop="pers">
-                <el-input v-model="formData.pers" placeholder="请输入备注"></el-input>
+                <el-tree
+                        ref="menuTree"
+                        :data="menuTreeData"
+                        :default-expanded-keys="defaultExpandedKeys"
+                        :default-checked-keys="checkMenuKeys"
+                        show-checkbox
+                        node-key="id"
+                        :props="menuTreeProps"></el-tree>
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" @click="submitForm('formData')">立即创建</el-button>
+                <el-button type="primary" @click="submitForm('formData')">保存</el-button>
                 <el-button @click="resetForm('formData')">重置</el-button>
             </el-form-item>
         </el-form>
@@ -48,10 +55,12 @@
     <!--jquery-->
     <script th:src="@{/plugins/jquery/2.1.4/jquery.min.js}" src="/js/jquery.min.js?v=2.1.4"></script>
     <!--vue-->
-    <script th:src="@{/plugins/vue/2.5.16/js/vue.min.js}" src="/plugins/vue/2.5.16/js/vue.min.js"></script>
+    <script th:src="@{/plugins/vue/2.5.17/js/vue.js}" src="/plugins/vue/2.5.16/js/vue.min.js"></script>
     <!--element-ui-->
     <script th:src="@{/plugins/element-ui/index.js}" src="/plugins/element-ui/index.js"></script>
-    <script th:src="@{/plugins/layer/3.1.1/layer.js}" src="/js/plugins/layer/layer.js"></script>
+    <script th:src="@{/plugins/layer/3.1.1/layer.js}" src="/js/plugins/layer/layer.js"></script>、
+    <!--vue初始化类-->
+    <script th:src="@{/js/vue/VueInit.js}" src="/js/vue/VueInit.js"></script>
 
     <!--rest工具类-->
     <script th:src="@{/js/util/RestUtil.js}" src="/js/util/RestUtil.js" ></script>

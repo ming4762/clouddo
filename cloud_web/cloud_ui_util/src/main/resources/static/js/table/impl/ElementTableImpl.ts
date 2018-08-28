@@ -133,10 +133,11 @@ namespace com.clouddo.ui.table {
                     //表格数据
                     tableData : [],
                     columns: [],
+                    loading: false,
                     //分页信息
                     page: {
                         //每页记录数
-                        limit: 10,
+                        limit: 20,
                         //起始记录数
                         offset: 0,
                         //总记录数
@@ -669,7 +670,7 @@ namespace com.clouddo.ui.table {
             }
             layer.open({
                 type: 2,
-                title: "编辑" + (name ? name : ""),
+                title: "编辑" + (this.name ? this.name : ""),
                 maxmin: true,
                 area: ['60%', '60%'],
                 content: url
@@ -752,13 +753,16 @@ namespace com.clouddo.ui.table {
          * @param success
          */
         private loadData(success : Function, queryParameters, ...parameters : Array<any>) : void {
-            let pageObject =  this;
-
-            AuthRestUtil.postAjax(this.queryUrl, (queryParameters ? queryParameters : {}), success, null, ...parameters);
+            let $this =  this;
+            $this.tableVue.loading = true
+            AuthRestUtil.postAjax(this.queryUrl, (queryParameters ? queryParameters : {}), defaultSuccess, null, ...parameters);
             //默认的数据加载完成后函数
             function defaultSuccess(data, ...parameterSet) {
+                $this.tableVue.loading = false
                 //执行数据加载后事件
-                pageObject.onDataLoadFunction(data, ...parameterSet);
+                if ($this.onDataLoadFunction) {
+                    $this.onDataLoadFunction(data, ...parameterSet);
+                }
                 //处理树形table数据处理函数
                 // if (pageObject.tableType = ElementTableImpl.TREE_TABLE) {
                 //     data = pageObject.formatTreeData(data, ...parameterSet);

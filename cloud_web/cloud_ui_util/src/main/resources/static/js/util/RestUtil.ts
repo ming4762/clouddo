@@ -97,7 +97,7 @@ namespace com.clouddo.ui.util {
          * @param successCallbackParameters 请求成功参数（可变参数）
          */
         public static postAjax(url : string, parameterSet : Object, success : Function, error : Function, ...successCallbackParameters : any[]) {
-            RestUtil.postAjaxBase(true, url , parameterSet, success, error, ...successCallbackParameters);
+            RestUtil.postAjaxBase(false, true, url , parameterSet, success, error, ...successCallbackParameters);
         }
         /**
          * 发送ajax请求，同步
@@ -108,7 +108,7 @@ namespace com.clouddo.ui.util {
          * @param successCallbackParameters 请求成功参数（可变参数）
          */
         public static postAjaxAsync(url : string, parameterSet : Object, success : Function, error : Function, ...successCallbackParameters : any[]) {
-            RestUtil.postAjaxBase(false, url , parameterSet, success, error, ...successCallbackParameters);
+            RestUtil.postAjaxBase(false,false, url , parameterSet, success, error, ...successCallbackParameters);
         }
 
 
@@ -121,9 +121,11 @@ namespace com.clouddo.ui.util {
          * @param {Function} error 请求失败回调函数
          * @param successCallbackParameters 请求成功参数（可变参数）
          */
-        public static postAjaxBase(async : boolean ,url : string, parameterSet : Object, success : Function, error : Function, ...successCallbackParameters : any[]) {
-
-            let index = this.loading();
+        public static postAjaxBase(withLoading: boolean, async : boolean ,url : string, parameterSet : Object, success : Function, error : Function, ...successCallbackParameters : any[]) {
+            let index
+            if (withLoading) {
+                index = this.loading();
+            }
             $.ajax({
                 type: "post",
                 url : RestUtil.getBackgroundURL() + url,
@@ -132,11 +134,15 @@ namespace com.clouddo.ui.util {
                 contentType : 'application/json; charset=UTF-8',
                 data : JSON.stringify(parameterSet || {}),
                 success : function (data) {
-                    RestUtil.loaded(index);
+                    if (withLoading) {
+                        RestUtil.loaded(index);
+                    }
                     RestUtil.defalutSuccessFunction(data, success, error, ...successCallbackParameters);
                 },
                 error : function (data) {
-                    RestUtil.loaded(index);
+                    if (withLoading) {
+                        RestUtil.loaded(index);
+                    }
                     RestUtil.defalutErrorFunction(data, error);
                 },
                 beforeSend : function (request) {

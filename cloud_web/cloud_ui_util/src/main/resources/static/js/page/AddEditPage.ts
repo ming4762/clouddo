@@ -2,15 +2,18 @@
  * 添加修改页面抽象
  */
 
+
 namespace com.clouddo.ui.page {
 
     //声明vue
-    import RestUtil = com.clouddo.ui.util.RestUtil;
+    import VueInit = com.clouddo.ui.vue.VueInit;
+    import AuthRestUtil = com.clouddo.ui.util.AuthRestUtil;
     declare let Vue : any;
     //生成jquery
     declare let $ : any;
+    declare let layer: any
 
-    export class AddEditPage {
+    export class AddEditPage extends VueInit{
 
         //编辑/添加标识
         public static ADD_IDENT : string = "add";
@@ -26,16 +29,20 @@ namespace com.clouddo.ui.page {
         //Vue实体
         protected formVue: any;
 
+
         //属性配置
         private attributeConfigs : Array<any>;
 
-        //自定义方法
-        private customMethods : {[index:string]: Function} = {};
-        //自定义数据
-        private customData : {[index:string]: any} = {};
+        // //自定义方法
+        // private customMethods : {[index:string]: Function} = {};
+        // //自定义数据
+        // private customData : {[index:string]: any} = {};
 
         //键信息，用户向后台查询数据
         private keyObject : {[index:string]: any};
+
+        // // vue挂在后事件
+        // private vueMountedFunction: Function
 
         /**
          * 构造函数
@@ -43,6 +50,7 @@ namespace com.clouddo.ui.page {
          * @param {string} ident 标识
          */
         constructor(saveUpdateUrl : string, getUrl : string) {
+            super('#formVue')
             this.saveUpdateUrl = saveUpdateUrl;
             this.getUrl = getUrl;
         }
@@ -55,25 +63,46 @@ namespace com.clouddo.ui.page {
             let pageObject = this;
             //解析属性信息
             let configs = this.analysisAttributeConfigs();
-            this.formVue = new Vue({
-                el: "#formVue",
-                data: $.extend({}, {
-                    formData: configs["formData"],
-                    rules: configs["rules"],
-                }, this.customData),
-                methods: $.extend({}, {
-                    //提交表单
-                    submitForm: function (formName) {
-                        //表单验证
-                        pageObject.validForm(formName);
-                    },
-                    //重置表单
-                    //TODO 修改功能的重置应改为原来的
-                    resetForm: function (formName) {
-                        pageObject.resetForm(formName);
-                    }
-                }, this.customMethods)
-            });
+            super.addCustomData({
+                formData: configs["formData"],
+                rules: configs["rules"],
+            })
+            super.addCustomMethods({
+                //提交表单
+                submitForm: function (formName) {
+                    //表单验证
+                    pageObject.validForm(formName);
+                },
+                //重置表单
+                //TODO 修改功能的重置应改为原来的
+                resetForm: function (formName) {
+                    pageObject.resetForm(formName);
+                }
+            })
+            this.formVue = super.init()
+            // this.formVue = new Vue({
+            //     el: "#formVue",
+            //     data: $.extend({}, {
+            //         formData: configs["formData"],
+            //         rules: configs["rules"],
+            //     }, this.customData),
+            //     methods: $.extend({}, {
+            //         //提交表单
+            //         submitForm: function (formName) {
+            //             //表单验证
+            //             pageObject.validForm(formName);
+            //         },
+            //         //重置表单
+            //         //TODO 修改功能的重置应改为原来的
+            //         resetForm: function (formName) {
+            //             pageObject.resetForm(formName);
+            //         }
+            //     }, this.customMethods),
+            //     // 生命周期钩子：挂在后状态
+            //     mounted: function () {
+            //
+            //     }
+            // });
 
             //如果是编辑页面，加载数据
             if(this.ident == AddEditPage.EDIT_IDENT) {
@@ -87,20 +116,20 @@ namespace com.clouddo.ui.page {
          * @param {{[p: string]: Function}} customMethods
          * @returns {com.clouddo.ui.page.AddEditPage}
          */
-        public setCustomMethods(customMethods : {[index:string]: Function}) : AddEditPage{
-            this.customMethods = customMethods;
-            return this;
-        }
-
-        /**
-         * 设置vue自定义数据
-         * @param {{[p: string]: any}} customData
-         * @returns {com.clouddo.ui.page.AddEditPage}
-         */
-        public setCustomData(customData : {[index:string]: any}) : AddEditPage {
-            this.customData = customData;
-            return this;
-        }
+        // public setCustomMethods(customMethods : {[index:string]: Function}) : AddEditPage{
+        //     this.customMethods = customMethods;
+        //     return this;
+        // }
+        //
+        // /**
+        //  * 设置vue自定义数据
+        //  * @param {{[p: string]: any}} customData
+        //  * @returns {com.clouddo.ui.page.AddEditPage}
+        //  */
+        // public setCustomData(customData : {[index:string]: any}) : AddEditPage {
+        //     this.customData = customData;
+        //     return this;
+        // }
 
         /**
          * 设置属性配置
@@ -139,7 +168,7 @@ namespace com.clouddo.ui.page {
          * 加载编辑数据
          */
         public getData() : void {
-            RestUtil.postAjax(this.getUrl, this.keyObject, this.getDataSuccess, null);
+            AuthRestUtil.postAjax(this.getUrl, this.keyObject, this.getDataSuccess, null);
         }
 
         /**
@@ -178,8 +207,7 @@ namespace com.clouddo.ui.page {
          * @param data
          */
         public submitData(data) {
-            console.log(data);
-            RestUtil.postAjax(this.saveUpdateUrl, data, this.addEditSuccess, this.addEditFail);
+            AuthRestUtil.postAjax(this.saveUpdateUrl, data, this.addEditSuccess, this.addEditFail);
 
         }
 
@@ -242,6 +270,10 @@ namespace com.clouddo.ui.page {
                     }
                     if (attributeConfig["type"]) {
                         role["type"] = attributeConfig["type"];
+                    }
+                    // 自定义校验规则
+                    if (attributeConfig['validator']) {
+                        role['validator'] = attributeConfig['validator']
                     }
 
                     //判断roles是否已经还有该条规则

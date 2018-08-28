@@ -115,4 +115,14 @@ public class WebController {
     public ModelAndView user(@RequestParam Map<String, Object> parameters) {
         return new ModelAndView("bootdo/user/user", parameters);
     }
+
+    /**
+     * 跳转到字典管理页面
+     * @param parameters
+     * @return
+     */
+    @RequestMapping("/system/dict")
+    public ModelAndView dict(@RequestParam Map<String, Object> parameters) {
+        return new ModelAndView("bootdo/dict/dict", parameters);
+    }
 }

@@ -51,7 +51,7 @@ public class CustomAttributesTag extends AbstractAttributeTagProcessor {
             final IStandardExpression expression = parser.parseExpression(context, attributeValue.split("=")[1]);
             //执行刚刚解析的表达式获取结果
             Object value = expression.execute(context);
-            iElementTagStructureHandler.setAttribute(attributeValue.split("=")[0], value.toString());
+            iElementTagStructureHandler.setAttribute(attributeValue.split("=")[0], (String) value);
         }
     }
 }

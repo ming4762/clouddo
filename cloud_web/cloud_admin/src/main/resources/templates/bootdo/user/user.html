@@ -48,6 +48,7 @@
                     </div>
                     <template >
                         <el-table
+                                v-loading="loading"
                                 :data="tableData"
                                 border="true"
                                 stripe="true"

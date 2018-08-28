@@ -30,6 +30,19 @@
 			<version>${cloud_news_ui.version}</version>
 		</dependency>
 
+		<!--集成定时任务模块-->
+		<dependency>
+			<groupId>com.clouddo</groupId>
+			<artifactId>cloud_quartz_ui</artifactId>
+			<version>${cloud_quartz_ui.version}</version>
+		</dependency>
+		<!--引入系统监控模块-->
+		<dependency>
+			<groupId>com.clouddo</groupId>
+			<artifactId>cloud_monitor_ui</artifactId>
+			<version>${cloud_monitor_ui.version}</version>
+		</dependency>
+
 		<!--引入web支持-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
