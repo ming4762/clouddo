@@ -1,7 +1,7 @@
 package com.clouddo.ai.server;
 
 import com.cloudd.commons.auth.config.AuthCommonImport;
-import com.clouddo.log.common.config.LogCommonImport;
+import com.clouddo.log.common.imports.LogCommonAllImport;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Import;
 @EnableEurekaClient
 @Import({
 		AuthCommonImport.class,
-		LogCommonImport.class
+		LogCommonAllImport.class
 })
 public class CloudAiServerApplication {
 

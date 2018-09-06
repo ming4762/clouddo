@@ -8,6 +8,7 @@ import com.clouddo.ai.server.service.CloudIntentService;
 import com.clouddo.commons.common.util.UUIDGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -142,7 +143,9 @@ public class CloudIntentServiceImpl implements CloudIntentService {
         if(cloudIntent != null) {
             //将词槽信息放入map中
             List<CloudSlotDO> cloudSlotList = cloudIntent.getCloudSlotList();
-            if(cloudSlotList != null && cloudSlotList.size() > 0) {
+            if (cloudSlotList == null || cloudSlotList.size() == 0 || StringUtils.isEmpty(cloudSlotList.get(0).getSlotId())) {
+                cloudIntent.setCloudSlotList(null);
+            } else {
                 for(CloudSlotDO cloudSlot : cloudSlotList) {
                     cloudIntent.getCloudSlotMap().put(cloudSlot.getSlotName(), cloudSlot);
                 }

@@ -90,15 +90,15 @@
 
 	<!--查询意图信息和意图对应的词条信息-->
 	<select id="getWithSolts" resultMap="cloudIntentResultMap">
-		SELECT * FROM cloud_intent_slot A
-		LEFT JOIN <include refid="tableName"></include> B ON A.INTENT_ID = B.INTENT_ID
-		LEFT JOIN cloud_slot C ON A.SLOT_ID = C.SLOT_ID
+		SELECT * FROM <include refid="tableName"></include> A
+		LEFT OUTER JOIN cloud_intent_slot B ON A.INTENT_ID = B.INTENT_ID
+		LEFT OUTER JOIN cloud_slot C ON B.SLOT_ID = C.SLOT_ID
 		<where>
 			<if test="intentId != null and intentId != ''">
-				AND INTENT_ID = #{intentId}
+				AND A.INTENT_ID = #{intentId}
 			</if>
 			<if test="intentName != null and intentName != ''">
-				AND INTENT_NAME = #{intentName}
+				AND A.INTENT_NAME = #{intentName}
 			</if>
 		</where>
 	</select>
