@@ -31,12 +31,34 @@ public class RestUtil {
         RestTemplate restTemplate = ApplicationContextRegister.getBean(RestTemplate.class);
         //设置请求头
         HttpHeaders httpHeaders = new HttpHeaders();
-        for(Map.Entry<String, String> entry : headers.entrySet()) {
-            httpHeaders.add(entry.getKey(), entry.getValue());
+        if (headers != null) {
+            for(Map.Entry<String, String> entry : headers.entrySet()) {
+                httpHeaders.add(entry.getKey(), entry.getValue());
+            }
         }
-
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(parameters, httpHeaders);
         ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Object.class);
+        return response;
+    }
+
+    /**
+     * 发送get请求
+     * @param url 请求地址
+     * @param headers 请求头
+     * @param parameters 请求参数
+     * @return
+     */
+    public static ResponseEntity restGet(String url, Map<String, String> headers, MultiValueMap<String, Object> parameters) {
+        RestTemplate restTemplate = ApplicationContextRegister.getBean(RestTemplate.class);
+        //设置请求头
+        HttpHeaders httpHeaders = new HttpHeaders();
+        if (headers != null) {
+            for(Map.Entry<String, String> entry : headers.entrySet()) {
+                httpHeaders.add(entry.getKey(), entry.getValue());
+            }
+        }
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(parameters, httpHeaders);
+        ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Object.class);
         return response;
     }
 

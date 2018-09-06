@@ -69,12 +69,23 @@ public class SessionUtil {
     }
 
     /**
+     * 删除session
+     */
+    public static void deleteSession() {
+        threadLocal.remove();
+    }
+
+    /**
      * 获取sessionId
-     * @param id
+     * @param
      * @return
      */
-    public static String getSessionId(String token) {
+    public static String createSessionId(String token) {
         return AuthConstants.SESSION_KEY_PREFIX + token;
     }
+
+
+
+
 
 }

@@ -2,6 +2,7 @@ package com.clouddo.commons.common.util.http;
 
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.fluent.Request;
@@ -48,7 +49,7 @@ public class HttpUtil {
 
         //设置参数
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-        //设置请求头
+        //设置参数
         for(Map.Entry<String, Object> entry : parameters.entrySet()) {
             nvps.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
         }
@@ -60,6 +61,48 @@ public class HttpUtil {
         }
         logger.warn("发送POST请求失败，URL：{}，请求头：{}，请求参数：{}，错误码：{}", url, headers, parameters, response.getStatusLine().getStatusCode());
         return null;
+
+    }
+
+
+    /**
+     * 发送post请求
+     * @param url 请求的URL
+     * @param headers 请求头信息
+     * @param parameters 请求参数
+     * @return 请求结果
+     * @throws IOException
+     */
+    public static HttpResponse httpGet(String url, Map<String, String> headers, Map<String, Object> parameters) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        StringBuilder stringBuffer = new StringBuilder(url);
+        if (parameters != null) {
+            //设置参数
+            int i = 0;
+            for(Map.Entry<String, Object> entry : parameters.entrySet()) {
+                if(i == 0) {
+                    stringBuffer.append("?").append(entry.getKey()).append("=").append(entry.getValue());
+                } else {
+                    stringBuffer.append("&").append(entry.getKey()).append("=").append(entry.getValue());
+                }
+                i++;
+            }
+        }
+
+        HttpGet get = new HttpGet(stringBuffer.toString());
+        if (headers != null) {
+            //设置请求头
+            for(Map.Entry<String, String> entry : headers.entrySet()) {
+                get.setHeader(entry.getKey(), entry.getValue());
+            }
+        }
+
+        HttpResponse response = httpClient.execute(get);
+        //获取状态码
+        if(response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            logger.warn("发送GET请求失败，URL：{}，请求头：{}，请求参数：{}，错误码：{}", url, headers, parameters, response.getStatusLine().getStatusCode());
+        }
+        return response;
 
     }
 

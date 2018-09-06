@@ -1,5 +1,6 @@
 package com.cloudd.commons.auth.config;
 
+import com.cloudd.commons.auth.util.TokenUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,5 +28,10 @@ public class AuthConfig {
     @Bean
     public UserAuthConfig userAuthConfig() {
         return new UserAuthConfig();
+    }
+
+    @Bean
+    public TokenUtil tokenUtil() {
+        return new TokenUtil();
     }
 }
