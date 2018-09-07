@@ -14,16 +14,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/sys/role")
 @Controller
-public class RoleController extends AuthController {
+public class RoleController extends AuthController<Role> {
 	String prefix = "system/role";
 	@Autowired
     RoleService roleService;
+
 
 	@RequiresPermissions("sys:role:role")
 	@GetMapping()
@@ -87,14 +89,13 @@ public class RoleController extends AuthController {
 	@RequiresPermissions("sys:role:edit")
 	@PostMapping("/update")
 	@ResponseBody()
-    R update(Role role) {
-		if (CommonConstants.DEMO_ACCOUNT.equals(getUsername())) {
-			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
-		}
-		if (roleService.update(role) > 0) {
-			return R.ok();
-		} else {
-			return R.error(1, "保存失败");
+    Result update(@RequestBody Role role) {
+		try {
+			role.setGmtModified(new Date());
+			return Result.success(roleService.update(role));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.failure("更新角色失败", e.getMessage());
 		}
 	}
 
@@ -145,6 +146,22 @@ public class RoleController extends AuthController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Result.failure(e.getMessage());
+		}
+	}
+
+	/**
+	 * 查询角色拥有的菜单ID
+	 * @param roleId
+	 * @return
+	 */
+	@PostMapping("/listMenuId/{roleId}")
+	@ResponseBody
+	public Result listMenuId(@PathVariable("roleId") String roleId) {
+		try {
+			return Result.success(this.roleService.listMenuIdByRole(roleId));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.failure("查询角色拥有的菜单ID失败", e.getMessage());
 		}
 	}
 }

@@ -237,4 +237,21 @@ public class MenuController extends AuthController {
 			return Result.failure(e.getMessage());
 		}
 	}
+
+	/**
+	 * 获取菜单树形结构
+	 * @param parameters 参数
+	 * @return 菜单树形结构
+	 */
+	@ResponseBody
+	@PostMapping("/tree")
+	@com.cloudd.commons.auth.annotation.RequiresPermissions("sys:menu:tree")
+	public Result tree(@RequestBody Map<String, Object> parameters) {
+		try {
+			return Result.success(this.menuService.getTree());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.failure("获取菜单树形结构失败", e.getMessage());
+		}
+	}
 }

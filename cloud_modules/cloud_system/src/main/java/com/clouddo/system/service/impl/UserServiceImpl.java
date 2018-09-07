@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 //	private BootdoConfig bootdoConfig;
 //
 //	@Autowired
-//	private LocalConfig localConfig;
+//	private localConfig localConfig;
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
 	@Override

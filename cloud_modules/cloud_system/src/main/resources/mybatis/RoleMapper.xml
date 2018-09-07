@@ -9,6 +9,19 @@
 		from sys_role where role_id = #{value}
 	</select>
 
+	<!--查询角色拥有的菜单信息-->
+	<select id="listMenuByRole" parameterType="map" resultMap="MenuResultMap">
+		SELECT
+		 A.*
+		FROM sys_menu A
+		JOIN sys_role_menu B ON A.menu_id = B.menu_id
+		<where>
+			<if test="roleId != null and roleId != ''">
+				AND B.role_Id = #{roleId}
+			</if>
+		</where>
+	</select>
+	
 	<select id="list" resultMap="roleResultMap">
 		select
 		role_id,role_name,role_sign,remark,user_id_create,gmt_create,gmt_modified
@@ -101,6 +114,20 @@
 		<result column="role_sign" property="roleSign"></result>
 		<result column="remark" property="remark"></result>
 		<result column="user_id_create" property="userIdCreate"></result>
+		<result column="gmt_create" property="gmtCreate"></result>
+		<result column="gmt_modified" property="gmtModified"></result>
+	</resultMap>
+
+	<!--菜单resultmap-->
+	<resultMap id="MenuResultMap" type="com.clouddo.system.dto.MenuDTO">
+		<id property="menuId" column="menu_id"></id>
+		<result column="parent_id" property="parentId"></result>
+		<result column="name" property="name"></result>
+		<result column="url" property="url"></result>
+		<result column="perms" property="perms"></result>
+		<result column="type" property="type"></result>
+		<result column="icon" property="icon"></result>
+		<result column="order_num" property="orderNum"></result>
 		<result column="gmt_create" property="gmtCreate"></result>
 		<result column="gmt_modified" property="gmtModified"></result>
 	</resultMap>

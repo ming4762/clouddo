@@ -1,19 +1,29 @@
 package com.clouddo.system.model;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
+@Table(name = "sys_role")
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = -977157267181758411L;
+	@Column(name = "role_id")
 	private String roleId;
+	@Column(name = "role_name")
 	private String roleName;
+	@Column(name = "role_sign")
 	private String roleSign;
+	@Column(name = "remark")
 	private String remark;
+	@Column(name = "user_id_create")
 	private String userIdCreate;
-	private Timestamp gmtCreate;
-	private Timestamp gmtModified;
+	@Column(name = "gmt_create")
+	private Date gmtCreate;
+	@Column(name = "gmt_modified")
+	private Date gmtModified;
 	private List<String> menuIds;
 
 	public String getRoleId() {
@@ -56,19 +66,19 @@ public class Role implements Serializable {
 		this.userIdCreate = userIdCreate;
 	}
 
-	public Timestamp getGmtCreate() {
+	public Date getGmtCreate() {
 		return gmtCreate;
 	}
 
-	public void setGmtCreate(Timestamp gmtCreate) {
+	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
 
-	public Timestamp getGmtModified() {
+	public Date getGmtModified() {
 		return gmtModified;
 	}
 
-	public void setGmtModified(Timestamp gmtModified) {
+	public void setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;
 	}
 

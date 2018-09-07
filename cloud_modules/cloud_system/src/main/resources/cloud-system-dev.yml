@@ -4,6 +4,11 @@ logging:
     root: info
     com.clouddo: debug
 
+cloud:
+  config:
+#    本地化配置信息
+    localPath: localConfig/huancui.yml
+
 spring:
   datasource:
     name: systemDB

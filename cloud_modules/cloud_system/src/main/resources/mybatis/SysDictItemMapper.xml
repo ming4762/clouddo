@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.system.mapper.SysDictItemMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		sys_dict_item
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="sysDictItemResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="itemCode != null and itemCode != ''">
+				AND A.ITEM_CODE LIKE '%${itemCode}%'
+			</if>
+			<if test="dictCode != null and dictCode != ''">
+				AND A.DICT_CODE LIKE '%${dictCode}%'
+			</if>
+			<if test="itemValue != null and itemValue != ''">
+				AND A.ITEM_VALUE LIKE '%${itemValue}%'
+			</if>
+			<if test="seq != null and seq != ''">
+				AND A.SEQ LIKE '%${seq}%'
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				AND A.PARENT_CODE LIKE '%${parentCode}%'
+			</if>
+			<if test="note != null and note != ''">
+				AND A.NOTE LIKE '%${note}%'
+			</if>
+			<if test="inUse != null and inUse != ''">
+				AND A.IN_USE LIKE '%${inUse}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.ITEM_CODE LIKE '%${keyword}%'
+
+				OR A.DICT_CODE LIKE '%${keyword}%'
+
+				OR A.ITEM_VALUE LIKE '%${keyword}%'
+
+				OR A.SEQ LIKE '%${keyword}%'
+
+				OR A.PARENT_CODE LIKE '%${keyword}%'
+
+				OR A.NOTE LIKE '%${keyword}%'
+
+				OR A.IN_USE LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					ITEM_CODE = #{item.itemCode}
+					AND DICT_CODE = #{item.dictCode}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND ITEM_CODE = '@@@@@abc'
+            	DICT_CODE = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="sysDictItemResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		ITEM_CODE = #{itemCode}
+		AND DICT_CODE = #{dictCode}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			ITEM_VALUE 		= 		#{item.itemValue},
+    			SEQ 		= 		#{item.seq},
+    			PARENT_CODE 		= 		#{item.parentCode},
+    			NOTE 		= 		#{item.note},
+    			IN_USE 		= 		#{item.inUse}
+				<where>
+						and ITEM_CODE = #{item.itemCode}
+						and DICT_CODE = #{item.dictCode}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.system.model.SysDictItem" id="sysDictItemResultMap">
+    	<!-- id -->
+	<!-- 编号 -->
+	<id column="ITEM_CODE" property="itemCode"/>
+	<!-- 字典编码 -->
+	<id column="DICT_CODE" property="dictCode"/>
+    	<!-- column -->
+	<!-- 名称 -->
+	<result column="ITEM_VALUE" property="itemValue"/> 
+	<!-- 序号 -->
+	<result column="SEQ" property="seq"/> 
+	<!-- 上级编码 -->
+	<result column="PARENT_CODE" property="parentCode"/> 
+	<!-- 描述 -->
+	<result column="NOTE" property="note"/> 
+	<!-- 是否启用 -->
+	<result column="IN_USE" property="inUse"/> 
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		ITEM_CODE,
+    		DICT_CODE,
+    		ITEM_VALUE,
+    		SEQ,
+    		PARENT_CODE,
+    		NOTE,
+    		IN_USE
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.itemCode},
+			#{item.dictCode},
+			#{item.itemValue},
+			#{item.seq},
+			#{item.parentCode},
+			#{item.note},
+			#{item.inUse}
+	</sql>
+    		
+</mapper>
+
+

@@ -16,21 +16,19 @@ spring:
       discovery:
         enabled: true
         service-id: cloud_config
-  redis:
-    lettuce:
-      pool:
-        min-idle:
-
-
 
 
 eureka:
+  instance:
+#    使用IP注册
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${spring.application.instance_id:${server.port}}
   client:
     serviceUrl:
 #      服务中心地址
       defaultZone: http://charsming.f3322.org:8761/eureka/
 server:
-  port: 8861
+  port: 8764
 
 
 auth:

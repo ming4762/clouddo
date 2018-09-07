@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.system.mapper.SysDictMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		sys_dict
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="sysDictResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="dictCode != null and dictCode != ''">
+				AND A.DICT_CODE LIKE '%${dictCode}%'
+			</if>
+			<if test="dictName != null and dictName != ''">
+				AND A.DICT_NAME LIKE '%${dictName}%'
+			</if>
+			<if test="setMan != null and setMan != ''">
+				AND A.SET_MAN LIKE '%${setMan}%'
+			</if>
+			<if test="setTime != null and setTime != ''">
+				AND A.SET_TIME LIKE '%${setTime}%'
+			</if>
+			<if test="note != null and note != ''">
+				AND A.NOTE LIKE '%${note}%'
+			</if>
+			<if test="inUse != null and inUse != ''">
+				AND A.IN_USE LIKE '%${inUse}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.DICT_CODE LIKE '%${keyword}%'
+
+				OR A.DICT_NAME LIKE '%${keyword}%'
+
+				OR A.SET_MAN LIKE '%${keyword}%'
+
+				OR A.SET_TIME LIKE '%${keyword}%'
+
+				OR A.NOTE LIKE '%${keyword}%'
+
+				OR A.IN_USE LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					DICT_CODE = #{item.dictCode}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND DICT_CODE = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="sysDictResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		DICT_CODE = #{dictCode}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			DICT_NAME 		= 		#{item.dictName},
+    			SET_MAN 		= 		#{item.setMan},
+    			SET_TIME 		= 		#{item.setTime},
+    			NOTE 		= 		#{item.note},
+    			IN_USE 		= 		#{item.inUse}
+				<where>
+						and DICT_CODE = #{item.dictCode}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.system.model.SysDict" id="sysDictResultMap">
+    	<!-- id -->
+	<!-- 字典ID -->
+	<id column="DICT_CODE" property="dictCode"/>
+    	<!-- column -->
+	<!-- 字典名称 -->
+	<result column="DICT_NAME" property="dictName"/> 
+	<!-- 最近修改人 -->
+	<result column="SET_MAN" property="setMan"/> 
+	<!-- 最近修改时间 -->
+	<result column="SET_TIME" property="setTime"/> 
+	<!-- 描述 -->
+	<result column="NOTE" property="note"/> 
+	<!-- 是否启用 -->
+	<result column="IN_USE" property="inUse"/> 
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		DICT_CODE,
+    		DICT_NAME,
+    		SET_MAN,
+    		SET_TIME,
+    		NOTE,
+    		IN_USE
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.dictCode},
+			#{item.dictName},
+			#{item.setMan},
+			#{item.setTime},
+			#{item.note},
+			#{item.inUse}
+	</sql>
+    		
+</mapper>
+
+

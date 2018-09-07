@@ -2,6 +2,7 @@ package com.clouddo.system.mapper;
 
 import com.clouddo.system.model.RoleMenu;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public interface RoleMenuMapper {
 
     int batchRemove(String[] ids);
 
-    List<String> listMenuIdByRoleId(String roleId);
+    List<String> listMenuIdByRoleId(@Param("roleId") String roleId);
 
     int removeByRoleId(String roleId);
 

@@ -39,8 +39,7 @@ public class IndexController extends AuthController {
         try {
             Map<String, Object> result = new HashMap<String, Object>();
             //获取菜单信息
-//            List<Tree<Menu>> menus = menuService.listMenuTree(getUserId());
-            List<Tree<Menu>> menus = menuService.listMenuTree("1");
+            List<Tree<Menu>> menus = menuService.listMenuTree(getUserId());
             result.put("menus", menus);
             result.put("username", getUsername());
             result.put("picUrl","/img/photo_s.jpg");

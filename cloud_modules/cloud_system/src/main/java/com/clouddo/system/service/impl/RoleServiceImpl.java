@@ -1,5 +1,7 @@
 package com.clouddo.system.service.impl;
 
+import com.clouddo.commons.common.util.UUIDGenerator;
+import com.clouddo.system.dto.MenuDTO;
 import com.clouddo.system.mapper.RoleMapper;
 import com.clouddo.system.mapper.RoleMenuMapper;
 import com.clouddo.system.mapper.UserMapper;
@@ -11,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Service
@@ -99,6 +98,7 @@ public class RoleServiceImpl implements RoleService {
         List<RoleMenu> rms = new ArrayList<>();
         for (String menuId : menuIds) {
             RoleMenu rmDo = new RoleMenu();
+            rmDo.setId(UUIDGenerator.getUUID());
             rmDo.setRoleId(roleId);
             rmDo.setMenuId(menuId);
             rms.add(rmDo);
@@ -113,6 +113,33 @@ public class RoleServiceImpl implements RoleService {
     public int batchremove(String[] ids) {
         int r = roleMapper.batchRemove(ids);
         return r;
+    }
+
+    /**
+     * 查询角色拥有的菜单ID
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<String> listMenuIdByRole(String roleId) {
+        List<MenuDTO> menuDTOList = this.listMenuByRole(roleId);
+        List<String> menuIdList = new ArrayList<>(menuDTOList.size());
+        for (MenuDTO menuDTO : menuDTOList) {
+            menuIdList.add(menuDTO.getMenuId());
+        }
+        return menuIdList;
+    }
+
+    /**
+     * 查询角色拥有的菜单信息
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<MenuDTO> listMenuByRole(String roleId) {
+        Map<String, Object> parameters = new HashMap<>(1);
+        parameters.put("roleId", roleId);
+        return this.roleMapper.listMenuByRole(parameters);
     }
 
 }

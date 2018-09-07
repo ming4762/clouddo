@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.system.mapper.SysOrganDutyMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		sys_organ_duty
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="sysOrganDutyResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="organId != null and organId != ''">
+				AND A.ORGAN_ID = #{organId}
+			</if>
+			<if test="parentId != null and parentId != ''">
+				AND A.PARENT_ID = #{parentId}
+			</if>
+			<if test="organName != null and organName != ''">
+				AND A.ORGAN_NAME LIKE '%${organName}%'
+			</if>
+			<if test="shortName != null and shortName != ''">
+				AND A.SHORT_NAME LIKE '%${shortName}%'
+			</if>
+			<if test="organType != null and organType != ''">
+				AND A.ORGAN_TYPE LIKE '%${organType}%'
+			</if>
+			<if test="organLevel != null and organLevel != ''">
+				AND A.ORGAN_LEVEL LIKE '%${organLevel}%'
+			</if>
+			<if test="addvcd != null and addvcd != ''">
+				AND A.ADDVCD LIKE '%${addvcd}%'
+			</if>
+			<if test="createTime != null and createTime != ''">
+				AND A.CREATE_TIME LIKE '%${createTime}%'
+			</if>
+			<if test="createUserId != null and createUserId != ''">
+				AND A.CREATE_USER_ID LIKE '%${createUserId}%'
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+				AND A.UPDATE_TIME LIKE '%${updateTime}%'
+			</if>
+			<if test="updateUserId != null and updateUserId != ''">
+				AND A.UPDATE_USER_ID LIKE '%${updateUserId}%'
+			</if>
+			<if test="seq != null and seq != ''">
+				AND A.SEQ LIKE '%${seq}%'
+			</if>
+			<if test="inUse != null and inUse != ''">
+				AND A.IN_USE LIKE '%${inUse}%'
+			</if>
+			<if test="icon != null and icon != ''">
+				AND A.ICON LIKE '%${icon}%'
+			</if>
+			<if test="ident != null and ident != ''">
+				AND A.IDENT LIKE '%${ident}%'
+			</if>
+			<if test="duty != null and duty != ''">
+				AND A.DUTY LIKE '%${duty}%'
+			</if>
+			<if test="remark != null and remark != ''">
+				AND A.REMARK LIKE '%${remark}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.ORGAN_ID LIKE '%${keyword}%'
+
+				OR A.PARENT_ID LIKE '%${keyword}%'
+
+				OR A.ORGAN_NAME LIKE '%${keyword}%'
+
+				OR A.SHORT_NAME LIKE '%${keyword}%'
+
+				OR A.ORGAN_TYPE LIKE '%${keyword}%'
+
+				OR A.ORGAN_LEVEL LIKE '%${keyword}%'
+
+				OR A.ADDVCD LIKE '%${keyword}%'
+
+				OR A.CREATE_TIME LIKE '%${keyword}%'
+
+				OR A.CREATE_USER_ID LIKE '%${keyword}%'
+
+				OR A.UPDATE_TIME LIKE '%${keyword}%'
+
+				OR A.UPDATE_USER_ID LIKE '%${keyword}%'
+
+				OR A.SEQ LIKE '%${keyword}%'
+
+				OR A.IN_USE LIKE '%${keyword}%'
+
+				OR A.ICON LIKE '%${keyword}%'
+
+				OR A.IDENT LIKE '%${keyword}%'
+
+				OR A.DUTY LIKE '%${keyword}%'
+
+				OR A.REMARK LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					ORGAN_ID = #{item.organId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND ORGAN_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="sysOrganDutyResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		ORGAN_ID = #{organId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			PARENT_ID 		= 		#{item.parentId},
+    			ORGAN_NAME 		= 		#{item.organName},
+    			SHORT_NAME 		= 		#{item.shortName},
+    			ORGAN_TYPE 		= 		#{item.organType},
+    			ORGAN_LEVEL 		= 		#{item.organLevel},
+    			ADDVCD 		= 		#{item.addvcd},
+    			CREATE_TIME 		= 		#{item.createTime},
+    			CREATE_USER_ID 		= 		#{item.createUserId},
+    			UPDATE_TIME 		= 		#{item.updateTime},
+    			UPDATE_USER_ID 		= 		#{item.updateUserId},
+    			SEQ 		= 		#{item.seq},
+    			IN_USE 		= 		#{item.inUse},
+    			ICON 		= 		#{item.icon},
+    			IDENT 		= 		#{item.ident},
+    			DUTY 		= 		#{item.duty},
+    			REMARK 		= 		#{item.remark}
+				<where>
+						and ORGAN_ID = #{item.organId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.system.model.SysOrganDuty" id="sysOrganDutyResultMap">
+    	<!-- id -->
+		<!-- ID -->
+		<id column="ORGAN_ID" property="organId"/>
+	    	<!-- column -->
+		<!-- 上级ID -->
+		<result column="PARENT_ID" property="parentId"/> 
+		<!-- 名称 -->
+		<result column="ORGAN_NAME" property="organName"/> 
+		<!-- 短名称 -->
+		<result column="SHORT_NAME" property="shortName"/> 
+		<!-- 类型 -->
+		<result column="ORGAN_TYPE" property="organType"/> 
+		<!-- 级别 -->
+		<result column="ORGAN_LEVEL" property="organLevel"/> 
+		<!-- 行政区编码 -->
+		<result column="ADDVCD" property="addvcd"/> 
+		<!-- 创建时间 -->
+		<result column="CREATE_TIME" property="createTime"/> 
+		<!-- 创建人员ID -->
+		<result column="CREATE_USER_ID" property="createUserId"/> 
+		<!-- 更新时间 -->
+		<result column="UPDATE_TIME" property="updateTime"/> 
+		<!-- 更新人员ID -->
+		<result column="UPDATE_USER_ID" property="updateUserId"/> 
+		<!-- 序号 -->
+		<result column="SEQ" property="seq"/> 
+		<!-- 是否启用 -->
+		<result column="IN_USE" property="inUse"/> 
+		<!-- 图标 -->
+		<result column="ICON" property="icon"/> 
+		<!-- 标识 -->
+		<result column="IDENT" property="ident"/> 
+		<!-- 职务 -->
+		<result column="DUTY" property="duty"/> 
+		<!-- 备注 -->
+		<result column="REMARK" property="remark"/> 
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		ORGAN_ID,
+    		PARENT_ID,
+    		ORGAN_NAME,
+    		SHORT_NAME,
+    		ORGAN_TYPE,
+    		ORGAN_LEVEL,
+    		ADDVCD,
+    		CREATE_TIME,
+    		CREATE_USER_ID,
+    		UPDATE_TIME,
+    		UPDATE_USER_ID,
+    		SEQ,
+    		IN_USE,
+    		ICON,
+    		IDENT,
+    		DUTY,
+    		REMARK
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.organId},
+			#{item.parentId},
+			#{item.organName},
+			#{item.shortName},
+			#{item.organType},
+			#{item.organLevel},
+			#{item.addvcd},
+			#{item.createTime},
+			#{item.createUserId},
+			#{item.updateTime},
+			#{item.updateUserId},
+			#{item.seq},
+			#{item.inUse},
+			#{item.icon},
+			#{item.ident},
+			#{item.duty},
+			#{item.remark}
+	</sql>
+    		
+</mapper>
+
+

@@ -45,18 +45,19 @@ public class UserController extends AuthController<User> {
 
 	@PostMapping("/list")
 	@ResponseBody
-	Result<Map<String, Object>> list(@RequestBody Map<String, Object> parameterSet) {
+	Result<Object> list(@RequestBody Map<String, Object> parameterSet) {
 		// 查询列表数据
-		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			//判断是否分页
 			Page page = this.paging(parameterSet);
 			List<User> userList = userService.list(parameterSet);
-			data.put(ROWS, userList);
 			if(page != null) {
+				Map<String, Object> data = new HashMap<String, Object>();
+				data.put(ROWS, userList);
 				data.put(TOTAL, page.getTotal());
+				return Result.success(data);
 			}
-			return Result.success(data);
+			return Result.success(userList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Result.failure(e.getMessage());

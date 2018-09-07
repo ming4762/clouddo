@@ -1,0 +1,9 @@
+
+local:
+  system:
+    title: 平台
+    subtitle: 河长制综合管理平台
+    version: 2.0.0
+  development:
+    name: 山东善思明科技发展股份有限公司
+    url: http://www.charsming.com/
