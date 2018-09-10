@@ -16,6 +16,8 @@ namespace com.clouddo.ui.vue {
         // vue挂在后事件
         private vueMountedFunction: Function
 
+        private customWatch: {[index:string]: Function} = {}
+
         /**
          * 构造函数
          * @param {string} ele vue绑定的element
@@ -43,7 +45,8 @@ namespace com.clouddo.ui.vue {
                     if ($this.vueMountedFunction) {
                         $this.vueMountedFunction()
                     }
-                }
+                },
+                watch: this.customWatch
             })
             return vue
         }
@@ -94,6 +97,16 @@ namespace com.clouddo.ui.vue {
          */
         public vueMounted (vueMountedFunction: Function) {
             this.vueMountedFunction = vueMountedFunction
+            return this
+        }
+
+        /**
+         * 设置自定义观察者
+         * @param {{[p: string]: Function}} customWatch
+         * @returns {this}
+         */
+        public setCustomWatch (customWatch: {[index:string]: Function}) {
+            this.customWatch = customWatch
             return this
         }
     }

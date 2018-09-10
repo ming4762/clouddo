@@ -459,9 +459,9 @@ namespace com.clouddo.ui.table {
          * @returns {number}
          */
         public getTableHeight() : number {
-            let _height = 91;
+            let _height = 83;
             if (this.isPaging) {
-                _height += 52;
+                _height += 32;
             }
             return document.body.clientHeight - _height;
         }

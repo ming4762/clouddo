@@ -11,7 +11,17 @@ namespace com.clouddo.ui.util {
 
     export class RestUtil{
 
-        public static BACKGROUND_URL : string = "backgroundURL";
+        public static BACKGROUND_URL : string = "backgroundURL"
+        /**
+         * 存储本地化配置信息的key
+         * @type {string}
+         */
+        public static LOCAL_CONFIG_KEY: string = "cloud_local_config"
+        /**
+         * 本地化配置信息请求地址
+         * @type {string}
+         */
+        public static LOCAL_CONFIG_URL: string = 'system/public/local'
 
         /**
          * 获取后台服务地址
@@ -45,6 +55,41 @@ namespace com.clouddo.ui.util {
                 url += "&height=" + height;
             }
             return url;
+        }
+
+        /**
+         * 加载本地化配置信息
+         */
+        public static loadLocalConfig (callback?: Function): void {
+            this.postAjax(this.LOCAL_CONFIG_URL, null, (result) => {
+                StorageUtil.setToSession(this.LOCAL_CONFIG_KEY, result)
+                // 执行回调函数
+                if (callback) {
+                    callback()
+                }
+            }, (result) => {
+                this.throwError('获取本地配置信息失败', result)
+            });
+        }
+
+        /**
+         * 获取本地化配置信息
+         * @returns {any}
+         */
+        public static getLocalConfig (): any {
+            return StorageUtil.get(this.LOCAL_CONFIG_KEY)
+        }
+
+        /**
+         * 抛出错误弹窗
+         * @param message
+         */
+        public static throwError (message, error): void {
+            console.log(error)
+            layer.alert(message, {
+                icon: 2,
+                title: '错误'
+            })
         }
 
         /**
