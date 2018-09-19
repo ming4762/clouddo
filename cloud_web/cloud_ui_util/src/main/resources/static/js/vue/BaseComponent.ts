@@ -20,6 +20,12 @@ namespace com.clouddo.ui.vue {
          */
         create (): void
 
+        /**
+         * 组件
+         * @returns {{[p: string]: any}}
+         */
+        components (): {[index: string]: any}
+
         filters (): {[index: string]: Function}
 
         /**

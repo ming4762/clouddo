@@ -4,6 +4,7 @@ namespace com.clouddo.ui.vue {
     declare let Vue
     export abstract class BaseComponentImpl implements BaseComponent {
 
+
         /**
          * 组件名称
          */
@@ -16,6 +17,14 @@ namespace com.clouddo.ui.vue {
          */
         constructor (name: string, constructData?: any) {
             this.name = name
+        }
+
+        /**
+         * 组件
+         * @returns {{[p: string]: any}}
+         */
+        components(): { [index: string]: any} {
+            return {}
         }
 
         /**
@@ -48,6 +57,7 @@ namespace com.clouddo.ui.vue {
             let initData: {[index: string]: any} = {
                 template: this.template(),
                 filters: this.filters(),
+                components: this.components(),
                 data: this.data,
                 props: this.props(),
                 methods: this.methods(),

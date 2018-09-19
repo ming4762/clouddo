@@ -71,6 +71,9 @@
 
 		<cloud_plugin.version>0.0.1-SNAPSHOT</cloud_plugin.version>
 		<cloud_ui_util.version>0.0.1-SNAPSHOT</cloud_ui_util.version>
+		<cloud_quartz_common.version>0.0.1-SNAPSHOT</cloud_quartz_common.version>
+		<cloud_quartz_ui.version>0.0.1-SNAPSHOT</cloud_quartz_ui.version>
+		<cloud_monitor_ui.version>0.0.1-SNAPSHOT</cloud_monitor_ui.version>
 	</properties>
 
 	<dependencies>
