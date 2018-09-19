@@ -20,7 +20,6 @@ spring:
       maxRequestSize: 100MB
 
 
-
 eureka:
   client:
     serviceUrl:
@@ -40,3 +39,5 @@ auth:
 #    客户端的ID密码
     id: cloud-file-server
     secret: cloud123456
+server:
+  port: 8766

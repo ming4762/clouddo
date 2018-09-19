@@ -73,6 +73,36 @@ namespace com.clouddo.ui.gis {
         }
 
         /**
+         * 弹窗
+         * @param message
+         * @param mapPoint
+         * @returns {com.clouddo.ui.gis.View}
+         */
+        public openPopup (message: any, mapPoint: any): View {
+            let popubTem = message
+            popubTem.location = mapPoint
+            this.getActiveView().popup.open(popubTem)
+            return this
+        }
+
+        /**
+         * 关闭弹窗
+         * @returns {com.clouddo.ui.gis.View}
+         */
+        public closePopup (): View {
+            this.getActiveView().popup.close()
+            return this
+        }
+
+        /**
+         * 添加图层
+         * @param layer
+         */
+        public addLayer (layer: any): void {
+            this.getMap().add(layer)
+        }
+
+        /**
          * 设置是否是2D3D混合地图
          * @param {boolean} with2D3D
          * @returns {com.clouddo.ui.gis.View}
@@ -198,6 +228,44 @@ namespace com.clouddo.ui.gis {
         }
 
         /**
+         * 添加默认的视图事件
+         */
+        protected addDefaultViewEvent (view: any): void {
+            // 鼠标移动事件
+            view.on('pointer-move', (event) => {
+                if (event.x !== 0 && event.y !== 0) {
+                    view.hitTest(event)
+                        .then((response) => {
+                            if (response['results'].length && response.results[0].graphic) {
+                                let layer: BaseLayer = response.results[0].graphic.attributes.layer
+                                if (layer) {
+                                    // 调用图层鼠标移动相应方法
+                                    layer.pointerMove(response)
+                                }
+                            } else {
+                                this.closePopup()
+                            }
+                        })
+                }
+            })
+            // 鼠标点击事件
+            view.on('click', (event) => {
+                view.hitTest(event)
+                    .then((response) => {
+                        if (response['results'].length && response.results[0].graphic) {
+                            let layer: BaseLayer = response.results[0].graphic.attributes.layer
+                            if (layer) {
+                                // 调用图层鼠标移动相应方法
+                                layer.clickGraphic(response)
+                            }
+                        } else {
+                            this.closePopup()
+                        }
+                    })
+            })
+        }
+
+        /**
          * 创建单一视图
          * @param initialViewParams
          */
@@ -226,6 +294,8 @@ namespace com.clouddo.ui.gis {
                 if (!Validate.validateNull(this.events[View.EVENT_NAMES.ALL_CREATE])) {
                     this.events[View.EVENT_NAMES.ALL_CREATE](this)
                 }
+                // 添加默认的视图事件
+                this.addDefaultViewEvent(view)
                 this.load = true
             })
         }
@@ -260,7 +330,8 @@ namespace com.clouddo.ui.gis {
                     if (!Validate.validateNull($this.events[View.EVENT_NAMES.ONE_CREATE])) {
                         $this.events[View.EVENT_NAMES.ONE_CREATE]($this)
                     }
-                    // viewObject._onViewCreateEvent(view);
+                    // 添加默认的视图事件
+                    $this.addDefaultViewEvent(view)
                     return view;
                 }
                 // 所有视图创建完成回调

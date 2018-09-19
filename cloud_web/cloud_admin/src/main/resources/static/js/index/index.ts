@@ -10,11 +10,12 @@ $("document").ready(function () {
 namespace com.clouddo.admin {
 
     import AuthRestUtil = com.clouddo.ui.util.AuthRestUtil;
+    import RestUtil = com.clouddo.ui.util.RestUtil;
     declare let $ : any;
     declare let Vue : any;
     declare let layer : any;
 
-    import RestUtil = com.clouddo.ui.util.RestUtil;
+
 
     export class Index {
 
@@ -25,6 +26,8 @@ namespace com.clouddo.admin {
         private leftVue : any;
         //右上角按钮vue
         private topButtonVue : any;
+        // 底部VUE
+        private footerVue: any
         //使用map存放顶级菜单，便于处理
         private topMenuMap : {[index:string]: any} = {};
 
@@ -40,7 +43,14 @@ namespace com.clouddo.admin {
          * 初始化vue
          */
         private initVue() : void {
-            let mainObject = this;
+            let mainObject = this
+            this.footerVue = new Vue({
+                el: '#footerVue',
+                data: {
+                    // 本地化配置信息
+                    localConfig: RestUtil.getLocalConfig()
+                }
+            })
             this.topButtonVue = new Vue({
                 el: "#topButtonDiv",
                 data: {

@@ -1,4 +1,5 @@
 import AddEditPage = com.clouddo.ui.page.AddEditPage;
+import RoleAddEdit = com.clouddo.ui.table.RoleAddEdit;
 
 
 let pageModel;
@@ -40,11 +41,16 @@ $(document).ready(function() {
         //添加自定义方法
         .addCustomMethods({
         })
+        .setCustomWatch({
+            menuTreeData: (_new, old) => {
+                console.log(_new, old)
+            }
+        })
         // vue挂在后函数
         .vueMounted(function () {
             //加载菜单数据
             pageModel.loadMenuList()
-            pageModel.loadCheckMenuIds()
+            // pageModel.loadCheckMenuIds()
         });
     if(roleId) {
         pageModel.setIdent(AddEditPage.EDIT_IDENT)
@@ -73,6 +79,8 @@ namespace com.clouddo.ui.table {
             AuthRestUtil.postAjax('system/sys/menu/tree', {}, success, null)
             function success(result) {
                 $this.formVue.menuTreeData = [result]
+                // 加载选中的节点
+                $this.loadCheckMenuIds()
             }
         }
 
@@ -82,9 +90,28 @@ namespace com.clouddo.ui.table {
         public loadCheckMenuIds(): void {
             let $this = this
             let url = 'system/sys/role/listMenuId/' + roleId
-            AuthRestUtil.postAjax(url, {roleId: roleId}, success, null)
-            function success(result) {
-                $this.formVue.checkMenuKeys = result
+            AuthRestUtil.postAjax(url, {roleId: roleId}, (result) => {
+                // 受限于elementUI tree API，只能设置子节点
+                // 遍历选中的叶子节点
+                if (this.formVue.menuTreeData && this.formVue.menuTreeData.length > 0) {
+                    let leafMenuIds: Array<string> = []
+                    // 使用递归获取所有选中的叶子节点
+                    chouseLeafMenu(this.formVue.menuTreeData, result, leafMenuIds)
+                    $this.formVue.$refs.menuTree.setCheckedKeys(leafMenuIds)
+                }
+
+            }, null)
+
+            function chouseLeafMenu(menuList: Array<any>, allChouseIds: Array<string>, leafMenuIds: Array<string>) {
+                for (let menu of menuList) {
+                    let children = menu['children']
+                    if ((!children || children.length === 0) && allChouseIds.indexOf(menu['id']) > 0) {
+                        leafMenuIds.push(menu['id'])
+                    }
+                    if (children && children.length > 0) {
+                        chouseLeafMenu(children, allChouseIds, leafMenuIds)
+                    }
+                }
             }
         }
 
@@ -116,4 +143,3 @@ namespace com.clouddo.ui.table {
     }
 }
 
-import RoleAddEdit = com.clouddo.ui.table.RoleAddEdit;

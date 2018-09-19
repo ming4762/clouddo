@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableFeignClients(basePackages = {
         "com.clouddo.log.common.feign"
 })
+@Deprecated
 public class LogCommonImport {
 
 }

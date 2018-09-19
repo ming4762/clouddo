@@ -21,6 +21,17 @@ namespace com.clouddo.admin {
         //初始化页面
         public init() : void {
             this.initVue();
+            this.loadLocalConfig()
+        }
+
+        /**
+         * 加载本地化配置信息
+         */
+        private loadLocalConfig (): void {
+            RestUtil.loadLocalConfig(() => {
+                let localConfig = RestUtil.getLocalConfig()
+                this.formVue.localConfig = localConfig
+            })
         }
 
         //执行登录
@@ -49,11 +60,16 @@ namespace com.clouddo.admin {
         private initVue() : void {
             let loginObject = this;
             this.formVue = new Vue({
-                el : "#loginForm",
+                el : "#loginPageVue",
                 data : {
                     errors : [],
                     username : null,
-                    password : null
+                    password : null,
+                    // 开发人员信息
+                    localConfig: {
+                        development: {},
+                        system: {}
+                    }
                 },
                 methods : {
                     doLogin : function (event) {

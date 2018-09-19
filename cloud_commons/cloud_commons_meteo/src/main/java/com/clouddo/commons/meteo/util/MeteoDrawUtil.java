@@ -54,7 +54,7 @@ public class MeteoDrawUtil {
     }
 
     /**
-     * 获取24小时雨量等值面
+     * 获取24小时雨量等值线
      * @param stationData 站点数据
      * @param borderShapePath 边界路径
      * @return 等值面图层

@@ -125,4 +125,24 @@ public class WebController {
     public ModelAndView dict(@RequestParam Map<String, Object> parameters) {
         return new ModelAndView("bootdo/dict/dict", parameters);
     }
+
+    /**
+     * 跳转到组织机构页面
+     * @param parameters
+     * @return
+     */
+    @RequestMapping("/system/organDuty")
+    public ModelAndView organDuty(@RequestParam Map<String, Object> parameters) {
+        return new ModelAndView("system/organDuty/organDutyList", parameters);
+    }
+
+    /**
+     * 跳转到组织结构添加修改页面
+     * @param parameters
+     * @return
+     */
+    @RequestMapping("/system/organDutyAddEdit")
+    public ModelAndView organDutyAddEdit(@RequestParam Map<String, Object> parameters) {
+        return new ModelAndView("system/organDuty/organDutyAddEdit", parameters);
+    }
 }

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>定时任务列表</title>
+
+    <link href="css/bootstrap.min.css?v=3.3.6"
+          th:href="@{/plugins/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0"
+          th:href="@{/plugins/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootdo/style.css}" href="/css/style.css?v=4.1.0"
+          rel="stylesheet">
+    <!--element-ui-->
+    <link href="/plugins/element-ui/index.css" th:href="@{/plugins/element-ui/index.css}"
+          rel="stylesheet">
+
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var contextpath = /*[[@{/}]]*/ '';
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body" id="tableVue">
+                <div  id="operationDiv" role="group" class="t-bar">
+                    <el-button-group>
+                        <el-tooltip class="item" effect="dark" content="添加" placement="top-start">
+                            <el-button
+                                    size="medium"
+                                    type="primary"
+                                    icon="el-icon-plus"
+                                    v-if="buttons.addButton"
+                                    @click="handleAdd()">添加</el-button>
+                        </el-tooltip>
+                        <el-tooltip class="item" effect="dark" content="批量删除" placement="top-start">
+                            <el-button
+                                    size="medium"
+                                    type="danger"
+                                    icon="el-icon-delete"
+                                    v-if="buttons.deleteButton"
+                                    @click="handleDelete()">删除</el-button>
+                        </el-tooltip>
+                    </el-button-group>
+                </div>
+                <template>
+                    <el-table
+                            v-loading="loading"
+                            :data="tableData"
+                            border
+                            stripe
+                            style="width: 100%"
+                            v-bind:height="tableHeight"
+                            @sort-change="handleSortChange"
+                            @selection-change="handleSelectionChange">
+                        <!--复选框、列号显示-->
+                        <el-table-column
+                                v-for="column in columns"
+                                :type="column.type"
+                                :width="column.width"
+                                :align="column.align"
+                                :label="column.label"
+                                :formatter="column.formatter"></el-table-column>
+                        <el-table-column
+                                prop="taskName"
+                                label="任务名称"
+                                width="180"
+                                sortable="custom"
+                                align="center"></el-table-column>
+                        <el-table-column
+                                prop="clazz"
+                                label="任务类"
+                                width="260"
+                                sortable="custom"
+                                align="center"></el-table-column>
+                        <el-table-column
+                                prop="cron"
+                                label="cron表达式"
+                                width="220"
+                                sortable="custom"
+                                align="center"></el-table-column>
+                        <el-table-column
+                                prop="enable"
+                                label="启用"
+                                width="180"
+                                sortable="custom"
+                                align="center">
+                            <template slot-scope="scope">
+                                <el-switch
+                                        v-model="scope.row.enable"
+                                        active-color="#13ce66"
+                                        inactive-color="#ff4949"
+                                        @change="openCloseTask(scope.row)">
+                                </el-switch>
+                                <!--<span :class="scope.row.enable | formatEnableClass">{{scope.row.enable ? '启用' : '关闭'}}</span>-->
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="remark"
+                                label="备注"
+                                sortable="custom"
+                                min-width="240"
+                                align="center"></el-table-column>
+                        <el-table-column
+                                fixed="right"
+                                label="操作"
+                                width="260"
+                                align="center">
+                            <template slot-scope="scope">
+                                <el-tooltip class="item" effect="dark" content="编辑" placement="top-start">
+                                    <el-button
+                                            v-if="buttons.editButton"
+                                            size="mini"
+                                            type="warning"
+                                            @click="handleEdit(scope.$index, scope.row)"
+                                            icon="el-icon-edit"></el-button>
+                                </el-tooltip>
+                                <el-tooltip class="item" effect="dark" content="删除" placement="top-start">
+                                    <el-button
+                                            v-if="buttons.deleteButton"
+                                            size="mini"
+                                            type="danger"
+                                            @click="handleDelete(scope.$index, scope.row)"
+                                            icon="el-icon-delete"></el-button>
+                                </el-tooltip>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--jquery-->
+<script th:src="@{/plugins/jquery/2.1.4/jquery.min.js}" src="/js/jquery.min.js?v=2.1.4"></script>
+<!--vue-->
+<script th:src="@{/plugins/vue/2.5.16/js/vue.min.js}" src="/plugins/vue/2.5.16/js/vue.min.js"></script>
+<!--element-ui-->
+<script th:src="@{/plugins/element-ui/index.js}" src="/plugins/element-ui/index.js"></script>
+<script th:src="@{/plugins/layer/3.1.1/layer.js}" src="/js/plugins/layer/layer.js"></script>
+
+<!--rest工具类-->
+<script th:src="@{/js/util/RestUtil.js}" src="/js/util/RestUtil.js" ></script>
+<!--认证模块-->
+<script th:src="@{/js/auth/Auth.js}" src="/js/auth/Auth.js" ></script>
+
+<script th:src="@{/js/table/impl/ElementTableImpl.js}" src="/js/table/impl/ElementTableImpl.js"></script>
+<!--页面js-->
+<script th:src="@{/js/quartz/timedTask/timedTask.js}" src="/js/quartz/timedTask/timedTask.js"></script>
+
+</body>
+</html>

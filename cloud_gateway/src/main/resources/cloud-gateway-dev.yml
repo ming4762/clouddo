@@ -26,11 +26,22 @@ zuul:
 #    新闻服务
     news:
       path: /news/**
-      serviceId: cloud-news-server\
+      serviceId: cloud-news-server
 #    文件服务
     file:
       path: /file/**
       serviceId: cloud-file-server
+#    监控
+    monitor:
+      path: /monitor/**
+      serviceId: cloud-monitor
+#    配置中心
+    config:
+      path: /config/**
+      serviceId: cloud_config
+    hzRiver:
+      path: /hzz/river/**
+      serviceId: charsming-hzz-river
 
   prefix: /cloud
   host:
@@ -43,4 +54,4 @@ zuul:
 gate:
   ignore:
 #    不进行用户登录过滤
-    startWith: /static,/auth,/system/login,/system/test,/ai
+    startWith: /static,/auth,/system/login,/system/public,/ai

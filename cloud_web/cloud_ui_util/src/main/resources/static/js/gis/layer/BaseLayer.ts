@@ -51,5 +51,17 @@ namespace com.clouddo.ui.gis {
          */
         draw (): BaseLayer
 
+        /**
+         * 鼠标点击事件
+         * @param response
+         */
+        clickGraphic (response: any): void
+
+        /**
+         * 鼠标移动事件
+         * @param response
+         */
+        pointerMove (response: any): void
+
     }
 }

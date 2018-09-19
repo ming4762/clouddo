@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.monitor.server.mapper.CloudMonitorLogMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		cloud_monitor_log
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="cloudMonitorLogResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="startTime != null">
+				AND A.time &gt;= #{startTime}
+			</if>
+			<if test="endTime != null">
+				AND A.time &lt;= #{endTime}
+			</if>
+			<if test="logId != null and logId != ''">
+				AND A.log_id = #{logId}
+			</if>
+			<if test="serviceId != null and serviceId != ''">
+				AND A.service_id = #{serviceId}
+			</if>
+			<if test="code != null and code != ''">
+				AND A.code LIKE '%${code}%'
+			</if>
+			<if test="useTime != null and useTime != ''">
+				AND A.use_time LIKE '%${useTime}%'
+			</if>
+			<if test="time != null and time != ''">
+				AND A.time LIKE '%${time}%'
+			</if>
+			<if test="message != null and message != ''">
+				AND A.message LIKE '%${message}%'
+			</if>
+			<if test="status != null">
+				AND A.status = #{status}
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.log_id LIKE '%${keyword}%'
+
+				OR A.service_id LIKE '%${keyword}%'
+
+				OR A.code LIKE '%${keyword}%'
+
+				OR A.use_time LIKE '%${keyword}%'
+
+				OR A.time LIKE '%${keyword}%'
+
+				OR A.message LIKE '%${keyword}%'
+
+			)
+				ORDER BY A.time DESC
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					log_id = #{item.logId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND log_id = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="cloudMonitorLogResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		log_id = #{logId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			service_id 		= 		#{item.serviceId},
+    			code 		= 		#{item.code},
+    			use_time 		= 		#{item.useTime},
+    			time 		= 		#{item.time},
+    			message 		= 		#{item.message},
+				status			=		#{item.status}
+				<where>
+						and log_id = #{item.logId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.monitor.server.model.CloudMonitorLog" id="cloudMonitorLogResultMap">
+    	<!-- id -->
+		<!-- 记录ID -->
+		<id column="log_id" property="logId"/>
+			<!-- column -->
+		<!-- 服务ID -->
+		<result column="service_id" property="serviceId"/>
+		<!-- code -->
+		<result column="code" property="code"/>
+		<!-- 用时 -->
+		<result column="use_time" property="useTime"/>
+		<!-- 时间 -->
+		<result column="time" property="time"/>
+		<!-- 信息 -->
+		<result column="message" property="message"/>
+		<result column="status" property="status"/>
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		log_id,
+    		service_id,
+    		code,
+    		use_time,
+    		time,
+    		message,
+    		status
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.logId},
+			#{item.serviceId},
+			#{item.code},
+			#{item.useTime},
+			#{item.time},
+			#{item.message},
+			#{item.status}
+	</sql>
+    		
+</mapper>
+
+

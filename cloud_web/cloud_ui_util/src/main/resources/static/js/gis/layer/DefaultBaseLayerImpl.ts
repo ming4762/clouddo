@@ -28,10 +28,13 @@ namespace com.clouddo.ui.gis {
          */
         protected events: {[index: string]: Function} = {}
 
+        // 向后台请求数据的参数
+        private dataPrameters: {[index: string]: any}
+
         // 图层名称
         protected name: string
-        // 图层所在地图
-        protected map: any
+        // 图层所在视图
+        protected view: any
         // 加载数据的url
         protected loadDataUrl: string
         // 图层数据
@@ -46,10 +49,10 @@ namespace com.clouddo.ui.gis {
          * @param map 图层所在map
          * @param {string} loadDataUrl 加载数据的URL
          */
-        constructor (id: string, name: string, type: string,  map: any, loadDataUrl: string) {
+        constructor (id: string, name: string, type: string,  view: any, loadDataUrl: string) {
             this.id = id
             this.name = name
-            this.map = map
+            this.view = view
             this.loadDataUrl = loadDataUrl
             this.type = type
         }
@@ -75,7 +78,7 @@ namespace com.clouddo.ui.gis {
                 this.layer = new GraphicsLayer({
                     id: this.id
                 })
-                this.map.add(this.layer)
+                this.view.getMap().add(this.layer)
                 // 执行创建完成事件
                 if (!Validate.validateNull(this.events[DefaultBaseLayerImpl.EVENT_NAMES.CREATED])) {
                     this.events[DefaultBaseLayerImpl.EVENT_NAMES.CREATED](this)
@@ -94,11 +97,28 @@ namespace com.clouddo.ui.gis {
         }
 
         /**
+         * 图层点击回调
+         * @param response
+         */
+        clickGraphic(response: any): void {
+            console.log(response)
+        }
+
+        /**
+         * 鼠标移动回调
+         * @param response
+         */
+        pointerMove(response: any): void {
+            console.log(response)
+        }
+
+        /**
          * 显示隐藏图层
          * @param {boolean} showHide
          * @returns {com.clouddo.ui.gis.BaseLayer}
          */
         showHide(showHide: boolean): com.clouddo.ui.gis.BaseLayer {
+            this.layer.visible = showHide
             return this;
         }
 
@@ -108,7 +128,24 @@ namespace com.clouddo.ui.gis {
          * @returns {com.clouddo.ui.gis.BaseLayer}
          */
         load(parameters: { [p: string]: any }): com.clouddo.ui.gis.BaseLayer {
-            AuthRestUtil.postAjax(this.loadDataUrl, parameters, (result) => {
+            this.dataPrameters = parameters
+            if (this.layer) {
+                return this.doLoad()
+            } else {
+                if (this.events[DefaultBaseLayerImpl.EVENT_NAMES.CREATED]) {
+                    this.events[DefaultBaseLayerImpl.EVENT_NAMES.CREATED] = () => {
+                        this.events[DefaultBaseLayerImpl.EVENT_NAMES.CREATED]()
+                        this.doLoad()
+                    }
+                } else {
+                    this.events[DefaultBaseLayerImpl.EVENT_NAMES.CREATED] = this.doLoad
+                }
+            }
+        }
+
+        // 执行数据加载方法
+        private doLoad (): BaseLayer {
+            AuthRestUtil.postAjax(this.loadDataUrl, this.dataPrameters, (result) => {
                 this.data = result
                 // 执行数据加载完成后回调
                 if (!Validate.validateNull(this.events[DefaultBaseLayerImpl.EVENT_NAMES.DATA_LOADED])) {

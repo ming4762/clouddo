@@ -2,6 +2,7 @@
 namespace com.clouddo.ui.gis {
 
     import Validate = com.clouddo.ui.util.Validate;
+    import DefaultBaseLayerImpl = com.clouddo.ui.gis.DefaultBaseLayerImpl;
     declare let require: any
     // 声明jquery
     declare let $: any
@@ -13,8 +14,8 @@ namespace com.clouddo.ui.gis {
         private static LAYER_TYPE: string = 'point'
         protected legeng : string;
 
-        constructor (id : string, name : string, map: any, url : string) {
-            super(id, name, PointBaseLayerImpl.LAYER_TYPE, map, url)
+        constructor (id : string, name : string, view: any, url : string) {
+            super(id, name, PointBaseLayerImpl.LAYER_TYPE, view, url)
         }
 
         /**

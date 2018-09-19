@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.monitor.server.mapper.CloudServiceMonitorMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		cloud_service_monitor
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="cloudServiceMonitorResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="serviceId != null and serviceId != ''">
+				AND A.SERVICE_ID = #{serviceId}
+			</if>
+			<if test="serviceName != null and serviceName != ''">
+				AND A.SERVICE_NAME LIKE '%${serviceName}%'
+			</if>
+			<if test="type != null and type != ''">
+				AND A.TYPE LIKE '%${type}%'
+			</if>
+			<if test="address != null and address != ''">
+				AND A.ADDRESS LIKE '%${address}%'
+			</if>
+			<if test="cron != null and cron != ''">
+				AND A.CRON LIKE '%${cron}%'
+			</if>
+			<if test="enable != null and enable != ''">
+				AND A.ENABLE LIKE '%${enable}%'
+			</if>
+			<if test="remark != null and remark != ''">
+				AND A.REMARK LIKE '%${remark}%'
+			</if>
+			<if test="status != null and status != ''">
+				AND A.STATUS = #{status}
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.SERVICE_ID LIKE '%${keyword}%'
+
+				OR A.SERVICE_NAME LIKE '%${keyword}%'
+
+				OR A.TYPE LIKE '%${keyword}%'
+
+				OR A.ADDRESS LIKE '%${keyword}%'
+
+				OR A.CRON LIKE '%${keyword}%'
+
+				OR A.ENABLE LIKE '%${keyword}%'
+
+				OR A.REMARK LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					SERVICE_ID = #{item.serviceId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND SERVICE_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="cloudServiceMonitorResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		SERVICE_ID = #{serviceId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			SERVICE_NAME 		= 		#{item.serviceName},
+    			TYPE 		= 		#{item.type},
+    			ADDRESS 		= 		#{item.address},
+    			CRON 		= 		#{item.cron},
+    			ENABLE 		= 		#{item.enable},
+    			REMARK 		= 		#{item.remark},
+				STATUS		=		#{item.status}
+				<where>
+						and SERVICE_ID = #{item.serviceId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.monitor.server.model.CloudServiceMonitor" id="cloudServiceMonitorResultMap">
+    	<!-- id -->
+		<!-- 服务ID -->
+		<id column="SERVICE_ID" property="serviceId"/>
+			<!-- column -->
+		<!-- 服务名称 -->
+		<result column="SERVICE_NAME" property="serviceName"/>
+		<!-- 类型 -->
+		<result column="TYPE" property="type"/>
+		<!-- 地址 -->
+		<result column="ADDRESS" property="address"/>
+		<!-- 定时规则 -->
+		<result column="CRON" property="cron"/>
+		<!-- 启用 -->
+		<result column="ENABLE" property="enable"/>
+		<!-- 备注 -->
+		<result column="REMARK" property="remark"/>
+		<result column="STATUS" property="status"/>
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		SERVICE_ID,
+    		SERVICE_NAME,
+    		TYPE,
+    		ADDRESS,
+    		CRON,
+    		ENABLE,
+    		REMARK,
+			STATUS
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.serviceId},
+			#{item.serviceName},
+			#{item.type},
+			#{item.address},
+			#{item.cron},
+			#{item.enable},
+			#{item.remark},
+			#{item.status}
+	</sql>
+    		
+</mapper>
+
+

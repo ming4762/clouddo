@@ -30,6 +30,13 @@
 			<version>${cloud_news_ui.version}</version>
 		</dependency>
 
+		<!--集成 hzz_ui_river模块-->
+		<dependency>
+			<groupId>com.charsming</groupId>
+			<artifactId>hzz_ui_river</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<!--集成定时任务模块-->
 		<dependency>
 			<groupId>com.clouddo</groupId>

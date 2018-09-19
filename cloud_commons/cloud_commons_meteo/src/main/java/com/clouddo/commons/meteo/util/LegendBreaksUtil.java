@@ -67,11 +67,41 @@ public class LegendBreaksUtil {
     }
 
     /**
+     * 批量将等值线面分割点转为等值面分割点
+     * @param legendBreakList
+     * @return
+     */
+    public static List<ColorBreak> batchConvertLegendBreakToPolygonBreak(List<LegendBreak> legendBreakList) {
+        List<ColorBreak> breaks = new ArrayList<ColorBreak>();
+        if(legendBreakList != null) {
+            for(LegendBreak legendBreak : legendBreakList) {
+                breaks.add(convertLegendBreakToPolygonBreak(legendBreak));
+            }
+        }
+        return breaks;
+    }
+
+    /**
+     * 批量将等值线面分割点转为等值线分割点
+     * @param legendBreakList
+     * @return
+     */
+    public static List<ColorBreak> batchConvertLegendBreakToPolylineBreak(List<LegendBreak> legendBreakList) {
+        List<ColorBreak> breaks = new ArrayList<ColorBreak>();
+        if(legendBreakList != null) {
+            for(LegendBreak legendBreak : legendBreakList) {
+                breaks.add(convertLegendBreakToPolylineBreak(legendBreak));
+            }
+        }
+        return breaks;
+    }
+
+    /**
      * 将等值线面分割点转为等值面分割点
      * @param legendBreak
      * @return
      */
-    private static PolygonBreak convertLegendBreakToPolygonBreak(LegendBreak legendBreak) {
+    public static PolygonBreak convertLegendBreakToPolygonBreak(LegendBreak legendBreak) {
         PolygonBreak polygonBreak = new PolygonBreak();
         polygonBreak.setStartValue(legendBreak.getStartValue());
         polygonBreak.setEndValue(legendBreak.getEndValue());
@@ -84,7 +114,7 @@ public class LegendBreaksUtil {
      * @param legendBreak
      * @return
      */
-    private static PolylineBreak convertLegendBreakToPolylineBreak(LegendBreak legendBreak) {
+    public static PolylineBreak convertLegendBreakToPolylineBreak(LegendBreak legendBreak) {
         PolylineBreak polylineBreak = new PolylineBreak();
         polylineBreak.setStartValue(legendBreak.getStartValue());
         polylineBreak.setEndValue(legendBreak.getEndValue());

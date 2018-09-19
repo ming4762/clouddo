@@ -98,6 +98,8 @@ namespace com.clouddo.ui.table {
         private customMethods : {[index:string]: Function} = {};
         //自定义过滤器
         private customFilters : {[index:string]: Function} = {};
+        // 自定义数据
+        private customData: {[index:string]: any} = {}
 
         //格式化添加/修改URL方法
         private formatAddUrlFunction : Function;
@@ -129,7 +131,7 @@ namespace com.clouddo.ui.table {
             //创建表格
             this.tableVue = new Vue({
                 el: "#" + this.elementId,
-                data: {
+                data: $.extend({}, {
                     //表格数据
                     tableData : [],
                     columns: [],
@@ -150,7 +152,7 @@ namespace com.clouddo.ui.table {
                     //多选结果
                     multipleSelection: [],
                     tableHeight: _object.getTableHeight()
-                },
+                }, this.customData),
                 methods: $.extend({}, {
                     //复选框选中事件
                     handleSelectionChange: function (value) {
@@ -337,7 +339,15 @@ namespace com.clouddo.ui.table {
             return this;
         }
 
-
+        /**
+         * 设置自定义数据
+         * @param {{[p: string]: Function}} customData
+         * @returns {com.clouddo.ui.table.ElementTableImpl}
+         */
+        public setCustomData (customData : {[index:string]: Function}): ElementTableImpl {
+            this.customData = customData
+            return this
+        }
 
         /**
          * 获取选中行

@@ -332,15 +332,15 @@
     </div>
 </main>
 
-<footer class="site-footer">
-    <div class="site-footer-legal">上海畅控 &copy;
-        <a href="http://www.admui.com" target="_blank">admui.com</a>
+<footer id="footerVue" class="site-footer" v-cloak>
+    <div class="site-footer-legal">{{localConfig.development.name}} &copy;
+        <a :href="localConfig.development.url" target="_blank">{{localConfig.development.url}}</a>
     </div>
     <div class="site-footer-right">
-        当前版本：v1.1.0
-        <a class="margin-left-5" data-toggle="tooltip" title="升级" href="#" target="_blank">
-            <i class="icon fa-cloud-upload"></i>
-        </a>
+        当前版本：v{{localConfig.system.version}}
+        <!--<a class="margin-left-5" data-toggle="tooltip" title="升级" href="#" target="_blank">-->
+            <!--<i class="icon fa-cloud-upload"></i>-->
+        <!--</a>-->
     </div>
 </footer>
 
@@ -386,6 +386,8 @@
 <script th:src="@{/js/index/media-menu.js}" ></script>
 <script th:src="@{/js/index/content-tabs.js}" ></script>
 <script th:src="@{/js/index/site.js}" ></script>
+<!--引入存储工具类-->
+<script th:src="@{/js/util/StorageUtil.js}" src="/js/util/StorageUtil.js"></script>
 <!--工具Js-->
 <script th:src="@{/js/util/RestUtil.js}" src="/js/util/RestUtil.js" ></script>
 

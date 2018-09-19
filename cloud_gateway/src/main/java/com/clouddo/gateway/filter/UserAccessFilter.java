@@ -98,7 +98,7 @@ public class UserAccessFilter extends ZuulFilter {
         }
 
         //获取session，并设置到全局
-        Session session = (Session) redisService.get(SessionUtil.getSessionId(token));
+        Session session = (Session) redisService.get(SessionUtil.createSessionId(token));
         SessionUtil.setUserSession(session);
         if(session == null) {
             logger.warn("token认证失败，未找到session，token：{}", token);

@@ -1,7 +1,7 @@
 package com.clouddo.news.server;
 
 import com.cloudd.commons.auth.config.AuthCommonImport;
-import com.clouddo.log.common.config.LogCommonImport;
+import com.clouddo.log.common.imports.LogCommonAllImport;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Import;
 		//认证工具包引入
 		AuthCommonImport.class,
 		//引入日志工具包
-		LogCommonImport.class
+		LogCommonAllImport.class
 })
 public class CloudNewsServerApplication {
 

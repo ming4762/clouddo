@@ -2,7 +2,7 @@
 #因为springboot的加载顺序为bootstrap文件、配置中心配置、application文件中
 spring:
   application:
-    name: cloud-monitor
+    name: cloud-monitor-server
 
   cloud:
     config:
@@ -14,6 +14,9 @@ spring:
     active: dev
   redis:
     timeout: 60s
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
 #      profile: dev
 
 
@@ -27,7 +30,7 @@ eureka:
 #      服务中心地址
       defaultZone: http://charsming.f3322.org:8761/eureka/
   instance:
-
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${spring.application.instance_id:${server.port}}
     prefer-ip-address: true
 
 auth:
@@ -35,4 +38,6 @@ auth:
 #    客户端的ID密码
     id: cloud-monitor
     secret: cloud123456
+server:
+  port: 8770
 

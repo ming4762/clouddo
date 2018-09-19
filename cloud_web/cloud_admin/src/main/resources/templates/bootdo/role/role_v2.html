@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:el="http://www.w3.org/1999/html">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>角色管理</title>
@@ -10,6 +10,7 @@
           th:href="@{/plugins/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet">
     <link th:href="@{/css/bootdo/style.css}" href="/css/style.css?v=4.1.0"
           rel="stylesheet">
+    <link th:href="@{/css/cloud.css}" href="/css/cloud.css" rel="stylesheet">
     <!--element-ui-->
     <link href="/plugins/element-ui/index.css" th:href="@{/plugins/element-ui/index.css}"
           rel="stylesheet">
@@ -24,9 +25,7 @@
 </head>
 <body>
 
-<div class="wrapper wrapper-content ">
-    <div class="col-sm-12">
-        <div class="ibox">
+    <div class="col-sm-12 cloud-table-top">
             <div class="ibox-body" id="tableVue">
                 <div  id="operationDiv" role="group" class="t-bar">
 
@@ -109,9 +108,7 @@
                     </el-pagination>
                 </template>
             </div>
-        </div>
     </div>
-</div>
 
 
     <!--jquery-->

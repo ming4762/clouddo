@@ -1,0 +1,13 @@
+cloud:
+  wechat:
+#    微信公众号配置
+    mp:
+      configs:
+        wxe9d25d31ed668076:
+          appid: wxe9d25d31ed668076
+          secret: b77508af50143fdf22261fc8b2ef06e5
+          token: weixin123456
+        a123123:
+          appid: 123123
+          secret: dadfadf
+          token: weixin123456

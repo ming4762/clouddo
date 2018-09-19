@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" th:href="@{/plugins/arcgis/4.6/esri/css/main.css}">
+
+    <style>
+        #viewElement {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #infoDiv{
+            position: absolute;
+            top: 15px;
+            left: 60px;
+        }
+
+        #infoDiv input {
+            border: none;
+            box-shadow:  rgba(0, 0, 0, 0.3) 0px 1px 2px;
+        }
+    </style>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var contextpath = /*[[@{/}]]*/ '';
+        /*]]>*/
+        //设置baseUrl
+        dojoConfig={
+            baseUrl : contextpath + "plugins/arcgis/4.6/dojo"
+        };
+    </script>
+</head>
+<body style="height: 100%; margin: 0px">
+
+<div id="viewElement"></div>
+<div id="infoDiv">
+    <input class="esri-component esri-widget--button esri-widget esri-interactive"
+           type="button" id="switch-btn" value="3D">
+</div>
+
+<!--jquery-->
+<script th:src="@{/plugins/jquery/2.1.4/jquery.min.js}" src="/js/jquery.min.js?v=2.1.4"></script>
+<script th:src="@{/js/util/RestUtil.js}"></script>
+<script th:src="@{/plugins/arcgis/4.6/init.js}"></script>
+<script th:src="@{/js/util/Validate.js}"></script>
+<script th:src="@{/js/gis/view/View.js}"></script>
+<script th:src="@{/js/gis/layer/DefaultBaseLayerImpl.js}"></script>
+<script th:src="@{/js/gis/layer/PointBaseLayerImpl.js}"></script>
+<script th:src="@{/js/test/TestView.js}" type="text/javascript"></script>
+</body>
+</html>

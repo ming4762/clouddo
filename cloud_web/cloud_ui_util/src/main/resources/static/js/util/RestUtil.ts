@@ -1,3 +1,4 @@
+///<reference path="StorageUtil.ts"/>
 /**
  * rest工具类
  */
@@ -8,6 +9,7 @@ namespace com.clouddo.ui.util {
     //项目路径
     declare let contextpath;
 
+    import StorageUtil = com.clouddo.ui.util.StorageUtil;
 
     export class RestUtil{
 
@@ -78,6 +80,15 @@ namespace com.clouddo.ui.util {
          */
         public static getLocalConfig (): any {
             return StorageUtil.get(this.LOCAL_CONFIG_KEY)
+        }
+
+        /**
+         * 通过key获取本地化配置
+         * @param {string} key
+         * @returns {any}
+         */
+        public static getLocalConfigByKey (key: string): any {
+            return this.getLocalConfig()[key]
         }
 
         /**

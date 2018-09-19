@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.quartz.common.mapper.CloudTimedTaskMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		cloud_timed_task
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="cloudTimedTaskResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="taskId != null and taskId != ''">
+				AND A.TASK_ID = #{taskId}
+			</if>
+			<if test="taskName != null and taskName != ''">
+				AND A.TASK_NAME LIKE '%${taskName}%'
+			</if>
+			<if test="class != null and class != ''">
+				AND A.CLASS LIKE '%${class}%'
+			</if>
+			<if test="cron != null and cron != ''">
+				AND A.CRON LIKE '%${cron}%'
+			</if>
+			<if test="enable != null and enable != ''">
+				AND A.Enable = #{enable}
+			</if>
+			<if test="remark != null and remark != ''">
+				AND A.REMARK LIKE '%${remark}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.TASK_ID LIKE '%${keyword}%'
+
+				OR A.TASK_NAME LIKE '%${keyword}%'
+
+				OR A.CLASS LIKE '%${keyword}%'
+
+				OR A.CRON LIKE '%${keyword}%'
+
+				OR A.Enable LIKE '%${keyword}%'
+
+				OR A.REMARK LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					TASK_ID = #{item.taskId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND TASK_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="cloudTimedTaskResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		TASK_ID = #{taskId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			TASK_NAME 		= 		#{item.taskName},
+    			CLASS 		= 		#{item.clazz},
+    			CRON 		= 		#{item.cron},
+    			Enable 		= 		#{item.enable},
+    			REMARK 		= 		#{item.remark}
+				<where>
+						and TASK_ID = #{item.taskId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.quartz.common.model.CloudTimedTask" id="cloudTimedTaskResultMap">
+    	<!-- id -->
+		<!-- 任务ID -->
+		<id column="TASK_ID" property="taskId"/>
+			<!-- column -->
+		<!-- 任务名称 -->
+		<result column="TASK_NAME" property="taskName"/>
+		<!-- 类限定名 -->
+		<result column="CLASS" property="clazz"/>
+		<!-- cron表达式 -->
+		<result column="CRON" property="cron"/>
+		<!-- 启用 -->
+		<result column="Enable" property="enable"/>
+		<!-- 备注 -->
+		<result column="REMARK" property="remark"/>
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		TASK_ID,
+    		TASK_NAME,
+    		CLASS,
+    		CRON,
+    		Enable,
+    		REMARK
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.taskId},
+			#{item.taskName},
+			#{item.clazz},
+			#{item.cron},
+			#{item.enable},
+			#{item.remark}
+	</sql>
+    		
+</mapper>
+
+

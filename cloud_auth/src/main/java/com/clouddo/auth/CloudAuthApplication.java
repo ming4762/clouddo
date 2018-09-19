@@ -1,21 +1,21 @@
 package com.clouddo.auth;
 
+import com.cloudd.commons.auth.config.AuthCommonImport;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
+/**
+ * 权限模块启动类
+ * 1、功能引入{CommonAllImport common工具包}
+ * @author zhongming
+ */
 @SpringBootApplication
-@ComponentScan({
-		//本项目
-		"com.clouddo.auth",
-		//config包
-		"com.cloudd.commons.auth.config",
-		//common feign
-		"com.clouddo.commons.common.service",
-		"com.cloudd.commons.auth.util",
-		"com.cloudd.commons.auth.interceptor"
+@Import({
+		AuthCommonImport.class,
+//		LogCommonAllImport.class
 })
 @EnableFeignClients		//开启feign
 @EnableEurekaClient   //服务提供者

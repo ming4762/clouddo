@@ -21,6 +21,10 @@ logging:
 
 
 eureka:
+  instance:
+#    使用IP注册
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${spring.application.instance_id:${server.port}}
   client:
     serviceUrl:
 #      服务中心地址

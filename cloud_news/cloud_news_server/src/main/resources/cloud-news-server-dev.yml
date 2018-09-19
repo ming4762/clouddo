@@ -1,5 +1,4 @@
-server:
-  port: 8769
+
 
 # 分页配置
 pagehelper:

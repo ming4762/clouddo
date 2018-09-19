@@ -38,4 +38,6 @@ auth:
 #    客户端的ID密码
     id: cloud-news-server
     secret: cloud123456
+server:
+  port: 8771
 

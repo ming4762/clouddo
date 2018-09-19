@@ -1,6 +1,7 @@
 package com.clouddo.auth.controller;
 
 import com.cloudd.commons.auth.config.UserAuthConfig;
+import com.cloudd.commons.auth.constatns.AuthConstants;
 import com.cloudd.commons.auth.controller.AuthController;
 import com.cloudd.commons.auth.model.User;
 import com.cloudd.commons.auth.util.SessionUtil;
@@ -10,14 +11,17 @@ import com.clouddo.commons.common.constatns.CommonConstants;
 import com.clouddo.commons.common.util.message.Result;
 import com.clouddo.commons.common.util.message.ResultCodeEnum;
 import com.clouddo.commons.common.util.security.MD5Utils;
+import com.clouddo.log.common.annotation.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +32,7 @@ import java.util.Set;
  * 2018/5/29下午2:30
  */
 @RestController
-@RequestMapping("/login")
+@RequestMapping
 public class LoginController extends com.cloudd.commons.auth.controller.AuthController {
 
     private static Logger logger = LoggerFactory.getLogger(AuthController.class);
@@ -47,7 +51,7 @@ public class LoginController extends com.cloudd.commons.auth.controller.AuthCont
      * @param parameters
      * @return
      */
-    @RequestMapping
+    @RequestMapping("/login")
     public Object login(@RequestBody Map<String, Object> parameters) {
         try {
             String username = (String) parameters.get("username");
@@ -86,6 +90,25 @@ public class LoginController extends com.cloudd.commons.auth.controller.AuthCont
             e.printStackTrace();
             logger.error("服务器发生错误，message：{}", e.getMessage());
             return Result.failure(500, "服务器发生错误", e.getMessage());
+        }
+    }
+
+    /**
+     * 登出接口
+     * @param parameters
+     * @return
+     */
+    @PostMapping("/logout")
+    @Log("登出")
+    public Result logout(@RequestBody Map<String, Object> parameters, HttpServletRequest request) {
+        try {
+            //移除session
+            this.tokenUtil.deleteToken(request.getHeader(AuthConstants.TOKEN_KEY));
+            SessionUtil.deleteSession();
+            return Result.success("登出成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.failure("登出失败", e.getMessage());
         }
     }
 

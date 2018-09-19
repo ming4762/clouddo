@@ -77,7 +77,7 @@
 
 <body class="page-login layout-full page-dark">
 
-<div class="page height-full">
+<div id="loginPageVue" class="page height-full">
     <div class="page-content height-full">
         <div class="page-brand-info vertical-align animation-slide-left hidden-xs">
             <div class="page-brand vertical-align-middle">
@@ -121,14 +121,14 @@
                         <img class="brand-img" th:src="@{/images/login/logo.svg}" src="http://cdn.admui.com/demo/basic/1.1.0/images/logo.svg" height="50" alt="Admui">
                     </div>
                     <h3 class="hidden-xs">
-                        登录 Admui
+                        登录 {{localConfig.system.title}}
                         <!--<div class="btn-group version-toggle">-->
                             <!--<a href="http://demo.admui.com/" class="btn btn-default btn-outline btn-sm">pjax版</a>-->
                             <!--<a href="javascript:;" class="btn btn-default btn-outline btn-sm active">iframe版</a>-->
                             <!--<a href="http://basic.demo.admui.com/" class="btn btn-default btn-outline btn-sm ">basic版</a>-->
                         <!--</div>-->
                     </h3>
-                    <p class="hidden-xs">Admui 在线演示系统</p>
+                    <p class="hidden-xs">{{localConfig.system.subtitle}}</p>
                     <form onsubmit="return false" class="login-form" method="post" id="loginForm">
                         <!--<div class="form-group">-->
                             <!--<label class="sr-only" for="identity">选择身份</label>-->
@@ -188,8 +188,8 @@
             </div>
             <footer class="page-copyright">
                 <!--TODO 动态修改-->
-                <p>山东善思明科技发展股份有限公司 &copy;
-                    <a href="http://www.admui.com" target="_blank">www.charsming.com/</a>
+                <p>{{localConfig.development.name}} &copy;
+                    <a :href="localConfig.development.url" target="_blank">{{localConfig.development.url}}</a>
                 </p>
             </footer>
         </div>
@@ -212,6 +212,8 @@
 <script th:src="@{/plugins/FormValidation/0.6.2/js/framework/bootstrap.min.js}" src="/plugins/FormValidation/0.6.2/js/framework/bootstrap.min.js"></script>
 <!--layer-->
 <script th:src="@{/plugins/layer/3.1.1/layer.js}" src="/plugins/layer/3.1.1/layer.js"></script>
+<!--引入存储工具类-->
+<script th:src="@{/js/util/StorageUtil.js}" src="/js/util/StorageUtil.js"></script>
 <!--引入工具类JS-->
 <script th:src="@{/js/util/RestUtil.js}" src="/js/util/RestUtil.js" ></script>
 

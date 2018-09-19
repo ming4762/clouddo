@@ -119,6 +119,7 @@ public class CloudNewsController extends AuthController<CloudNews> {
     })
     @PostMapping("/insert")
     @ResponseBody
+    @RequiresPermissions("news:cloudNews:insert")
     @Log("发布新闻")
     public Object insert(@RequestBody CloudNews cloudNews) {
         //设置创建人、创建时间

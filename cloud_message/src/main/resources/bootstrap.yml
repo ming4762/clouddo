@@ -23,7 +23,7 @@ eureka:
 #      服务中心地址
       defaultZone: http://charsming.f3322.org:8761/eureka/
 server:
-  port: 8764
+  port: 8768
 
 
 auth:
