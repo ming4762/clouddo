@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.clouddo</groupId>
+		<artifactId>cloud_commons</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>cloud_commons_meteo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>cloud_commons_meteo</name>
+	<description>气象工具包</description>
+
+	<properties>
+		<meteoinfo.version>1.4.9</meteoinfo.version>
+	</properties>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.meteoinfo</groupId>
+			<artifactId>meteoInfoLib</artifactId>
+			<version>${meteoinfo.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.meteoinfo</groupId>
+			<artifactId>wContour</artifactId>
+			<version>${meteoinfo.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.ucar</groupId>
+			<artifactId>netcdfAll</artifactId>
+			<version>4.6.11</version>
+		</dependency>
+	</dependencies>
+
+
+
+</project>
