@@ -1,36 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_center/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_config/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_gateway/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_modules/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_auth/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_commons/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_commons/cloud_commons_auth/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_commons/cloud_commons_common/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_modules/cloud_system/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_log/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_log/cloud_log_common/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_modules/cloud_message_bus/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_log/cloud_log_server/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_message/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_ui/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_ai/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_ai/cloud_ai_server/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_commons/cloud_common_media/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_commons/cloud_commons_kettle/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud_fileserver/pom.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
-  </component>
-  <component name="SvnConfiguration" myUseAcceleration="nothing">
-    <configuration>$USER_HOME$/.subversion</configuration>
   </component>
 </project>
