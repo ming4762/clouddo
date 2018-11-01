@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.system.mapper.SysFunctionMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		sys_function
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="sysFunctionResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="functionId != null and functionId != ''">
+				AND A.FUNCTION_ID = #{functionId}
+			</if>
+			<if test="parentId != null and parentId != ''">
+				AND A.PARENT_ID = #{parentId}
+			</if>
+			<if test="functionName != null and functionName != ''">
+				AND A.FUNCTION_NAME LIKE '%${functionName}%'
+			</if>
+			<if test="functionType != null and functionType != ''">
+				AND A.FUNCTION_TYPE LIKE '%${functionType}%'
+			</if>
+			<if test="icon != null and icon != ''">
+				AND A.ICON LIKE '%${icon}%'
+			</if>
+			<if test="seq != null and seq != ''">
+				AND A.SEQ LIKE '%${seq}%'
+			</if>
+			<if test="createTime != null and createTime != ''">
+				AND A.CREATE_TIME LIKE '%${createTime}%'
+			</if>
+			<if test="createUserId != null and createUserId != ''">
+				AND A.CREATE_USER_ID LIKE '%${createUserId}%'
+			</if>
+			<if test="modifyTime != null and modifyTime != ''">
+				AND A.MODIFY_TIME LIKE '%${modifyTime}%'
+			</if>
+			<if test="modifyUserId != null and modifyUserId != ''">
+				AND A.MODIFY_USER_ID LIKE '%${modifyUserId}%'
+			</if>
+			<if test="url != null and url != ''">
+				AND A.URL LIKE '%${url}%'
+			</if>
+			<if test="premission != null and premission != ''">
+				AND A.PREMISSION LIKE '%${premission}%'
+			</if>
+			<if test="isMenu != null and isMenu != ''">
+				AND A.IS_MENU LIKE '%${isMenu}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.FUNCTION_ID LIKE '%${keyword}%'
+
+				OR A.PARENT_ID LIKE '%${keyword}%'
+
+				OR A.FUNCTION_NAME LIKE '%${keyword}%'
+
+				OR A.FUNCTION_TYPE LIKE '%${keyword}%'
+
+				OR A.ICON LIKE '%${keyword}%'
+
+				OR A.SEQ LIKE '%${keyword}%'
+
+				OR A.CREATE_TIME LIKE '%${keyword}%'
+
+				OR A.CREATE_USER_ID LIKE '%${keyword}%'
+
+				OR A.MODIFY_TIME LIKE '%${keyword}%'
+
+				OR A.MODIFY_USER_ID LIKE '%${keyword}%'
+
+				OR A.URL LIKE '%${keyword}%'
+
+				OR A.PREMISSION LIKE '%${keyword}%'
+
+				OR A.IS_MENU LIKE '%${keyword}%'
+			)
+			</if>
+
+			<if test="order != null and order != ''">
+				ORDER BY #{order}
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					FUNCTION_ID = #{item.functionId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND FUNCTION_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="sysFunctionResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		FUNCTION_ID = #{functionId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			PARENT_ID 		= 		#{item.parentId},
+    			FUNCTION_NAME 		= 		#{item.functionName},
+    			FUNCTION_TYPE 		= 		#{item.functionType},
+    			ICON 		= 		#{item.icon},
+    			SEQ 		= 		#{item.seq},
+    			CREATE_TIME 		= 		#{item.createTime},
+    			CREATE_USER_ID 		= 		#{item.createUserId},
+    			MODIFY_TIME 		= 		#{item.modifyTime},
+    			MODIFY_USER_ID 		= 		#{item.modifyUserId},
+    			URL 		= 		#{item.url},
+    			PREMISSION 		= 		#{item.premission},
+    			IS_MENU 		= 		#{item.isMenu}
+				<where>
+						and FUNCTION_ID = #{item.functionId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.system.model.SysFunction" id="sysFunctionResultMap">
+    	<!-- id -->
+		<!-- 功能ID -->
+		<id column="FUNCTION_ID" property="functionId"/>
+	    	<!-- column -->
+		<!-- 上级ID -->
+		<result column="PARENT_ID" property="parentId"/> 
+		<!-- 功能名称 -->
+		<result column="FUNCTION_NAME" property="functionName"/> 
+		<!-- 功能类型 -->
+		<result column="FUNCTION_TYPE" property="functionType"/> 
+		<!-- 图标 -->
+		<result column="ICON" property="icon"/> 
+		<!-- 序号 -->
+		<result column="SEQ" property="seq"/> 
+		<!-- 创建时间 -->
+		<result column="CREATE_TIME" property="createTime"/> 
+		<!-- 创建人员 -->
+		<result column="CREATE_USER_ID" property="createUserId"/> 
+		<!-- 修改时间 -->
+		<result column="MODIFY_TIME" property="modifyTime"/> 
+		<!-- 修改人员 -->
+		<result column="MODIFY_USER_ID" property="modifyUserId"/> 
+		<!-- URL -->
+		<result column="URL" property="url"/> 
+		<!-- 权限 -->
+		<result column="PREMISSION" property="premission"/> 
+		<!-- 是否菜单 -->
+		<result column="IS_MENU" property="isMenu"/> 
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		FUNCTION_ID,
+    		PARENT_ID,
+    		FUNCTION_NAME,
+    		FUNCTION_TYPE,
+    		ICON,
+    		SEQ,
+    		CREATE_TIME,
+    		CREATE_USER_ID,
+    		MODIFY_TIME,
+    		MODIFY_USER_ID,
+    		URL,
+    		PREMISSION,
+    		IS_MENU
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.functionId},
+			#{item.parentId},
+			#{item.functionName},
+			#{item.functionType},
+			#{item.icon},
+			#{item.seq},
+			#{item.createTime},
+			#{item.createUserId},
+			#{item.modifyTime},
+			#{item.modifyUserId},
+			#{item.url},
+			#{item.premission},
+			#{item.isMenu}
+	</sql>
+    		
+</mapper>
+
+
