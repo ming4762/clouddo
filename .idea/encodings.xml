@@ -2,27 +2,11 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_ai" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_ai/cloud_ai_server" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud_auth" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud_center" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud_commons" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_commons/cloud_common_media" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_commons/cloud_commons_auth" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_commons/cloud_commons_common" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_commons/cloud_commons_kettle" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud_config" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_fileserver" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_fileserver" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_fileserver" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud_gateway" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_log" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_log/cloud_log_common" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_log/cloud_log_server" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_message" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud_modules" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_modules/cloud_message_bus" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_modules/cloud_system" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cloud_ui" charset="UTF-8" />
   </component>
 </project>

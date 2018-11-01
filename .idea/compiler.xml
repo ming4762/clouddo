@@ -6,47 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="cloud_ai_server" />
         <module name="cloud_auth" />
         <module name="cloud_center" />
-        <module name="cloud_common_media" />
-        <module name="cloud_commons_auth" />
-        <module name="cloud_commons_common" />
-        <module name="cloud_commons_kettle" />
         <module name="cloud_config" />
-        <module name="cloud_fileserver" />
         <module name="cloud_gateway" />
-        <module name="cloud_log_common" />
-        <module name="cloud_log_server" />
-        <module name="cloud_message" />
-        <module name="cloud_message_bus" />
-        <module name="cloud_system" />
-        <module name="cloud_ui" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="cloud_ai" target="1.8" />
-      <module name="cloud_ai_server" target="1.8" />
-      <module name="cloud_auth" target="1.8" />
-      <module name="cloud_center" target="1.8" />
-      <module name="cloud_common_media" target="1.8" />
-      <module name="cloud_commons" target="1.8" />
-      <module name="cloud_commons_auth" target="1.8" />
-      <module name="cloud_commons_auth (1)" target="1.8" />
-      <module name="cloud_commons_common" target="1.8" />
-      <module name="cloud_commons_kettle" target="1.8" />
-      <module name="cloud_config" target="1.8" />
-      <module name="cloud_fileserver" target="1.8" />
-      <module name="cloud_gateway" target="1.8" />
-      <module name="cloud_log" target="1.8" />
-      <module name="cloud_log_common" target="1.8" />
-      <module name="cloud_log_server" target="1.8" />
-      <module name="cloud_message" target="1.8" />
-      <module name="cloud_message_bus" target="1.8" />
-      <module name="cloud_modules" target="1.8" />
-      <module name="cloud_system" target="1.8" />
-      <module name="cloud_ui" target="1.8" />
-      <module name="clouddo" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
