@@ -16,6 +16,10 @@
 	<name>cloud_log</name>
 	<description>日志管理模块</description>
 
+	<modules>
+		<module>cloud_log_common</module>
+		<module>cloud_log_server</module>
+	</modules>
 
 	<dependencies>
 		<!--引入common工具包-->

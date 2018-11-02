@@ -15,7 +15,10 @@
 	<name>cloud_modules</name>
 	<description>clouddo微服务</description>
 
-
+	<modules>
+		<module>cloud_message_bus</module>
+		<module>cloud_system</module>
+	</modules>
 
 	<dependencies>
 	</dependencies>

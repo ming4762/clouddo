@@ -16,7 +16,13 @@
 	<name>cloud_commons</name>
 	<description>通用类</description>
 
-
+	<modules>
+		<module>cloud_common_media</module>
+		<module>cloud_commons_auth</module>
+		<module>cloud_commons_common</module>
+		<module>cloud_commons_kettle</module>
+		<module>cloud_commons_meteo</module>
+	</modules>
 
 	<dependencies>
 	</dependencies>

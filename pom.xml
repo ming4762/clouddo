@@ -19,12 +19,20 @@
 	</parent>
 
 	<modules>
-		<module>cloud_center</module>
-		<module>cloud_config</module>
-		<module>cloud_gateway</module>
+		<module>cloud_ai</module>
 		<module>cloud_auth</module>
+		<module>cloud_center</module>
 		<module>cloud_commons</module>
+		<module>cloud_config</module>
+		<module>cloud_file</module>
+		<module>cloud_gateway</module>
+		<module>cloud_log</module>
+		<module>cloud_message</module>
+		<module>cloud_monitor</module>
+		<module>cloud_news</module>
+		<module>cloud_quartz</module>
 		<module>cloud_modules</module>
+
 	</modules>
 
 	<properties>

@@ -16,6 +16,10 @@
 	<name>cloud_monitor</name>
 	<description>应用监控</description>
 
+	<modules>
+		<module>cloud_monitor_server</module>
+		<module>cloud_monitor_ui</module>
+	</modules>
 
 	<properties>
 	</properties>

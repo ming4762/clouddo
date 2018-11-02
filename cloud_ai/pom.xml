@@ -16,6 +16,9 @@
 	<name>cloud_ai</name>
 	<description>人工智能工具包</description>
 
+	<modules>
+		<module>cloud_ai_server</module>
+	</modules>
 
 	<dependencies>
 	</dependencies>

@@ -16,6 +16,11 @@
 	<name>cloud_quartz</name>
 	<description>定时任务</description>
 
+	<modules>
+		<module>cloud_quartz_common</module>
+		<module>cloud_quartz_ui</module>
+	</modules>
+
 	<properties>
 	</properties>
 
