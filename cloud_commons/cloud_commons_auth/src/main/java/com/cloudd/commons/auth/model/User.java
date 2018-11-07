@@ -4,271 +4,159 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
 
 /**
- * @author zhongming
- * @since 3.0
- * 2018/5/4下午4:47
+ * <p>实体类</p>
+ * <p>Table: sys_user - 系统用户表</p>
+ *
+ * @since 2018-11-07 03:16:40
  */
-@Table(name = "sys_user")
-public class User implements Serializable {
+@Table(name="sys_user")
+public class User implements Serializable  {
 
-    private static final long serialVersionUID = 6669084575509958100L;
+    private static final long serialVersionUID = 3575235880000100645L;
+    /** user_id - 用户ID */
     @Column(name = "user_id")
     private String userId;
-    // 用户名
+
+    /** username - 用户名 */
     @Column(name = "username")
     private String username;
-    // 用户真实姓名
+
+    /** name - 姓名 */
     @Column(name = "name")
     private String name;
-    // 密码
+
+    /** password - 密码 */
     @Column(name = "password")
     private String password;
-    // 部门
-    @Column(name = "dept_id")
-    private String deptId;
-//    @Column(name = "user_id")
-    private String deptName;
-    // 邮箱
+
+    /** email - email */
     @Column(name = "email")
     private String email;
-    // 手机号
+
+    /** mobile - 手机 */
     @Column(name = "mobile")
-    private String mobile;
-    // 状态 0:禁用，1:正常
+    private Integer mobile;
+
+    /** status - 状态 */
     @Column(name = "status")
-    private Integer status;
-    // 创建用户id
-    @Column(name = "user_id_create")
-    private String userIdCreate;
-    // 创建时间
-    @Column(name = "gmt_create")
-    private Date gmtCreate;
-    // 修改时间
-    @Column(name = "gmt_modified")
-    private Date gmtModified;
-    //角色
-    private List<String> roleIds;
-    //性别
+    private String status;
+
+    /** create_user_id - 创建人ID */
+    @Column(name = "create_user_id")
+    private String createUserId;
+
+    /** create_time - 创建时间 */
+    @Column(name = "create_time")
+    private Date createTime;
+
+    /** update_user_id - 更新人员ID */
+    @Column(name = "update_user_id")
+    private String updateUserId;
+
+    /** update_time - 更新时间 */
+    @Column(name = "update_time")
+    private Date updateTime;
+
+    /** sex - 性别 */
     @Column(name = "sex")
-    private Long sex;
-    //出身日期
-    @Column(name = "birth")
-    private Date birth;
-    //图片ID
+    private Integer sex;
+
+    /** pic_id - 头像ID */
     @Column(name = "pic_id")
     private String picId;
-    //现居住地
-    @Column(name = "live_address")
-    private String liveAddress;
-    //爱好
-    @Column(name = "hobby")
-    private String hobby;
-    //省份
-    @Column(name = "province")
-    private String province;
-    //所在城市
-    @Column(name = "city")
-    private String city;
-    //所在地区
-    @Column(name = "district")
-    private String district;
 
 
-    public String getUserId() {
-        return userId;
+    public String getUserId(){
+        return this.userId;
     }
-
-    public void setUserId(String userId) {
+    public void setUserId(String userId){
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUsername(){
+        return this.username;
     }
-
-    public void setUsername(String username) {
+    public void setUsername(String username){
         this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String getName(){
+        return this.name;
     }
-
-    public void setName(String name) {
+    public void setName(String name){
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPassword(){
+        return this.password;
     }
-
-    public void setPassword(String password) {
+    public void setPassword(String password){
         this.password = password;
     }
 
-    public String getDeptId() {
-        return deptId;
+    public String getEmail(){
+        return this.email;
     }
-
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
-    }
-
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
+    public void setEmail(String email){
         this.email = email;
     }
 
-    public String getMobile() {
-        return mobile;
+    public Integer getMobile(){
+        return this.mobile;
     }
-
-    public void setMobile(String mobile) {
+    public void setMobile(Integer mobile){
         this.mobile = mobile;
     }
 
-    public Integer getStatus() {
-        return status;
+    public String getStatus(){
+        return this.status;
     }
-
-    public void setStatus(Integer status) {
+    public void setStatus(String status){
         this.status = status;
     }
 
-    public String getUserIdCreate() {
-        return userIdCreate;
+    public String getCreateUserId(){
+        return this.createUserId;
+    }
+    public void setCreateUserId(String createUserId){
+        this.createUserId = createUserId;
     }
 
-    public void setUserIdCreate(String userIdCreate) {
-        this.userIdCreate = userIdCreate;
+    public Date getCreateTime(){
+        return this.createTime;
+    }
+    public void setCreateTime(Date createTime){
+        this.createTime = createTime;
     }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
+    public String getUpdateUserId(){
+        return this.updateUserId;
+    }
+    public void setUpdateUserId(String updateUserId){
+        this.updateUserId = updateUserId;
     }
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
+    public Date getUpdateTime(){
+        return this.updateTime;
+    }
+    public void setUpdateTime(Date updateTime){
+        this.updateTime = updateTime;
     }
 
-    public Date getGmtModified() {
-        return gmtModified;
+    public Integer getSex(){
+        return this.sex;
     }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
-    public List<String> getRoleIds() {
-        return roleIds;
-    }
-
-    public void setRoleIds(List<String> roleIds) {
-        this.roleIds = roleIds;
-    }
-
-    public Long getSex() {
-        return sex;
-    }
-
-    public void setSex(Long sex) {
+    public void setSex(Integer sex){
         this.sex = sex;
     }
 
-    public Date getBirth() {
-        return birth;
+    public String getPicId(){
+        return this.picId;
     }
-
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
-
-    public String getPicId() {
-        return picId;
-    }
-
-    public void setPicId(String picId) {
+    public void setPicId(String picId){
         this.picId = picId;
-    }
-
-    public String getLiveAddress() {
-        return liveAddress;
-    }
-
-    public void setLiveAddress(String liveAddress) {
-        this.liveAddress = liveAddress;
-    }
-
-    public String getHobby() {
-        return hobby;
-    }
-
-    public void setHobby(String hobby) {
-        this.hobby = hobby;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", deptId=" + deptId +
-                ", deptName='" + deptName + '\'' +
-                ", email='" + email + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", status=" + status +
-                ", userIdCreate=" + userIdCreate +
-                ", gmtCreate=" + gmtCreate +
-                ", gmtModified=" + gmtModified +
-                ", roleIds=" + roleIds +
-                ", sex=" + sex +
-                ", birth=" + birth +
-                ", picId=" + picId +
-                ", liveAddress='" + liveAddress + '\'' +
-                ", hobby='" + hobby + '\'' +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", district='" + district + '\'' +
-                '}';
     }
 }

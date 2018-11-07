@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.system.mapper.SysMenuMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		sys_menu
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="sysMenuResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="menuId != null and menuId != ''">
+				AND A.MENU_ID = #{menuId}
+			</if>
+			<if test="menuName != null and menuName != ''">
+				AND A.MENU_NAME LIKE '%${menuName}%'
+			</if>
+			<if test="parentId != null and parentId != ''">
+				AND A.PARENT_ID LIKE '%${parentId}%'
+			</if>
+			<if test="menuType != null and menuType != ''">
+				AND A.MENU_TYPE LIKE '%${menuType}%'
+			</if>
+			<if test="functionId != null and functionId != ''">
+				AND A.FUNCTION_ID LIKE '%${functionId}%'
+			</if>
+			<if test="icon != null and icon != ''">
+				AND A.ICON LIKE '%${icon}%'
+			</if>
+			<if test="seq != null and seq != ''">
+				AND A.SEQ LIKE '%${seq}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.MENU_ID LIKE '%${keyword}%'
+
+				OR A.MENU_NAME LIKE '%${keyword}%'
+
+				OR A.PARENT_ID LIKE '%${keyword}%'
+
+				OR A.MENU_TYPE LIKE '%${keyword}%'
+
+				OR A.FUNCTION_ID LIKE '%${keyword}%'
+
+				OR A.ICON LIKE '%${keyword}%'
+
+				OR A.SEQ LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					MENU_ID = #{item.menuId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND MENU_ID = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="sysMenuResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		MENU_ID = #{menuId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			MENU_NAME 		= 		#{item.menuName},
+    			PARENT_ID 		= 		#{item.parentId},
+    			MENU_TYPE 		= 		#{item.menuType},
+    			FUNCTION_ID 		= 		#{item.functionId},
+    			ICON 		= 		#{item.icon},
+    			SEQ 		= 		#{item.seq}
+				<where>
+						and MENU_ID = #{item.menuId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.system.model.SysMenu" id="sysMenuResultMap">
+    	<!-- id -->
+		<!-- 菜单ID -->
+		<id column="MENU_ID" property="menuId"/>
+	    	<!-- column -->
+		<!-- 菜单名称 -->
+		<result column="MENU_NAME" property="menuName"/> 
+		<!-- 上级ID -->
+		<result column="PARENT_ID" property="parentId"/> 
+		<!-- 菜单类型 -->
+		<result column="MENU_TYPE" property="menuType"/> 
+		<!-- 功能ID -->
+		<result column="FUNCTION_ID" property="functionId"/> 
+		<!-- 图标 -->
+		<result column="ICON" property="icon"/> 
+		<!-- 序号 -->
+		<result column="SEQ" property="seq"/> 
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		MENU_ID,
+    		MENU_NAME,
+    		PARENT_ID,
+    		MENU_TYPE,
+    		FUNCTION_ID,
+    		ICON,
+    		SEQ
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.menuId},
+			#{item.menuName},
+			#{item.parentId},
+			#{item.menuType},
+			#{item.functionId},
+			#{item.icon},
+			#{item.seq}
+	</sql>
+    		
+</mapper>
+
+

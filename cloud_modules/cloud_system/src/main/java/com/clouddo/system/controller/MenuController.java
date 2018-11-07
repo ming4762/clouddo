@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * @author bootdo 1992lcg@163.com
  */
-@RequestMapping("/sys/menu")
+@RequestMapping("/sys/menu/old")
 @Controller
 public class MenuController extends AuthController {
 	String prefix = "system/menu";

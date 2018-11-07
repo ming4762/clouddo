@@ -13,6 +13,7 @@ import java.util.Map;
  * 2018/5/4下午5:00
  */
 @Mapper
+@Deprecated
 public interface UserMapper {
 
     User get(String userId);

@@ -35,6 +35,8 @@ public class Tree<T> {
 	 */
 	private Map<String, Object> attributes;
 
+	private T object;
+
 	/**
 	 * 节点的子节点
 	 */
@@ -149,4 +151,11 @@ public class Tree<T> {
 		return JSON.toJSONString(this);
 	}
 
+	public T getObject() {
+		return object;
+	}
+
+	public void setObject(T object) {
+		this.object = object;
+	}
 }

@@ -84,11 +84,10 @@
 				OR A.IS_MENU LIKE '%${keyword}%'
 			)
 			</if>
-
-			<if test="order != null and order != ''">
-				ORDER BY #{order}
-			</if>
 		</where>
+		<if test="order != null and order != ''">
+			ORDER BY ${order}
+		</if>
     </select>
 
 	<!--删除操作-->

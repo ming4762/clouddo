@@ -3,6 +3,10 @@
 
 <mapper namespace="com.clouddo.system.mapper.UserMapper">
 
+	<sql id="tableName">
+		sys_user
+	</sql>
+
 	<select id="get" resultType="com.cloudd.commons.auth.model.User">
 		select user_id,username,name,password,dept_id,email,mobile,status,user_id_create,gmt_create,gmt_modified,sex,birth,pic_id,live_address,hobby,province,city,district from sys_user where user_id = #{value}
 	</select>

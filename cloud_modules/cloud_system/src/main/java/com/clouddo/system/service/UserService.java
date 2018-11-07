@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
+@Deprecated
 public interface UserService {
 	User get(String id);
 

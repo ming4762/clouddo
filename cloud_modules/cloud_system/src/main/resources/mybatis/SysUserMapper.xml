@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.system.mapper.SysUserMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		sys_user
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="sysUserResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="userId != null and userId != ''">
+				AND A.user_id = #{userId}
+			</if>
+			<if test="username != null and username != ''">
+				AND A.username = #{username}
+			</if>
+			<if test="name != null and name != ''">
+				AND A.name LIKE '%${name}%'
+			</if>
+			<if test="password != null and password != ''">
+				AND A.password LIKE '%${password}%'
+			</if>
+			<if test="email != null and email != ''">
+				AND A.email LIKE '%${email}%'
+			</if>
+			<if test="mobile != null and mobile != ''">
+				AND A.mobile LIKE '%${mobile}%'
+			</if>
+			<if test="status != null and status != ''">
+				AND A.status LIKE '%${status}%'
+			</if>
+			<if test="createUserId != null and createUserId != ''">
+				AND A.create_user_id LIKE '%${createUserId}%'
+			</if>
+			<if test="createTime != null and createTime != ''">
+				AND A.create_time LIKE '%${createTime}%'
+			</if>
+			<if test="updateUserId != null and updateUserId != ''">
+				AND A.update_user_id LIKE '%${updateUserId}%'
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+				AND A.update_time LIKE '%${updateTime}%'
+			</if>
+			<if test="sex != null and sex != ''">
+				AND A.sex LIKE '%${sex}%'
+			</if>
+			<if test="picId != null and picId != ''">
+				AND A.pic_id LIKE '%${picId}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.user_id LIKE '%${keyword}%'
+
+				OR A.username LIKE '%${keyword}%'
+
+				OR A.name LIKE '%${keyword}%'
+
+				OR A.password LIKE '%${keyword}%'
+
+				OR A.email LIKE '%${keyword}%'
+
+				OR A.mobile LIKE '%${keyword}%'
+
+				OR A.status LIKE '%${keyword}%'
+
+				OR A.create_user_id LIKE '%${keyword}%'
+
+				OR A.create_time LIKE '%${keyword}%'
+
+				OR A.update_user_id LIKE '%${keyword}%'
+
+				OR A.update_time LIKE '%${keyword}%'
+
+				OR A.sex LIKE '%${keyword}%'
+
+				OR A.pic_id LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					user_id = #{item.userId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	AND user_id = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="sysUserResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		user_id = #{userId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			username 		= 		#{item.username},
+    			name 		= 		#{item.name},
+    			password 		= 		#{item.password},
+    			email 		= 		#{item.email},
+    			mobile 		= 		#{item.mobile},
+    			status 		= 		#{item.status},
+    			create_user_id 		= 		#{item.createUserId},
+    			create_time 		= 		#{item.createTime},
+    			update_user_id 		= 		#{item.updateUserId},
+    			update_time 		= 		#{item.updateTime},
+    			sex 		= 		#{item.sex},
+    			pic_id 		= 		#{item.picId},
+				<where>
+						and user_id = #{item.userId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.cloudd.commons.auth.model.User" id="sysUserResultMap">
+    	<!-- id -->
+		<!-- 用户ID -->
+		<id column="user_id" property="userId"/>
+	    	<!-- column -->
+		<!-- 用户名 -->
+		<result column="username" property="username"/> 
+		<!-- 姓名 -->
+		<result column="name" property="name"/> 
+		<!-- 密码 -->
+		<result column="password" property="password"/> 
+		<!-- email -->
+		<result column="email" property="email"/> 
+		<!-- 手机 -->
+		<result column="mobile" property="mobile"/> 
+		<!-- 状态 -->
+		<result column="status" property="status"/> 
+		<!-- 创建人ID -->
+		<result column="create_user_id" property="createUserId"/> 
+		<!-- 创建时间 -->
+		<result column="create_time" property="createTime"/> 
+		<!-- 更新人员ID -->
+		<result column="update_user_id" property="updateUserId"/> 
+		<!-- 更新时间 -->
+		<result column="update_time" property="updateTime"/> 
+		<!-- 性别 -->
+		<result column="sex" property="sex"/> 
+		<!-- 头像ID -->
+		<result column="pic_id" property="picId"/> 
+    </resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		user_id,
+    		username,
+    		name,
+    		password,
+    		email,
+    		mobile,
+    		status,
+    		create_user_id,
+    		create_time,
+    		update_user_id,
+    		update_time,
+    		sex,
+    		pic_id
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.userId},
+			#{item.username},
+			#{item.name},
+			#{item.password},
+			#{item.email},
+			#{item.mobile},
+			#{item.status},
+			#{item.createUserId},
+			#{item.createTime},
+			#{item.updateUserId},
+			#{item.updateTime},
+			#{item.sex},
+			#{item.picId}
+	</sql>
+    		
+</mapper>
+
+
