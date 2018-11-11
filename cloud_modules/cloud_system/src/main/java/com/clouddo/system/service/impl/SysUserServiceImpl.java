@@ -2,6 +2,7 @@ package com.clouddo.system.service.impl;
 
 
 import com.cloudd.commons.auth.model.User;
+import com.cloudd.commons.auth.util.UserUtil;
 import com.clouddo.commons.common.util.UUIDGenerator;
 import com.clouddo.system.mapper.SysUserMapper;
 import com.clouddo.system.service.SysUserService;
@@ -9,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //import com.charsming.test.service.sysUser.SysUserService;
 
@@ -33,7 +31,10 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public List<User> list(Map<String, Object> parameterSet) {
-        return this.sysUserMapper.list(parameterSet);
+        List<User> userList = this.sysUserMapper.list(parameterSet);
+        // 隐藏密码
+        userList.forEach(user -> user.setPassword(null));
+        return userList;
     }
 
     /**
@@ -84,6 +85,13 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int batchInsert(List<User> insertObjects) {
+        Date date = new Date();
+        // 设置添加人员/添加时间
+        insertObjects.forEach(user -> {
+            user.setCreateTime(date);
+            user.setCreateUserId(UserUtil.getCurrentUser() != null ? UserUtil.getCurrentUser().getUserId() : null);
+            user.setStatus("1");
+        });
         return this.sysUserMapper.batchInsert(insertObjects);
     }
 
@@ -121,6 +129,11 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int batchUpdate(List<User> objects) {
+        Date date = new Date();
+        objects.forEach(user -> {
+            user.setUpdateTime(date);
+            user.setUpdateUserId(UserUtil.getCurrentUser() != null ? UserUtil.getCurrentUser().getUserId() : null);
+        });
         return this.sysUserMapper.batchUpdate(objects);
     }
 
@@ -132,5 +145,15 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public User get(User object) {
         return this.sysUserMapper.get(object);
+    }
+
+    /**
+     * 查询用户权限
+     * @param sysUser
+     * @return
+     */
+    @Override
+    public List<String> queryPermissions(User sysUser) {
+        return null;
     }
 }

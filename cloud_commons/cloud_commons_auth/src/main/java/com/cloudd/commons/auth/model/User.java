@@ -38,7 +38,7 @@ public class User implements Serializable  {
 
     /** mobile - 手机 */
     @Column(name = "mobile")
-    private Integer mobile;
+    private String mobile;
 
     /** status - 状态 */
     @Column(name = "status")
@@ -67,6 +67,9 @@ public class User implements Serializable  {
     /** pic_id - 头像ID */
     @Column(name = "pic_id")
     private String picId;
+
+    @Column(name = "seq")
+    private Integer seq;
 
 
     public String getUserId(){
@@ -104,10 +107,10 @@ public class User implements Serializable  {
         this.email = email;
     }
 
-    public Integer getMobile(){
+    public String getMobile(){
         return this.mobile;
     }
-    public void setMobile(Integer mobile){
+    public void setMobile(String mobile){
         this.mobile = mobile;
     }
 
@@ -158,5 +161,13 @@ public class User implements Serializable  {
     }
     public void setPicId(String picId){
         this.picId = picId;
+    }
+
+    public Integer getSeq() {
+        return seq;
+    }
+
+    public void setSeq(Integer seq) {
+        this.seq = seq;
     }
 }

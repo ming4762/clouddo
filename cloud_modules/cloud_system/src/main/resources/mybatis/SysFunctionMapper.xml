@@ -20,6 +20,12 @@
 			<if test="parentId != null and parentId != ''">
 				AND A.PARENT_ID = #{parentId}
 			</if>
+			<if test="idList != null and idList.size() > 0">
+				AND A.FUNCTION_ID IN
+				<foreach collection="idList" item="item" open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
 			<if test="functionName != null and functionName != ''">
 				AND A.FUNCTION_NAME LIKE '%${functionName}%'
 			</if>

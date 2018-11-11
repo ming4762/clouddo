@@ -19,7 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/sys/role")
+@Deprecated
+@RequestMapping("/sys/role/ole")
 @Controller
 public class RoleController extends AuthController<Role> {
 	String prefix = "system/role";

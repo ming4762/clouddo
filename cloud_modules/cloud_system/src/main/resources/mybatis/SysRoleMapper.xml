@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clouddo.system.mapper.SysRoleMapper">
+
+
+	<!--表名 -->
+	<sql id="tableName">
+		sys_role
+	</sql>
+
+
+	<!--查询所有-->
+	<select id="list" resultMap="sysRoleResultMap" parameterType="map">
+        SELECT * FROM <include refid="tableName"></include> A
+        <where>
+			<if test="roleId != null and roleId != ''">
+				AND A.role_id = #{roleId}
+			</if>
+			<if test="roleName != null and roleName != ''">
+				AND A.role_name LIKE '%${roleName}%'
+			</if>
+			<if test="roleSign != null and roleSign != ''">
+				AND A.role_sign LIKE '%${roleSign}%'
+			</if>
+			<if test="remark != null and remark != ''">
+				AND A.remark LIKE '%${remark}%'
+			</if>
+			<if test="createUserId != null and createUserId != ''">
+				AND A.create_user_id LIKE '%${createUserId}%'
+			</if>
+			<if test="createTime != null and createTime != ''">
+				AND A.create_time LIKE '%${createTime}%'
+			</if>
+			<if test="updateUserId != null and updateUserId != ''">
+				AND A.update_user_id LIKE '%${updateUserId}%'
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+				AND A.update_time LIKE '%${updateTime}%'
+			</if>
+			<if test="deptId != null and deptId != ''">
+				AND A.dept_id LIKE '%${deptId}%'
+			</if>
+			<if test="global != null and global != ''">
+				AND A.global LIKE '%${global}%'
+			</if>
+
+			<!-- 关键词查询 -->
+			<if test="keyword != null and keyword != ''">
+				AND (
+				A.role_id LIKE '%${keyword}%'
+
+				OR A.role_name LIKE '%${keyword}%'
+
+				OR A.role_sign LIKE '%${keyword}%'
+
+				OR A.remark LIKE '%${keyword}%'
+
+				OR A.create_user_id LIKE '%${keyword}%'
+
+				OR A.create_time LIKE '%${keyword}%'
+
+				OR A.update_user_id LIKE '%${keyword}%'
+
+				OR A.update_time LIKE '%${keyword}%'
+
+				OR A.dept_id LIKE '%${keyword}%'
+
+				OR A.global LIKE '%${keyword}%'
+
+			)
+			</if>
+		</where>
+    </select>
+
+	<!--查询角色对应人员-->
+	<select id="queryUser" parameterType="list" resultMap="sysRoleResultMap">
+		SELECT A.*, C.* FROM
+		<include refid="tableName"></include> A
+		JOIN sys_user_role B ON A.role_id = B.role_id
+		JOIN sys_user C ON B.user_id = C.user_id
+		WHERE
+		<choose>
+			<when test="list != null and list.size() > 0">
+				<foreach collection="list" item="item" separator="or">
+					(
+						A.role_id = #{item.roleId}
+					)
+				</foreach>
+			</when>
+			<otherwise>
+				A.role_id = '@@@@@abc'
+			</otherwise>
+		</choose>
+	</select>
+
+	<!--删除角色用户-->
+	<delete id="deleteRoleUser" parameterType="collection">
+		DELETE FROM sys_user_role
+		WHERE
+		<choose>
+			<when test="collection != null and collection.size() > 0">
+				<foreach collection="collection" item="item" separator="or">
+					(
+					role_id = #{item}
+					)
+				</foreach>
+			</when>
+			<otherwise>
+				role_id = '@@@@@abc'
+			</otherwise>
+		</choose>
+	</delete>
+
+	<!--保存角色用户-->
+	<insert id="saveRoleUser" parameterType="list">
+		<if test="list != null and list.size() > 0">
+			INSERT INTO sys_user_role values
+			<foreach collection="list" item="item" separator=",">
+				(#{item.userId}, #{item.roleId})
+			</foreach>
+		</if>
+	</insert>
+
+	<!--删除操作-->
+	<delete id="delete" parameterType="list">
+        DELETE FROM <include refid="tableName"></include>
+        WHERE
+        <choose>
+            <when test="list != null and list.size() > 0">
+                <foreach collection="list" item="item" separator="or">
+					(
+					role_id = #{item.roleId}
+					)
+                </foreach>
+            </when>
+            <otherwise>
+            	role_id = '@@@@@abc'
+            </otherwise>
+        </choose>
+    </delete>
+
+	<!--查询操作-->
+	<select id="get" resultMap="sysRoleResultMap">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE
+		role_id = #{roleId}
+    </select>
+
+	<!--批量插入操作-->
+	<insert id="batchInsert" parameterType="list">
+        <if test="list != null and list.size() > 0">
+            INSERT INTO <include refid="tableName"></include>
+            ( <include refid="tableFields"></include>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (<include refid="classFields"></include> )
+            </foreach>
+        </if>
+
+    </insert>
+
+	<!--批量更新操作-->
+	<update id="batchUpdate" parameterType="list">
+        <if test="list != null">
+            <foreach collection="list" item="item">
+                UPDATE <include refid="tableName"></include>
+                SET
+    			role_name 		= 		#{item.roleName},
+    			role_sign 		= 		#{item.roleSign},
+    			remark 		= 		#{item.remark},
+    			create_user_id 		= 		#{item.createUserId},
+    			create_time 		= 		#{item.createTime},
+    			update_user_id 		= 		#{item.updateUserId},
+    			update_time 		= 		#{item.updateTime},
+    			dept_id 		= 		#{item.deptId},
+    			global 		= 		#{item.global},
+				seq 		= 		#{item.seq}
+				<where>
+						and role_id = #{item.roleId}
+				</where>
+				;
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 实体映射 -->
+    <resultMap type="com.clouddo.system.model.SysRole" id="sysRoleResultMap">
+    	<!-- id -->
+		<!-- 角色ID -->
+		<id column="role_id" property="roleId"/>
+	    	<!-- column -->
+		<!-- 角色名 -->
+		<result column="role_name" property="roleName"/> 
+		<!--  -->
+		<result column="role_sign" property="roleSign"/> 
+		<!-- 备注 -->
+		<result column="remark" property="remark"/> 
+		<!-- 创建人员ID -->
+		<result column="create_user_id" property="createUserId"/> 
+		<!-- 创建时间 -->
+		<result column="create_time" property="createTime"/> 
+		<!-- 修改人员ID -->
+		<result column="update_user_id" property="updateUserId"/> 
+		<!-- 修改时间 -->
+		<result column="update_time" property="updateTime"/> 
+		<!-- 所属机构ID -->
+		<result column="dept_id" property="deptId"/> 
+		<!-- 全局 -->
+		<result column="global" property="global"/>
+		<result column="seq" property="seq"/>
+
+		<collection property="userList" resultMap="userResultMap"/>
+    </resultMap>
+
+	<!--人员映射-->
+	<resultMap id="userResultMap" type="com.cloudd.commons.auth.model.User">
+		<id column="user_id" property="userId"/>
+		<result column="username" property="username"/>
+		<result column="name" property="name"/>
+	</resultMap>
+    
+    <!-- 字段 -->
+	<sql id="tableFields">
+    		role_id,
+    		role_name,
+    		role_sign,
+    		remark,
+    		create_user_id,
+    		create_time,
+    		update_user_id,
+    		update_time,
+    		dept_id,
+    		global,
+    		seq
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="classFields">
+			#{item.roleId},
+			#{item.roleName},
+			#{item.roleSign},
+			#{item.remark},
+			#{item.createUserId},
+			#{item.createTime},
+			#{item.updateUserId},
+			#{item.updateTime},
+			#{item.deptId},
+			#{item.global},
+			#{seq}
+	</sql>
+    		
+</mapper>
+
+

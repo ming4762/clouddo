@@ -82,8 +82,8 @@ public class LoginController extends com.cloudd.commons.auth.controller.AuthCont
             //创建session
             SessionUtil.createSession(user, token);
             //保存权限信息
-            this.savePermissions(user.getUserId());
-            resultdata.put(CommonConstants.USER_PERMISSIONS, SessionUtil.getUserSession().getAttribute(CommonConstants.USER_PERMISSIONS));
+//            this.savePermissions(user.getUserId());
+//            resultdata.put(CommonConstants.USER_PERMISSIONS, SessionUtil.getUserSession().getAttribute(CommonConstants.USER_PERMISSIONS));
             logger.info("登陆成功，username：{}  password：{}", username, password);
             return Result.success(resultdata);
         } catch (Exception e) {

@@ -2,6 +2,7 @@ package com.clouddo.system.service.impl;
 
 
 import com.cloudd.commons.auth.util.UserUtil;
+import com.clouddo.commons.common.model.Tree;
 import com.clouddo.commons.common.util.UUIDGenerator;
 import com.clouddo.system.mapper.SysFunctionMapper;
 import com.clouddo.system.model.SysFunction;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -127,5 +129,55 @@ public class SysFunctionServiceImpl implements SysFunctionService {
     @Override
     public SysFunction get(SysFunction object) {
         return this.sysFunctionMapper.get(object);
+    }
+
+    /**
+     * 查询树形结构
+     * @param parameters
+     * @return
+     */
+    @Override
+    public List<Tree<SysFunction>> treeList(Map<String, Object> parameters) {
+        // 查询本级并转为树形列表
+        List<Tree<SysFunction>> treeList = this.functionToTree(this.list(parameters));
+        // 采用递归查询下级
+        this.getAllChildren(treeList);
+        return treeList;
+    }
+
+
+    /**
+     * 获取所有下级
+     * @param treeList
+     */
+    private void getAllChildren(List<Tree<SysFunction>> treeList) {
+        treeList.forEach(tree -> {
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("parentId", tree.getId());
+            List<SysFunction> children = this.list(parameters);
+            // 如果有下级，递归获取下级
+            if (children != null && children.size() > 0) {
+                List<Tree<SysFunction>> trees = this.functionToTree(children);
+                tree.setChildren(trees);
+                tree.setChildren(true);
+                this.getAllChildren(trees);
+            }
+        });
+    }
+
+    /**
+     * 转为树形列表
+     * @param functionList
+     * @return
+     */
+    private List<Tree<SysFunction>> functionToTree(List<SysFunction> functionList) {
+        return functionList.stream().map(function -> {
+            Tree<SysFunction> tree = new Tree<SysFunction>();
+            tree.setId(function.getFunctionId());
+            tree.setText(function.getFunctionName());
+            tree.setParentId(function.getParentId());
+            tree.setObject(function);
+            return tree;
+        }).collect(Collectors.toList());
     }
 }

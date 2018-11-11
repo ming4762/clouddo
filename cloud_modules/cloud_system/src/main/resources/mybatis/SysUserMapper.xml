@@ -144,6 +144,7 @@
     			update_time 		= 		#{item.updateTime},
     			sex 		= 		#{item.sex},
     			pic_id 		= 		#{item.picId},
+				seq			=		#{seq}
 				<where>
 						and user_id = #{item.userId}
 				</where>
@@ -181,8 +182,9 @@
 		<!-- 性别 -->
 		<result column="sex" property="sex"/> 
 		<!-- 头像ID -->
-		<result column="pic_id" property="picId"/> 
-    </resultMap>
+		<result column="pic_id" property="picId"/>
+		<result column="seq" property="seq"/>
+	</resultMap>
     
     <!-- 字段 -->
 	<sql id="tableFields">
@@ -198,7 +200,8 @@
     		update_user_id,
     		update_time,
     		sex,
-    		pic_id
+    		pic_id,
+    		seq
 	</sql>
 	
 	<!-- 字段值 -->
@@ -215,7 +218,8 @@
 			#{item.updateUserId},
 			#{item.updateTime},
 			#{item.sex},
-			#{item.picId}
+			#{item.picId},
+			#{item.seq}
 	</sql>
     		
 </mapper>

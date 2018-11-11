@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Table(name = "sys_role")
+@Deprecated
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = -977157267181758411L;

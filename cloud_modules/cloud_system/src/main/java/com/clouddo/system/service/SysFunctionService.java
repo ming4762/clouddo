@@ -1,6 +1,7 @@
 package com.clouddo.system.service;
 
 
+import com.clouddo.commons.common.model.Tree;
 import com.clouddo.system.model.SysFunction;
 
 import java.util.List;
@@ -62,5 +63,10 @@ public interface SysFunctionService {
     */
     SysFunction get(SysFunction object);
 
-	
+    /**
+     * 查询树形结构
+     * @param parameters
+     * @return
+     */
+    List<Tree<SysFunction>> treeList(Map<String, Object> parameters);
 }

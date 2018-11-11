@@ -1,7 +1,9 @@
 package com.clouddo.system.controller;
 
 
+import com.cloudd.commons.auth.annotation.RequiresPermissions;
 import com.cloudd.commons.auth.controller.AuthController;
+import com.clouddo.commons.common.model.Tree;
 import com.clouddo.commons.common.util.message.Result;
 import com.clouddo.system.model.SysFunction;
 import com.clouddo.system.service.SysFunctionService;
@@ -10,11 +12,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -24,7 +26,7 @@ import java.util.Map;
  * Controller层，用于前后台交互、前后台数据格式转换 
  * @author testCodeGenerator
  */
-@Controller
+@RestController
 @RequestMapping(value = "/sys/function")
 @Api(description = "系统功能管理控制类")
 public class SysFunctionController extends AuthController<SysFunction> {
@@ -149,4 +151,20 @@ public class SysFunctionController extends AuthController<SysFunction> {
 
     }
 
+    /**
+     * 查询树形结构
+     * @param parameters
+     * @return
+     */
+    @RequiresPermissions("sys:function:query")
+    @RequestMapping("/tree")
+    public Object tree(@RequestBody Map<String, Object> parameters) {
+        try {
+            List<Tree<SysFunction>> treeList = this.sysFunctionService.treeList(parameters);
+            return Result.success(treeList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.failure(e.getMessage());
+        }
+    }
 }

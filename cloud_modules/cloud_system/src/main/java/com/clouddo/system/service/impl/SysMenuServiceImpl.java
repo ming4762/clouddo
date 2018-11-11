@@ -225,7 +225,7 @@ public class SysMenuServiceImpl implements SysMenuService {
      * 获取所有下级使用递归实现
      * @param treeList
      */
-    private void getAllChildren (List<Tree<SysMenu>> treeList) {
+    private void getAllChildren(List<Tree<SysMenu>> treeList) {
         treeList.forEach(tree -> {
             Map<String, Object> parameters = new HashMap<String, Object>();
             parameters.put("parentId", tree.getId());
