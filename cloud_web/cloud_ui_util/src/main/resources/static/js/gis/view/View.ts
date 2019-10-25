@@ -187,7 +187,7 @@ namespace com.clouddo.ui.gis {
         public switchView = () => {
             // 获取当前视图类型
             let is3D = this.viewContainer.activeView.type === '3d'
-            this.viewContainer.activeView.container = null
+            this.viewContainer.activeView.i
             if (is3D) {
                 // 获取当前视图中心店
                 this.viewContainer.mapView.viewpoint = this.viewContainer.activeView.viewpoint.clone()

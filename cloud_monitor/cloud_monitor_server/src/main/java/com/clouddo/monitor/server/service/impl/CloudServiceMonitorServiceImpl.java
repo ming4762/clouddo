@@ -76,7 +76,7 @@ public class CloudServiceMonitorServiceImpl implements CloudServiceMonitorServic
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getServiceId() == null || "".equals(object.getServiceId())) {
-            object.setServiceId(UUIDGenerator.getUUID());
+            object.setServiceId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

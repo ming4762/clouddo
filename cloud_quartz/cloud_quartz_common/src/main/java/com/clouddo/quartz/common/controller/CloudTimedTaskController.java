@@ -55,8 +55,8 @@ public class CloudTimedTaskController extends AuthController<CloudTimedTask> {
             List<CloudTimedTask> cloudTimedTaskList = this.cloudTimedTaskService.list(parameterSet);
             if(page != null) {
                 Map<String, Object> data = new HashMap<String, Object>();
-                data.put(ROWS, cloudTimedTaskList);
-                data.put(TOTAL, page.getTotal());
+                data.put(Companion.getROWS(), cloudTimedTaskList);
+                data.put(Companion.getTOTAL(), page.getTotal());
                 return Result.success(data);
             }
             return Result.success(cloudTimedTaskList);

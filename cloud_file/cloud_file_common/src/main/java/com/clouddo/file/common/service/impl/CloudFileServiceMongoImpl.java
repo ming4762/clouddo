@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * 文件存储实现类
- * @author zhongming
+ * @author zhonvgming
  * @since 3.0
  * 2018/7/24上午11:16
  */
@@ -40,11 +40,7 @@ public class CloudFileServiceMongoImpl implements CloudFileService {
     @Autowired
     private GridFsTemplate gridFsTemplate;
 
-    /**
-     * MongoDB工厂
-     */
-    @Autowired
-    MongoDbFactory dbFactory ;
+    f;
 
     /**
      * mogon存储文件大小的限值，大小为16M

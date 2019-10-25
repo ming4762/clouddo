@@ -58,7 +58,7 @@ public class CloudIntentServiceImpl implements CloudIntentService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getIntentId() == null || "".equals(object.getIntentId())) {
-            object.setIntentId(UUIDGenerator.getUUID());
+            object.setIntentId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

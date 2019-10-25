@@ -1,0 +1,27 @@
+#配置中心相关配置必须放在bootstrap文件中，
+#因为springboot的加载顺序为bootstrap文件、配置中心配置、application文件中
+spring:
+  application:
+    name: cloud-auth-server
+  profiles:
+    #    激活指定配置文件
+    active: dev
+
+  cloud:
+    config:
+      label: master
+      discovery:
+        enabled: true
+        service-id: cloud_config
+server:
+  port: 8763
+
+eureka:
+  instance:
+    #    使用IP注册
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${spring.application.instance_id:${server.port}}
+  client:
+    serviceUrl:
+      #      服务中心地址
+      defaultZone: http://charsming.f3322.org:8761/eureka/

@@ -59,7 +59,7 @@ public class SysMenuServiceImpl implements SysMenuService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getMenuId() == null || "".equals(object.getMenuId())) {
-            object.setMenuId(UUIDGenerator.getUUID());
+            object.setMenuId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);
@@ -145,7 +145,7 @@ public class SysMenuServiceImpl implements SysMenuService {
     public Map<String, Object> saveUpdateTopMenu(SysMenu sysMenu) {
         // 获取序号
         if (StringUtils.isEmpty(sysMenu.getMenuId())) {
-            sysMenu.setMenuId(UUIDGenerator.getUUID());
+            sysMenu.setMenuId(UUIDGenerator.INSTANCE.getUUID());
         }
         sysMenu.setParentId("0");
         sysMenu.setMenuType("0");

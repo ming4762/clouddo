@@ -33,7 +33,7 @@ public class LogController extends AuthController {
     public Result saveLog(@RequestBody LogModel logModel) {
         try {
             if (StringUtils.isEmpty(logModel.getId())) {
-                logModel.setId(UUIDGenerator.getUUID());
+                logModel.setId(UUIDGenerator.INSTANCE.getUUID());
             }
             logService.save(logModel);
             return Result.success("日志保存成功");

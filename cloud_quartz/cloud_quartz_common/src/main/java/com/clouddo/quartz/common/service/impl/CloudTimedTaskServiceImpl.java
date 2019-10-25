@@ -66,7 +66,7 @@ public class CloudTimedTaskServiceImpl implements CloudTimedTaskService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getTaskId() == null || "".equals(object.getTaskId())) {
-            object.setTaskId(UUIDGenerator.getUUID());
+            object.setTaskId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

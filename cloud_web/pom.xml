@@ -13,6 +13,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<modules>
+		<module>cloud_plugin</module>
+	</modules>
+
 	<name>cloud_web</name>
 	<description>静态资源公共部分</description>
 

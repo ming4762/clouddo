@@ -1,7 +1,7 @@
 package com.clouddo.system.service.impl;
 
 
-import com.cloudd.commons.auth.model.User;
+import com.clouddo.auth.common.model.User;
 import com.cloudd.commons.auth.util.UserUtil;
 import com.clouddo.commons.common.util.UUIDGenerator;
 import com.clouddo.system.mapper.SysUserMapper;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.*;
 
-//import com.charsming.test.service.sysUser.SysUserService;
+//imports com.charsming.test.service.sysUser.SysUserService;
 
 /**
  * Service层 实现类，用于业务逻辑处理，事务控制等 

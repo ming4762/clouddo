@@ -56,9 +56,9 @@ public class CloudNewsController extends AuthController<CloudNews> {
 
    	    try {
             //判断是否分页
-            if(parameterSet.get(PAGE_SIZE) != null) {
-                Integer limit = (Integer) parameterSet.get(PAGE_SIZE);
-                Integer offset = parameterSet.get(OFFSET) == null ? 0 : (Integer) parameterSet.get(OFFSET);
+            if(parameterSet.get(Companion.getPAGE_SIZE()) != null) {
+                Integer limit = (Integer) parameterSet.get(Companion.getPAGE_SIZE());
+                Integer offset = parameterSet.get(Companion.getOFFSET()) == null ? 0 : (Integer) parameterSet.get(Companion.getOFFSET());
                 Page page = PageHelper.offsetPage(offset, limit);
                 String order = this.analysisOrder(parameterSet);
                 if(!StringUtils.isEmpty(order)) {

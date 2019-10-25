@@ -64,8 +64,8 @@
 		<!--认证模块-->
 		<dependency>
 			<groupId>com.clouddo</groupId>
-			<artifactId>cloud_commons_auth</artifactId>
-			<version>${cloud_commons_auth.version}</version>
+			<artifactId>cloud_auth_common</artifactId>
+			<version>${cloud_auth_common.version}</version>
 		</dependency>
 
 		<!--日志工具包-->

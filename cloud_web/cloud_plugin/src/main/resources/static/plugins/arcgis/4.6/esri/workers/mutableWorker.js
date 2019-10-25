@@ -9,7 +9,7 @@
     var error, success;
     if (msg.action) {
       switch (msg.action) {
-        case "import-script":
+        case "imports-script":
           try {
             if (!Array.isArray(msg.url)) {
               msg.url = [msg.url];
@@ -19,7 +19,7 @@
           }
           catch (err) {
             error = err;
-            postMessage({msgId: msg.msgId, urls: msg.url, status: "debug", message: "import failed - " + err.message});
+            postMessage({msgId: msg.msgId, urls: msg.url, status: "debug", message: "imports failed - " + err.message});
           }
           break;
         case "add-callback":

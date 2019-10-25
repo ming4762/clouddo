@@ -32,7 +32,7 @@ public class BaiduVoiceDictationServcieImpl extends AuthService implements Voice
         //转换文件为PEM
         String path = this.transWavToPem(voice);
         HashMap<String, Object> options = new HashMap<String, Object>();
-        options.put("cuid", getUserId() == null ? UUIDGenerator.getUUID() : getUserId());
+        options.put("cuid", getUserId() == null ? UUIDGenerator.INSTANCE.getUUID() : getUserId());
         options.put("dev_pid", 1536);
         Map<String, Object> result = aipSpeech.asr(path, "pcm", 16000, options).toMap();
         List<String> results = BaiduVoiceUtil.analysisVoiceDictation(result);

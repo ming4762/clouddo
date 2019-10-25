@@ -110,7 +110,7 @@ public class CloudCommentController extends AuthController<CloudComment> {
             if(StringUtils.isEmpty(cloudComment.getNewsId())) {
                 return Result.failure("新闻ID不能为空");
             }
-            cloudComment.setCommentId(UUIDGenerator.getUUID());
+            cloudComment.setCommentId(UUIDGenerator.INSTANCE.getUUID());
             cloudComment.setCreateTime(new Date());
             cloudComment.setUserId(getUserId());
             cloudComment.setPraiseNum(0);

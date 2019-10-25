@@ -1,11 +1,10 @@
 package com.clouddo.system;
 
-import com.cloudd.commons.auth.config.AuthCommonImport;
+import com.clouddo.auth.common.imports.AuthImport;
 import com.clouddo.log.common.config.LogCommonImport;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -17,10 +16,9 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 @EnableEurekaClient		//服务提供者
 @Import({
-		AuthCommonImport.class,
+		AuthImport.class,
 		LogCommonImport.class
 })
-@EnableFeignClients
 public class CloudSystemApplication {
 
 	public static void main(String[] args) {

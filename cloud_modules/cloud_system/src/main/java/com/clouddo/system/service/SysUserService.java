@@ -1,7 +1,7 @@
 package com.clouddo.system.service;
 
 
-import com.cloudd.commons.auth.model.User;
+import com.clouddo.auth.common.model.User;
 
 import java.util.List;
 import java.util.Map;

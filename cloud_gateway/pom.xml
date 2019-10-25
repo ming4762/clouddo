@@ -35,6 +35,12 @@
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 
+		<!--feign支持-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
@@ -42,9 +48,9 @@
 
 		<dependency>
 			<groupId>com.clouddo</groupId>
-			<artifactId>cloud_commons_auth</artifactId>
-            <version>${cloud_commons_auth.version}</version>
-        </dependency>
+			<artifactId>cloud_commons_common</artifactId>
+			<version>${cloud_commons_common.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

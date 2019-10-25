@@ -151,7 +151,7 @@ public class MonitorUtil {
      */
     private void createLog(CloudServiceMonitor monitor, boolean status, String code, Long time, String message) {
         CloudMonitorLog cloudMonitorLog = new CloudMonitorLog();
-        cloudMonitorLog.setLogId(UUIDGenerator.getUUID());
+        cloudMonitorLog.setLogId(UUIDGenerator.INSTANCE.getUUID());
         cloudMonitorLog.setServiceId(monitor.getServiceId());
         cloudMonitorLog.setStatus(status);
         cloudMonitorLog.setCode(code);

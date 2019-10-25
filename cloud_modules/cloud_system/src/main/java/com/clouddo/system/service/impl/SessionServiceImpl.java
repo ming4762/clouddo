@@ -1,18 +1,18 @@
 package com.clouddo.system.service.impl;//package com.clouddo.system.service.impl;
 //
-//import com.clouddo.system.model.User;
-//import com.clouddo.system.model.UserOnline;
-//import com.clouddo.system.service.SessionService;
-//import org.apache.shiro.session.Session;
-//import org.apache.shiro.session.mgt.eis.SessionDAO;
-//import org.apache.shiro.subject.SimplePrincipalCollection;
-//import org.apache.shiro.subject.support.DefaultSubjectContext;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
+//imports com.clouddo.system.model.User;
+//imports com.clouddo.system.model.UserOnline;
+//imports com.clouddo.system.service.SessionService;
+//imports org.apache.shiro.session.Session;
+//imports org.apache.shiro.session.mgt.eis.SessionDAO;
+//imports org.apache.shiro.subject.SimplePrincipalCollection;
+//imports org.apache.shiro.subject.support.DefaultSubjectContext;
+//imports org.springframework.beans.factory.annotation.Autowired;
+//imports org.springframework.stereotype.Service;
 //
-//import java.util.ArrayList;
-//import java.util.Collection;
-//import java.util.List;
+//imports java.util.ArrayList;
+//imports java.util.Collection;
+//imports java.util.List;
 //
 ///**
 // * 待完善

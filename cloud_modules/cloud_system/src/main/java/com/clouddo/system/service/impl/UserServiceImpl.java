@@ -1,25 +1,25 @@
 //package com.clouddo.system.service.impl;
 //
-//import com.cloudd.commons.auth.model.User;
-//import com.clouddo.commons.common.model.Tree;
-//import com.clouddo.commons.common.util.BuildTree;
-//import com.clouddo.commons.common.util.security.MD5Utils;
-//import com.clouddo.system.mapper.DeptMapper;
-//import com.clouddo.system.mapper.UserMapper;
-//import com.clouddo.system.mapper.UserRoleMapper;
-//import com.clouddo.system.model.Dept;
-//import com.clouddo.system.model.UserRole;
-//import com.clouddo.system.service.UserService;
-//import com.clouddo.system.vo.UserVO;
-//import org.apache.commons.lang.ArrayUtils;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//import org.springframework.web.multipart.MultipartFile;
+//imports com.cloudd.commons.auth.model.User;
+//imports com.clouddo.commons.common.model.Tree;
+//imports com.clouddo.commons.common.util.BuildTree;
+//imports com.clouddo.commons.common.util.security.MD5Utils;
+//imports com.clouddo.system.mapper.DeptMapper;
+//imports com.clouddo.system.mapper.UserMapper;
+//imports com.clouddo.system.mapper.UserRoleMapper;
+//imports com.clouddo.system.model.Dept;
+//imports com.clouddo.system.model.UserRole;
+//imports com.clouddo.system.service.UserService;
+//imports com.clouddo.system.vo.UserVO;
+//imports org.apache.commons.lang.ArrayUtils;
+//imports org.slf4j.Logger;
+//imports org.slf4j.LoggerFactory;
+//imports org.springframework.beans.factory.annotation.Autowired;
+//imports org.springframework.stereotype.Service;
+//imports org.springframework.transaction.annotation.Transactional;
+//imports org.springframework.web.multipart.MultipartFile;
 //
-//import java.util.*;
+//imports java.util.*;
 //
 //@Transactional
 //@Service

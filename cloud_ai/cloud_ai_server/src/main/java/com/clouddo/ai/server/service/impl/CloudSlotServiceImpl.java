@@ -66,7 +66,7 @@ public class CloudSlotServiceImpl implements CloudSlotService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getSlotId() == null || "".equals(object.getSlotId())) {
-            object.setSlotId(UUIDGenerator.getUUID());
+            object.setSlotId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

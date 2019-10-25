@@ -9,7 +9,7 @@ spring:
           search-paths: configs
           username: zhongming4762@hotmail.com
           password: ZHONGming8858*
-        default-profile: pro
+#        default-profile: pro
 
 
 eureka:

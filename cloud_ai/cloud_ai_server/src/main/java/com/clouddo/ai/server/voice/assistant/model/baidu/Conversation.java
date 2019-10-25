@@ -89,7 +89,7 @@ public class Conversation implements Serializable {
      * 构造函数初始化参数
      */
     public Conversation() {
-        this.id = UUIDGenerator.getUUID();
+        this.id = UUIDGenerator.INSTANCE.getUUID();
         this.requestModelList = new ArrayList<RequestModel>();
         this.responseModelList = new ArrayList<ResponseModel>();
     }

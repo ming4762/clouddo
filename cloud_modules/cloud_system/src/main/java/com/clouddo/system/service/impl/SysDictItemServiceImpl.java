@@ -57,7 +57,7 @@ public class SysDictItemServiceImpl implements SysDictItemService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getItemCode() == null || "".equals(object.getItemCode())) {
-            object.setItemCode(UUIDGenerator.getUUID());
+            object.setItemCode(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

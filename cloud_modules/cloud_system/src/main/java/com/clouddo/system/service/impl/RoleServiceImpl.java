@@ -98,7 +98,7 @@ public class RoleServiceImpl implements RoleService {
         List<RoleMenu> rms = new ArrayList<>();
         for (String menuId : menuIds) {
             RoleMenu rmDo = new RoleMenu();
-            rmDo.setId(UUIDGenerator.getUUID());
+            rmDo.setId(UUIDGenerator.INSTANCE.getUUID());
             rmDo.setRoleId(roleId);
             rmDo.setMenuId(menuId);
             rms.add(rmDo);

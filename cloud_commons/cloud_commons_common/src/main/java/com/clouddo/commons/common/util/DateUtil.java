@@ -107,14 +107,4 @@ public class DateUtil {
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
-
-    public static void main(String[] args) {
-        Calendar calendar = Calendar.getInstance();
-        Date endTime = calendar.getTime();
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) - 1);
-        Date startTime = calendar.getTime();
-        List<Date> dateList = createHourInterval(startTime, endTime, 2);
-        System.out.println("=========");
-    }
-
 }

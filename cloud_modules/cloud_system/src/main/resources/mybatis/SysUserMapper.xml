@@ -24,7 +24,7 @@
 				AND A.name LIKE '%${name}%'
 			</if>
 			<if test="password != null and password != ''">
-				AND A.password LIKE '%${password}%'
+				AND A.password = #{password}
 			</if>
 			<if test="email != null and email != ''">
 				AND A.email LIKE '%${email}%'
@@ -154,7 +154,7 @@
     </update>
 
     <!-- 实体映射 -->
-    <resultMap type="com.cloudd.commons.auth.model.User" id="sysUserResultMap">
+    <resultMap type="com.clouddo.auth.common.model.User" id="sysUserResultMap">
     	<!-- id -->
 		<!-- 用户ID -->
 		<id column="user_id" property="userId"/>

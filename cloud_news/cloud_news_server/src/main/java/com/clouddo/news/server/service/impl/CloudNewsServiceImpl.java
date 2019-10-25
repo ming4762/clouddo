@@ -100,7 +100,7 @@ public class CloudNewsServiceImpl implements CloudNewsService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getNewsId() == null || "".equals(object.getNewsId())) {
-            object.setNewsId(UUIDGenerator.getUUID());
+            object.setNewsId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

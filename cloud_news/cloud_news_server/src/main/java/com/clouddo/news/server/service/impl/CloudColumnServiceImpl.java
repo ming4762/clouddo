@@ -66,7 +66,7 @@ public class CloudColumnServiceImpl implements CloudColumnService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getColumnId() == null || "".equals(object.getColumnId())) {
-            object.setColumnId(UUIDGenerator.getUUID());
+            object.setColumnId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

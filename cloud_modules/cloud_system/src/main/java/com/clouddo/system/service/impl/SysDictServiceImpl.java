@@ -57,7 +57,7 @@ public class SysDictServiceImpl implements SysDictService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getDictCode() == null || "".equals(object.getDictCode())) {
-            object.setDictCode(UUIDGenerator.getUUID());
+            object.setDictCode(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

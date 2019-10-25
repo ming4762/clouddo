@@ -1,6 +1,5 @@
 package com.clouddo.quartz.common.service.impl;
 
-import com.clouddo.commons.common.util.ClassUtil;
 import com.clouddo.quartz.common.model.CloudTimedTask;
 import com.clouddo.quartz.common.service.QuartzService;
 import org.quartz.*;
@@ -76,16 +75,8 @@ public class QuartzServiceImpl implements QuartzService {
         scheduler.pauseJob(this.getJobKeyByCloudTimedTask(cloudTimedTask));
     }
 
-    /**
-     * 获取任务信息
-     * @param cloudTimedTask
-     * @return
-     */
-    @Override
-    public JobDetail getJob(CloudTimedTask cloudTimedTask) throws Exception {
-        Scheduler scheduler = this.schedulerFactoryBean.getScheduler();
-        return scheduler.getJobDetail(this.getJobKeyByCloudTimedTask(cloudTimedTask));
-    }
+
+
 
     /**
      * 根据任务信息获取jobkey

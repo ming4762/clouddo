@@ -1,4 +1,4 @@
---创建文件信息表
+ v--创建文件信息表
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[cloud_file]') AND type IN ('U'))
 	DROP TABLE [dbo].[cloud_file]
 GO

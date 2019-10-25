@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import com.charsming.test.service.sysOrganDuty.SysOrganDutyService;
+//imports com.charsming.test.service.sysOrganDuty.SysOrganDutyService;
 
 /**
  * Service层 实现类，用于业务逻辑处理，事务控制等 
@@ -57,7 +57,7 @@ public class SysOrganDutyServiceImpl implements SysOrganDutyService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getOrganId() == null || "".equals(object.getOrganId())) {
-            object.setOrganId(UUIDGenerator.getUUID());
+            object.setOrganId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

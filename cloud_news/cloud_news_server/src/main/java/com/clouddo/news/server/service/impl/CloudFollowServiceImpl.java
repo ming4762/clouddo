@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import com.charsming.test.service.cloudFollow.CloudFollowService;
+//imports com.charsming.test.service.cloudFollow.CloudFollowService;
 
 /**
  * Service层 实现类，用于业务逻辑处理，事务控制等 
@@ -58,7 +58,7 @@ public class CloudFollowServiceImpl implements CloudFollowService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getFollowId() == null || "".equals(object.getFollowId())) {
-            object.setFollowId(UUIDGenerator.getUUID());
+            object.setFollowId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

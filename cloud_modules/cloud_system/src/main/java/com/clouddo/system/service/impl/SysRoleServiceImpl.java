@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.*;
 
-//import com.charsming.test.service.sysRole.SysRoleService;
+//imports com.charsming.test.service.sysRole.SysRoleService;
 
 /**
  * Service层 实现类，用于业务逻辑处理，事务控制等 
@@ -55,7 +55,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getRoleId() == null || "".equals(object.getRoleId())) {
-            object.setRoleId(UUIDGenerator.getUUID());
+            object.setRoleId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

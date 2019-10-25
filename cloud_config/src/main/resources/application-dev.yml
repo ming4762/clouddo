@@ -2,6 +2,7 @@ spring:
   cloud:
     config:
       server:
+
         git:
 #          仓库地址
           uri: https://gitee.com/zhongming4762/cloudConfig.git

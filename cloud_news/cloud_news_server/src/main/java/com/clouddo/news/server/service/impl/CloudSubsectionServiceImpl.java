@@ -53,7 +53,7 @@ public class CloudSubsectionServiceImpl implements CloudSubsectionService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getSubsectionId() == null || "".equals(object.getSubsectionId())) {
-            object.setSubsectionId(UUIDGenerator.getUUID());
+            object.setSubsectionId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

@@ -1,31 +1,31 @@
 //package com.clouddo.system.controller;
 //
-//import com.cloudd.commons.auth.controller.AuthController;
-//import com.cloudd.commons.auth.model.User;
-//import com.clouddo.commons.common.constatns.CommonConstants;
-//import com.clouddo.commons.common.model.Tree;
-//import com.clouddo.commons.common.util.message.R;
-//import com.clouddo.commons.common.util.message.Result;
-//import com.clouddo.commons.common.util.security.MD5Utils;
-//import com.clouddo.log.common.annotation.Log;
-//import com.clouddo.system.model.Dept;
-//import com.clouddo.system.model.Role;
-//import com.clouddo.system.service.RoleService;
-//import com.clouddo.system.service.UserService;
-//import com.clouddo.system.vo.UserVO;
-//import com.github.pagehelper.Page;
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.util.StringUtils;
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.multipart.MultipartFile;
+//imports com.cloudd.commons.auth.controller.AuthController;
+//imports com.cloudd.commons.auth.model.User;
+//imports com.clouddo.commons.common.constatns.CommonConstants;
+//imports com.clouddo.commons.common.model.Tree;
+//imports com.clouddo.commons.common.util.message.R;
+//imports com.clouddo.commons.common.util.message.Result;
+//imports com.clouddo.commons.common.util.security.MD5Utils;
+//imports com.clouddo.log.common.annotation.Log;
+//imports com.clouddo.system.model.Dept;
+//imports com.clouddo.system.model.Role;
+//imports com.clouddo.system.service.RoleService;
+//imports com.clouddo.system.service.UserService;
+//imports com.clouddo.system.vo.UserVO;
+//imports com.github.pagehelper.Page;
+//imports org.apache.shiro.authz.annotation.RequiresPermissions;
+//imports org.springframework.beans.factory.annotation.Autowired;
+//imports org.springframework.stereotype.Controller;
+//imports org.springframework.ui.Model;
+//imports org.springframework.util.StringUtils;
+//imports org.springframework.web.bind.annotation.*;
+//imports org.springframework.web.multipart.MultipartFile;
 //
-//import javax.servlet.http.HttpServletRequest;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
+//imports javax.servlet.http.HttpServletRequest;
+//imports java.util.HashMap;
+//imports java.util.List;
+//imports java.util.Map;
 //
 //@Deprecated
 //@RequestMapping("/sys/userold")

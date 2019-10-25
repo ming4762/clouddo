@@ -53,7 +53,7 @@ public class SysFunctionServiceImpl implements SysFunctionService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getFunctionId() == null || "".equals(object.getFunctionId())) {
-            object.setFunctionId(UUIDGenerator.getUUID());
+            object.setFunctionId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

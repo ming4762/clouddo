@@ -62,7 +62,7 @@ public class CloudMonitorLogServiceImpl implements CloudMonitorLogService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getLogId() == null || "".equals(object.getLogId())) {
-            object.setLogId(UUIDGenerator.getUUID());
+            object.setLogId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

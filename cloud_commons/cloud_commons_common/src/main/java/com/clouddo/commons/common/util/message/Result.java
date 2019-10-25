@@ -42,12 +42,12 @@ public class Result<T> {
         this.data = data;
     }
 
-    private static Result newInstance() {
-        return new Result();
+    private static <T> Result<T> newInstance() {
+        return new Result<>();
     }
 
-    public static <T> Result success(T data) {
-        Result result = newInstance();
+    public static <T> Result<T> success(T data) {
+        Result<T> result = newInstance();
         result.setData(data);
         result.setCode(ResultCodeEnum.SUCCESS.getCode());
         result.setMessage(ResultCodeEnum.SUCCESS.getMsg());
@@ -56,6 +56,7 @@ public class Result<T> {
             result.setData(null);
         } else {
             // 遇到没有属性的空类,防止JSON转换的时候异常
+
             Field[] fields = data.getClass().getDeclaredFields();
             if (fields.length == 0) {
                 result.setData(null);
@@ -64,30 +65,32 @@ public class Result<T> {
         return result;
     }
 
-    public static Result failure(String message) {
-        Result result = newInstance();
+    public static <T> Result<T> failure(String message) {
+        Result<T> result = newInstance();
         result.setCode(ResultCodeEnum.FAILURE.getCode());
         result.setMessage(message);
         result.ok = false;
         return result;
     }
 
-    public static Result Result(Integer errorCode, String message) {
-        Result result = newInstance();
-        result.setCode(errorCode);
-        result.setMessage(message);
-        return result;
-    }
-
-    public static Result failure(Integer errorCode, String message, Object data) {
-        Result result = newInstance();
+    public static <T> Result<T> failure(Integer errorCode, String message, T data) {
+        Result<T> result = newInstance();
         result.setCode(errorCode);
         result.setMessage(message);
         result.setData(data);
 
         if (data == null) {
-            result.setData("");
+            result.setData(null);
         }
+        result.ok = false;
+        return result;
+    }
+
+    public static <T> Result<T> failure(Integer errorCode, String message) {
+        Result<T> result = newInstance();
+        result.setCode(errorCode);
+        result.setMessage(message);
+        result.setData(null);
         result.ok = false;
         return result;
     }
@@ -99,7 +102,14 @@ public class Result<T> {
      * @param data 返回数据
      * @return 失败对象
      */
-    public static Result failure(String message, Object data) {
+    public static <T> Result<T> failure(String message, T data) {
         return failure(ResultCodeEnum.FAILURE.getCode(), message, data);
+    }
+
+    public static <T> Result<T> failure(T a) {
+        Result<T> result = newInstance();
+        result.setCode(ResultCodeEnum.FAILURE.getCode());
+        result.setData(a);
+        return result;
     }
 }

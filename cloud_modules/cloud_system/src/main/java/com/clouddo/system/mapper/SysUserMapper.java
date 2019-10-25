@@ -1,7 +1,7 @@
 package com.clouddo.system.mapper;
 
 
-import com.cloudd.commons.auth.model.User;
+import com.clouddo.auth.common.model.User;
 
 import java.util.List;
 import java.util.Map;

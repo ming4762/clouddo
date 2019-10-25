@@ -57,7 +57,7 @@ public class MenuController extends AuthController {
 			List<MenuDTO> menus = menuService.list(parameterSet);
 			data.put(ROWS, menus);
 			if(page != null) {
-				data.put(TOTAL, page.getTotal());
+				data.put(ROWS, page.getTotal());
 			}
 			return Result.success(data);
 		} catch (Exception e) {

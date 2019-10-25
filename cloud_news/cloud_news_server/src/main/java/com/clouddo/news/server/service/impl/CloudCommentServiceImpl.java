@@ -57,7 +57,7 @@ public class CloudCommentServiceImpl implements CloudCommentService {
         Map<String, Object> returnData = new HashMap<String, Object>();
         int num = 0;
         if(object.getCommentId() == null || "".equals(object.getCommentId())) {
-            object.setCommentId(UUIDGenerator.getUUID());
+            object.setCommentId(UUIDGenerator.INSTANCE.getUUID());
             num = this.insert(object);
             returnData.put("message", "insert");
             returnData.put("number", num);

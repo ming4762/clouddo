@@ -35,7 +35,7 @@ var com;
                         this.switchView = function () {
                             // 获取当前视图类型
                             var is3D = _this.viewContainer.activeView.type === '3d';
-                            _this.viewContainer.activeView.container = null;
+                            _this.viewContainer.activeView.i;
                             if (is3D) {
                                 // 获取当前视图中心店
                                 _this.viewContainer.mapView.viewpoint = _this.viewContainer.activeView.viewpoint.clone();
